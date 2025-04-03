@@ -1,0 +1,128 @@
+﻿@using Shared.Common
+@model Tuple<List<Shared.Model.Entities.CreditPlan>,int>
+@{
+    ViewData["Title"] = "My Credits";
+}
+
+<style>
+    .checkPrice {
+        width: calc(100% - 112px);
+        float: left;
+        margin-right: 5px
+    }
+
+    .btnCheckPrice {
+        background: #ffecd0;
+        border-color: #ffecd0;
+        color: #333;
+        font-weight: 500
+    }
+</style>
+
+<Section class="pt-4">
+    <div class="container">
+
+        <div class="row" id="subscriptionPlans">
+
+            @if (Model != null && Model.Item1.Any())
+            {
+                var i = 0;
+                var totalRecordCount = Model.Item1.Count();
+
+                <div class="col-lg-8">
+                    <div class="card border-0 mb-2 heightCredits">
+                        <h5 class="mb-3">Credits Detail</h5>
+                        <table class="table" border="1" style="border-color:#4c4c4c">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Sr. No.</th>
+                                    <th scope="col">Credits Detail</th>
+                                    <th scope="col">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var plan in Model.Item1)
+                                {
+                                    <tr>
+                                        <td>@(i + 1)</td>
+                                        @if (i == totalRecordCount - 1)
+                                        {
+                                            <td>
+                                                More than @plan.CreditFrom.ToString("0") Credit
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td>
+                                                @(plan.CreditFrom.ToString("0").Length == 1 ? "0" + plan.CreditFrom.ToString("0") : plan.CreditFrom.ToString("0"))
+                                                -
+                                                @plan.CreditTo.ToString("0") Credit
+                                            </td>
+                                        }
+
+                                        <td>@Constants.CurrencySymbol@plan.Value</td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
+                <div class="col-lg-4">
+                    <div class="card border-0 mb-2 heightCredits">
+                        <h5 class="mb-3">Purchase Credits</h5>
+                        <h6 class="me-3">Your Credits : <b class="colorOrg" id="creditBalance">@Model.Item2</b></h6>
+                        <form id="purchaseCredit">
+                            <label class="w-100" for="textBox">How much credit you want to purchase :</label>
+                            <div class="mb-3">
+                                <div>
+                                    <input type="text" id="creditQuantity" name="textBox" class="form-control checkPrice numbersOnly" maxlength="4" placeholder="Enter credit number">
+                                    <a class="btn btn-primary btnCheckPrice" id="checkPriceButton" href="javascript:void(0);" type="button" onclick="CalculateTotalPrice()">Check Price</a>
+                                </div>
+                                                              
+                                <div id="error-msg" class="text-danger float-start mb-2" style="display:none">Please enter credit number.</div>
+                            </div>                            
+
+                            <div class="mb-3">
+                                <input class="form-control" type="text" id="totalAmount" name="textBox" typeof="number" readonly="readonly" placeholder="Eastimated Total Amount">
+                            </div>
+                            <div class="mb-3">
+
+                                <button class="btn btn-primary" id="purchseCreditButton" type="button" onclick="return purchaseCredit();">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-lg-12">
+                    <div class="mb-3">
+                        <div class="availableUnder">
+                            Currently no plan available under this category.
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</Section>
+
+
+
+
+@section scripts {
+
+    <environment include="Development">
+        <script src="~/sitejs/creditPurchase.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/creditPurchase.min.js"></script>
+    </environment>
+
+}

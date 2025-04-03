@@ -1,0 +1,251 @@
+﻿@model Shared.Model.Request.Account.RegistrationRequest
+@using Shared.Common.Enums
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<style>
+    .ddlcountrycodes .iti {
+        float: left;
+        width: 52px;
+    }
+
+        .ddlcountrycodes .iti .form-control {
+            border-radius: 0;
+        }
+
+    .verifiedBtn {
+        border-radius: 8px;
+        padding: 9px 12px;
+        min-width: 90px;
+        font-size: 14px;
+        background: #47874c;
+        color: #fff;
+        height: 40px;
+        float: left;
+        display: none;
+    }
+
+</style>
+<Section class="page-content-container">
+    <div class="container">
+        <a href="~/Home/Index" class="btn btn-light backBtn"><img src="assets/images/backarrow.svg"> Back to Home</a>
+        <form id="frmSignup" method="post">
+            <div class="card border-0 mt-3">
+                <h5 class="mb-2">Register</h5>
+
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label class="w-100 mb-2">Account Type</label>
+                                    <div class="form-check-inline">
+
+                                        <input class="form-check-input" asp-for="UserType" id="User" value="@UserTypes.Client" type="radio">
+                                        <label class="form-check-label" for="User">Users</label>
+
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <input class="form-check-input" asp-for="UserType" id="IndependentEscort" value="@UserTypes.IndependentEscort" type="radio">
+                                        <label class="form-check-label" for="IndependentEscort">Independent Escort</label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <input class="form-check-input" asp-for="UserType" id="Establishment" value="@UserTypes.Establishment" type="radio">
+                                        <label class="form-check-label" for="Establishment">Establishment</label>
+                                    </div>
+                                    <div class="w-100">
+                                        <span asp-validation-for="UserType" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="FirstName" class="form-label">First Name</label>
+                                    <input type="text" asp-for="FirstName" class="form-control" id="" placeholder="First Name" maxlength="50">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="LastName" class="form-label">Last Name</label>
+                                    <input type="text" asp-for="LastName" class="form-control" id="" placeholder="Last Name" maxlength="50">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="Email" class="form-label">Email</label>
+                                    <input type="text" asp-for="Email" class="form-control" id="" placeholder="Email" maxlength="100">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-3">
+                                    <button type="button" name="sendOtpButton" id="sendOtpButton" class="btn btn-primary mt-4" value="Send" onclick="sendVerifyCode(this)">
+                                        Send
+                                    </button>
+
+                                    <span class="verifiedBtn mt-4" id="verifyButton"> <i class="fa fa-check"></i> Verified</span>
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="DisplayName" id="DisplayNameLable" class="form-label">Display Name</label>
+                                    <input type="text" asp-for="DisplayName" class="form-control" id="DisplayName" maxlength="50" placeholder="Display Name">
+                                    <span asp-validation-for="DisplayName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="PhoneNumber" class="form-label">Phone Number</label>
+                                    <div class="ddlcountrycodes2 signupPhone">
+                                        <input class="form-control" asp-for="CountryCode" />
+                                        <input type="text" asp-for="PhoneNumber" class="form-control numbersOnly" placeholder="Phone Number" autocomplete="off">
+                                    </div>
+
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" id="GenderId">
+                                <div class="mb-3">
+                                    <label for="Gender" class="form-label">Gender</label>
+                                    <select class="form-control form-select" asp-for="Gender">
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female" selected>Female</option>
+                                        <option value="Transgender">Transgender</option>
+                                    </select>
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="Password" class="form-label">Password</label>
+                                    <input type="password" asp-for="Password" class="form-control  input-password" id="" placeholder="Password" maxlength="16">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+                                    <input type="password" asp-for="ConfirmPassword" class="form-control  input-password" id="" placeholder="Confirm Password" maxlength="16">
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Country</label>
+                                    <select class="form-control form-select" asp-for="Country" asp-items="@ViewBag.SelectListItems" placeholder="select">
+                                        @* <option value="Select"></option> *@
+                                    </select>
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="TermsAndCondtion" name="TermsAndCondtion" type="checkbox" value="@Model.TermsAndCondtion" />
+                                        <label class="form-check-label" for="TermsAndCondtion">I am 18+ years of age. I accept the <a href="@Url.Action("terms","home")" target="_blank">Terms & Conditions</a> </label>
+                                        <span asp-validation-for="TermsAndCondtion" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="mb-3 text-end">
+                                    <button type="button" name="signUpSubmit" class="btn btn-primary action-button" value="Submit" onclick="signUp(this)">
+                                        Register
+                                    </button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</Section>
+
+
+<div class="modal fade" id="VerifyCodeModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content popupPadding">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <div class="mb-4">
+                            <img class="loginLogoTop" src="~/assets/images/whiteLogo.svg" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="verifyCode" class="form-label">Verification Code</label>
+                                <input type="text" class="form-control" id="verifyCode" placeholder="Code" maxlength="6">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" name="verifySubmit" class="btn btn-primary w-100 text-center" value="Verify" onclick="verifyCode(this)">
+                        Verify
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+
+        let establishmentEvent = document.getElementById('Establishment');
+        let userEvent = document.getElementById('User');
+        let independentEvent = document.getElementById('IndependentEscort');
+        let element = document.getElementById('DisplayNameLable');
+        let divToHide = document.getElementById('GenderId');
+
+        function updateDisplayName(labelText, placeholderText, displayStyle) {
+            if (element) {
+                element.textContent = labelText;
+                $('#DisplayName').attr('placeholder', placeholderText);
+                divToHide.style.display = displayStyle;
+            }
+        }
+
+        independentEvent.addEventListener('change', function () {
+            updateDisplayName('Display Name', 'Display Name', 'block');
+        });
+
+        userEvent.addEventListener('change', function () {
+            updateDisplayName('Display Name', 'Display Name', 'block');
+        });
+
+        establishmentEvent.addEventListener('change', function () {
+            updateDisplayName('Company Name', 'Company Name', 'none');
+        });
+
+        $("#verifyCode").on("input", function () {
+            $(this).val($(this).val().replace(/\D/g, '')); // Remove non-numeric characters
+        });
+    </script>
+
+    <environment include="Development">
+        <script src="~/sitejs/signup.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/signup.min.js"></script>
+    </environment>
+
+}

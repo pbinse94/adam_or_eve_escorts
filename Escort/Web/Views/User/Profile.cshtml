@@ -1,0 +1,191 @@
+﻿@using Shared.Common;
+@using Newtonsoft.Json;
+@model Shared.Model.DTO.UserDetailsDto
+@{
+    ViewData["Title"] = "Edit";
+    var defaultImageUrl = SiteKeys.SiteUrl + Constants.DefaultUserImage;
+}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+<link href="~/cropper/cropper.css" rel="stylesheet" />
+<link href="~/cropper/main.css" rel="stylesheet" />
+
+<Section class="page-content-container">
+    <div class="container">
+
+        <div class="pageTitles mt-1">
+            <h2><span style="color:#EC881D">My</span> Profile</h2>
+            <a href="javascript:history.back();" class="btn btn-light backBtn"><img src="~/assets/images/backarrow.svg"> Back to Profile</a>
+        </div>
+
+
+       
+        <div class="card border-0 mt-3">
+            <div class="row mt-2 row justify-content-md-center">
+                <div class="col-md-12">
+                    <form id="frmUpdateprofile" enctype="multipart/form-data" autocomplete="off">
+                       
+                        <input type="hidden" asp-for="@Model.UserId" />
+                       
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+
+                                    <div class="col-auto">
+                                        <label for="" class="form-label">Upload Profile Image</label>
+                                        <div class="d-flex">
+                                            <div class="postfiles">
+                                                <label class="uploadPostButton" for="ProfileFile">
+                                                    <figure class="upload-theme-btn mb-0">
+                                                        <img src="~/assets/images/addicon-circle.svg" class="img-fluid">
+                                                    </figure>
+                                                </label>
+                                                <input type="hidden" asp-for="CroppedProfileFile" />
+                                                <input type="file" class="inputFile" asp-for="ProfileFile" style="padding-bottom: 4px;" />
+                                                <span asp-validation-for="ProfileFile" class="text-danger"></span>
+                                            </div>
+                                            <div class="uploadViewImg" id="profileImg">
+                                                <img id="ProfileImage" asp-for="ProfileImage" data-src="@Model.ProfileImage" src="@Url.Content("~/assets/images/est-ht-default-profile.png")" class="img-fluid viewImgUpload">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto ms-auto">
+                                        <div style="background: #000;padding: 10px 16px;border-radius: 8px;">
+                                            <label for="" class="form-label m-0" style=" color: #fff;font-weight: 500;font-size: 16px; margin:0">Credits:</label>
+                                            <label for="" class="form-label colorOrg m-0" style=" font-weight: bold;font-size: 18px;margin:0">@Model.CreditBalance</label>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                          
+                               
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">First Name</label>
+                                    <input type="text" asp-for="FirstName" class="form-control" placeholder="First name" maxlength="50">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Last Name</label>
+                                    <input type="text" asp-for="LastName" class="form-control" placeholder="Last name" maxlength="50">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Display Name</label>
+                                    <input type="text" asp-for="DisplayName" class="form-control" placeholder="Display Name" maxlength="50">
+                                    <span asp-validation-for="DisplayName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Email</label>
+                                    @if (Model.Email != null)
+                                    {
+                                        <input type="text" asp-for="Email" class="form-control" placeholder="Email" readonly />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" asp-for="Email" class="form-control" placeholder="Email" />
+                                    }
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="PhoneNumber" class="form-label">Phone Number</label>
+                                    <div class="ddlcountrycodes2">
+                                        <input class="form-control" asp-for="CountryCode"></input>
+                                        <input type="text" asp-for="PhoneNumber" class="form-control numbersOnly" placeholder="Phone Number" autocomplete="off">
+                                    </div>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Country</label>
+                                    <select class="form-control form-select" asp-for="Country" asp-items="@ViewBag.SelectListItems" placeholder="select">
+                                        @* <option value="Select"></option> *@
+                                    </select>
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <div class="d-flex align-items-center justify-content-end flex-wrap">
+                                        <input class="btn btn-primary mw105 my-1" id="btnsubmit" type="button" value="Update" onclick="UpdateProfile(this)">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+      
+
+    </div>
+</Section>
+@await Html.PartialAsync("_CropImageModal")
+@section Scripts {
+
+    <script src="~/cropper/cropper.js"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="@Url.Content("~/sitejs/user.js")"></script>
+    <script src="@Url.Content("~/sitejs/common/cropperSetup.js")"></script>
+    <script src="@Url.Content("~/sitejs/common/media-validation.js")"></script>
+    <script>
+        var aboutUsEditor;
+        var croppedImg;
+
+        $(document).ready(function () {
+            $("#MyProfile").addClass('active');
+
+            setupCropper('ProfileFile', '#ProfileImage');
+          
+
+        });
+
+            const escortImageElement = $("#ProfileImage");
+
+            if ($("#ProfileImage").data('src') != "") {
+                common.getFile(`user/thumbnail_profile/${$(escortImageElement).data('src')}`, $(escortImageElement), 'images')
+            }
+
+
+
+
+        var input = document.querySelector("#CountryCode");
+        var phonenumber = window.intlTelInput(input, {
+            
+            autoPlaceholder: "off",            
+            initialCountry: "au",            
+            showFlags: true,
+            utilsScript: "/lib/intlTelInput/js/utils.js"
+        });
+
+
+    </script>
+    
+}
+
+

@@ -1,0 +1,92 @@
+﻿@using Shared.Model.Escort
+@using Shared.Common;
+@using Shared.Common.Enums;
+@model List<LiveStreamInfo>
+@{
+    ViewData["Title"] = "Live Cams";
+}
+
+<Section class="page-content-container liveCamsView">
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2><span>Live</span> Cams</h2>
+                    </div>
+                    <div class="col-md-6">
+                        @if (LoginMemberSession.UserDetailSession?.UserTypeId == (short)UserTypes.IndependentEscort)
+                        {
+                            <a class="nav-link livecam-link" href="@Url.Action("StartVideo", "Streaming")" onclick="this.classList.add('disabled');" style="float:right">
+                                <span class="liveCamsMobile">
+                                    <img src="~/assets/images/livecams.svg" title="Live Cams">
+                                </span>
+                                <span class="liveCamsWeb">Start Live Cam</span>
+                            </a>
+                        }
+                    </div>
+                </div>
+                <div class="row">
+                    @if (Model.Any())
+                    {
+                        @foreach (var liveescort in Model)
+                        {
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+                                <div class="liveBlog">
+                                    <a href="@liveescort.ReturnUrl">
+
+                                        <img class="img-fluid escortImg" src="@Url.Content("~/assets/images/est-ht-default-profile.png")" data-src="@liveescort.Profile" data-type="image" />
+
+                                        <div class="overViewimg">
+
+                                            <div class="onlineName"><span></span> @liveescort.DisplayName (@liveescort.Age)</div>
+
+                                            <div class="liveView"><span></span> Live</div>
+
+                                        </div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div style="border: 1px solid #0D0C0D;padding: 100px 15px;text-align: center;font-size: 20px;font-weight: 300;background: #0D0C0D;">
+                            No record found
+                        </div>
+                    }
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</Section>
+
+@section Scripts{
+    <script>
+        $(function ()
+        {
+            getEscortImages();
+        });
+
+        function getEscortImages()
+        {
+            $($('.liveBlog')).each(function (index, element)
+            {
+                const escortImageElement = $(element).find('.escortImg');
+
+                if ($(escortImageElement).data('src') != "")
+                {
+                    common.getFile(`user/thumbnail_profile/${$(escortImageElement).data('src')}`, $(escortImageElement))
+
+                }
+            });
+        }
+    </script>
+    
+}
+

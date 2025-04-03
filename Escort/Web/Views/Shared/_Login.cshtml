@@ -1,0 +1,110 @@
+﻿@using Shared.Common;
+@using Shared.Model.Request.Account;
+@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+@model LoginRequest
+@{
+    Layout = null;
+    //Remember me
+#nullable disable
+    if (HttpContextAccessor.HttpContext?.Request.Cookies?.TryGetValue("RememberMeCookie", out string userCookieValue) == true)
+    {
+#nullable enable
+        try
+        {
+            var cookieData = Newtonsoft.Json.JsonConvert.DeserializeObject<CookieData>(userCookieValue);
+
+            // Access properties safely with null-conditional operators
+            Model.Email = cookieData?.Email ?? string.Empty;
+            Model.Password = cookieData?.Password ?? string.Empty;
+        }
+        catch (Exception ex)
+        {
+            // Handle deserialization errors gracefully
+            Console.WriteLine($"Error deserializing cookie data: {ex.Message}");
+        }
+    }
+    // if (HttpContextAccessor.HttpContext?.Request.Cookies?.TryGetValue("RememberMeCookie", out string? userCookieValue) == true)
+    // {
+    //     var cookieData = Newtonsoft.Json.JsonConvert.DeserializeObject<CookieData>(userCookieValue);
+
+    //     // You can access both email and password from cookieData object
+    //     Model.Email = cookieData?.Email ?? string.Empty;
+    //     Model.Password = cookieData?.Password ?? string.Empty;
+            // }
+} 
+
+<form id="loginFrm" antiforgery="true">
+    @Html.AntiForgeryToken()
+    <div class="row">
+
+        <div class="col-md-12 text-center">
+            <div class="mb-4">
+                <img class="loginLogoTop" src="~/assets/images/whiteLogo.svg" alt="">
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="mb-3">
+                <h5>Login</h5>
+            </div>
+        </div>
+
+
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label>Email</label>
+                <div class="inputBox">
+                    <input type="text" asp-for="Email" class="form-control input-email" placeholder="Email" maxlength="100" />
+                    <span class="iconInput"><img src="~/assets/images/email.svg" alt=""></span>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="mb-3">
+                <label>Password</label>
+                <div class="inputBox">
+                    <input type="password" asp-for="Password" class="form-control input-password" placeholder="Password" maxlength="20" value="@Model.Password" />
+                    <span class="iconInput"><img src="~/assets/images/password.svg" alt=""></span>
+                    <span class="iconInputRight">
+                        <img id="togglePassword" class="eye-icon" src="~/assets/images/eye.svg" />
+                        </span>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+               
+            </div>
+        </div>
+
+        <div class="col-md-12 d-flex align-items-center justify-content-between">
+            <div class="form-check-inline mb-4">
+                <input class="form-check-input" type="checkbox" id="customControlInline" asp-for="RememberMe">
+                <label class="form-check-label" for="customControlInline"> Remember me</label>
+            </div>
+            <div class="mb-4">
+                <a class="linkColor" href="javascript:void(0)" id="forgotPasswordBtn"><u>Forgot password?</u></a>
+            </div>
+
+        </div>
+        <span id="errorSpan" class="text-danger mb-2" style="display:none"></span>
+      
+        <div class="col-md-12 ">
+            <div class="mb-3">
+                <a class="btn btn-primary w-100 text-center" id="submitBtn" href="javascript:void(0)" onclick="login(this)">Login</a>
+            </div>
+        </div>
+
+        <div class="col-md-12 text-center">
+            <div class="mb-3">
+                <p> Don’t have an account? <a class="linkColor" href="@Url.Action("Registration", "Account")"><u>Register</u></a></p>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
+
+
+

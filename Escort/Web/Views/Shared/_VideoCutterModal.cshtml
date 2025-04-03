@@ -1,0 +1,47 @@
+﻿
+<style>
+    #videoModal h3 {
+        color: #000 !important
+    }
+
+    #videoModal label {
+        color: #000 !important
+    }
+</style>
+
+<div id="videoModal" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); z-index:1000; background-color:white; padding:20px; border-radius:8px; box-shadow:0px 0px 10px rgba(0,0,0,0.2);">
+
+    <div class="d-flex justify-content-between">
+        <h3>Trim Video</h3>
+        <button type="button" class="btn-close" id="closeModalBtn" data-bs-dismiss="modal" aria-label="Close"></button>
+
+    </div>
+
+
+
+
+    <video id="videoPlayerCutter" controls style="display:none; width:100%; height:auto;">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="videoAddPopup mt-3">
+        <div class="me-3 startTimeBox">
+            <label for="startTime">Start Time:</label>
+            <input type="range" id="startTime" value="0" step="0.1" oninput="updateStartTime()">
+            <span id="startTimeDisplay" style="color:#000">0:00</span>
+        </div>
+
+        <div class="me-3 endTimeBox">
+            <label for="endTime">End Time:</label>
+            <input type="range" id="endTime" value="10" step="0.1" disabled>
+            <span id="endTimeDisplay" style="color:#000">0:10</span>
+        </div>
+
+        <div>
+            <button class="btn btn-primary mobileViewTrinBtn" onclick="submitVideoCut()">Trim Video</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Overlay (optional) -->
+<div id="modalOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:999;"></div>

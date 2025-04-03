@@ -1,0 +1,550 @@
+﻿@using Shared.Common;
+@{
+    ViewData["Title"] = "Broadcast";
+}
+<style>
+    html,
+    body {
+        width: 100%;
+    }
+
+    #error {
+        color: red;
+    }
+
+    table {
+        display: table;
+    }
+
+
+
+    .liveBootomBar {
+        min-height: 61px;
+    }
+
+    .chatFooterBar {
+        height: 60px;
+    }
+
+    .liveChatView canvas {
+        width: 100%;
+        height: 500px
+    }
+
+    .warning {
+        background-color: #ffd966;
+        color: #cc3300;
+        padding: 10px;
+        border: 1px solid #ffcc80;
+        border-radius: 5px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<Section class="page-content-container liveCamsView">
+    <div class="container">
+        <a href="javascript:history.back();" class="btn btn-light backBtn mb-2"><img src="~/assets/images/backarrow.svg"> Back </a>
+        <label style="float:right;padding:6px;">Your Credits : <b class="colorOrg" id="creditBalance">@ViewBag.EscortScore</b></label>
+        <div class="warning">
+            Please do not refresh the page. This will also close the streaming session.
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-12">
+
+                <div class="liveCamsDetails">
+                    <div class="row">
+                        <div class="col-lg-8 pRightSide">
+                            <div class="fullLiveView">
+                                <div class="liveChatView">
+                                    <canvas class="" id="preview"></canvas>
+                                </div>
+                                <div class="liveBootomBar ">
+
+                                    <div class="buttons">
+                                        <button class="button btn btn-light liveBuyBtn me-1 mb-0" id="start" disabled onclick="startBroadcast()">Start Broadcast</button>
+                                        <button class="button btn btn-light liveBuyBtn mb-0" id="stop" disabled onclick="stopBroadcast()">Stop Broadcast</button> 
+                                        @* <button class="button btn btn-light liveBuyBtn mb-0" id="exit" disabled onclick="exitBroadcast()">Exit Broadcast</button> *@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <partial name="_ChatBoxEscort" />
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</Section>
+
+<!-- Error alert -->
+<section class="container">
+    <h3 id="error"></h3>
+</section>
+
+
+
+<!--  Select -->
+<section class="container">
+    <label for="video-devices" hidden>Select Webcam</label>
+    <select disabled id="video-devices" hidden>
+        <option selected disabled>Choose Option</option>
+    </select>
+
+    <label for="audio-devices" hidden>Select Microphone</label>
+    <select disabled id="audio-devices" hidden>
+        <option selected disabled>Choose Option</option>
+    </select>
+
+    <label for="stream-config" hidden>Select Channel Config</label>
+    <select disabled id="stream-config" hidden>
+        <option selected disabled>Choose Option</option>
+    </select>
+</section>
+
+<!-- Ingest Endpoint input -->
+<section class="container">
+    <input type="text" id="ingest-endpoint" value="@Model.Channel.IngestEndpoint" hidden />
+</section>
+
+<!-- Stream Key input -->
+<section class="container">
+
+    <input type="text" id="stream-key" value="@Model.StreamKey.Value" hidden />
+</section>
+
+<!-- Broadcast buttons -->
+<section class="container">
+</section>
+
+
+<!-- Data table -->
+<section class="container">
+    <table id="data">
+        <tbody></tbody>
+    </table>
+</section>
+
+
+@section Scripts {
+    <script src="https://web-broadcast.live-video.net/1.12.0/amazon-ivs-web-broadcast.js"></script>
+    <script>
+        
+        roomId = '@ViewBag.RoomId';
+        currentuser = '@LoginMemberSession.UserDetailSession?.DisplayName';
+
+    </script>
+    <environment include="Development">
+        <script src="~/sitejs/chatbox.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/chatbox.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+
+
+        const channelConfigs = [
+            ["Basic: Landscape", window.IVSBroadcastClient.BASIC_LANDSCAPE],
+            ["Basic: Portrait", window.IVSBroadcastClient.BASIC_PORTRAIT],
+            ["Standard: Landscape", window.IVSBroadcastClient.STANDARD_LANDSCAPE],
+            ["Standard: Portrait", window.IVSBroadcastClient.STANDARD_PORTRAIT]
+        ];
+
+        // Set initial config for our broadcast
+        const config = {
+            ingestEndpoint: "https://g.webrtc.live-video.net:4443",
+            streamConfig: window.IVSBroadcastClient.BASIC_LANDSCAPE,
+            logLevel: window.IVSBroadcastClient.LOG_LEVEL.DEBUG
+        };
+
+        // Error helpers
+        function clearError()
+        {
+            const errorEl = document.getElementById("error");
+            errorEl.innerHTML = "";
+        }
+
+        function setError(message)
+        {
+            if (Array.isArray(message))
+            {
+                message = message.join("<br/>");
+            }
+            const errorEl = document.getElementById("error");
+            errorEl.innerHTML = message;
+        }
+
+        function getSupportedProperty(object, key)
+        {
+            if (key in object)
+            {
+                return object[key];
+            }
+
+            return "Unsupported";
+        }
+
+        // Get available audio/video inputs
+        async function initializeDeviceSelect()
+        {
+            const videoSelectEl = document.getElementById("video-devices");
+
+            videoSelectEl.disabled = false;
+            const { videoDevices, audioDevices } = await getDevices();
+            videoDevices.forEach((device, index) =>
+            {
+                videoSelectEl.options[index] = new Option(device.label, device.deviceId);
+            });
+
+            const audioSelectEl = document.getElementById("audio-devices");
+
+            audioSelectEl.disabled = false;
+
+            audioDevices.forEach((device, index) =>
+            {
+                audioSelectEl.options[index] = new Option(
+                    device.label,
+                    device.deviceId
+                );
+            });
+        }
+
+        async function getCamera(deviceId, maxWidth, maxHeight)
+        {
+            let media;
+            const videoConstraints = {
+                deviceId: deviceId ? { exact: deviceId } : null,
+                width: {
+                    max: maxWidth
+                },
+                height: {
+                    max: maxHeight
+                }
+            };
+            try
+            {
+                // Let's try with max width and height constraints
+                media = await navigator.mediaDevices.getUserMedia({
+                    video: videoConstraints,
+                    audio: true
+                });
+            } catch (e)
+            {
+                // and fallback to unconstrained result
+                delete videoConstraints.width;
+                delete videoConstraints.height;
+                media = await navigator.mediaDevices.getUserMedia({
+                    video: videoConstraints
+                });
+            }
+            return media;
+        }
+
+        // Handle video device retrieval
+        async function handleVideoDeviceSelect()
+        {
+            const id = "camera";
+            const videoSelectEl = document.getElementById("video-devices");
+            const { videoDevices: devices } = await getDevices();
+            if (window.client.getVideoInputDevice(id))
+            {
+                window.client.removeVideoInputDevice(id);
+            }
+
+            // Get the option's video
+            const selectedDevice = devices.find(
+                (device) => device.deviceId === videoSelectEl.value
+            );
+            const deviceId = selectedDevice ? selectedDevice.deviceId : null;
+            const { width, height } = config.streamConfig.maxResolution;
+            const cameraStream = await getCamera(deviceId, width, height);
+
+            // Add the camera to the top
+            await window.client.addVideoInputDevice(cameraStream, id, {
+                index: 0
+            });
+        }
+
+        // Handle audio/video device enumeration
+        async function getDevices()
+        {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const videoDevices = devices.filter((d) => d.kind === "videoinput");
+            if (!videoDevices.length)
+            {
+                setError("No video devices found.");
+            }
+            const audioDevices = devices.filter((d) => d.kind === "audioinput");
+            if (!audioDevices.length)
+            {
+                setError("No audio devices found.");
+            }
+
+            return { videoDevices, audioDevices };
+        }
+
+        // Handle audio device retrieval
+        async function handleAudioDeviceSelect()
+        {
+            const id = "microphone";
+            const audioSelectEl = document.getElementById("audio-devices");
+            const { audioDevices: devices } = await getDevices();
+            if (window.client.getAudioInputDevice(id))
+            {
+                window.client.removeAudioInputDevice(id);
+            }
+            if (audioSelectEl.value.toLowerCase() === "none") return;
+            const selectedDevice = devices.find(
+                (device) => device.deviceId === audioSelectEl.value
+            );
+            // Unlike video, for audio we default to "None" instead of the first device
+            if (selectedDevice)
+            {
+                const microphoneStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        deviceId: selectedDevice.deviceId
+                    }
+                });
+                await window.client.addAudioInputDevice(microphoneStream, id);
+            }
+        }
+
+        // Setup the stream configuration options
+        async function initializeStreamConfigSelect()
+        {
+            const streamConfigSelectEl = document.getElementById("stream-config");
+            streamConfigSelectEl.disabled = false;
+
+            channelConfigs.forEach(([configName], index) =>
+            {
+                streamConfigSelectEl.options[index] = new Option(configName, index);
+            });
+        }
+
+        // Handle setting the stream config
+        async function handleStreamConfigSelect()
+        {
+            const streamConfigSelectEl = document.getElementById("stream-config");
+            const selectedConfig = streamConfigSelectEl.value;
+            config.streamConfig = channelConfigs[selectedConfig][1];
+
+            await createClient();
+        }
+
+        /**
+         * Validates the form's input elements. Returns empty array if
+         * valid else the list of errors.
+         */
+        function validate()
+        {
+            const streamKey = document.getElementById("stream-key").value;
+            const ingestUrl = document.getElementById("ingest-endpoint").value;
+            const errors = [];
+
+            if (!ingestUrl)
+            {
+                errors.push("Please provide an ingest endpoint");
+            }
+
+            if (!streamKey)
+            {
+                errors.push("Please provide a stream key");
+            }
+
+            return errors;
+        }
+
+        async function handleIngestEndpointChange(e)
+        {
+            handleValidationErrors(validate());
+
+            try
+            {
+                client.config.ingestEndpoint = e.target.value;
+            } catch {
+                handleValidationErrors(["Incorrect Ingest Url"]);
+            }
+        }
+
+        function handleStreamKeyChange(e)
+        {
+            handleValidationErrors(validate());
+        }
+
+        function handleValidationErrors(errors, doNotDisplay)
+        {
+            const start = document.getElementById("start");
+            const stop = document.getElementById("stop");
+            // const exit = document.getElementById("exit");
+
+            clearError();
+            if (errors && errors.length)
+            {
+                // Display errors
+                if (!doNotDisplay)
+                {
+                    setError(errors);
+                }
+
+                // Disable start and stop buttons
+                start.disabled = true;
+                stop.disabled = true;
+                // exit.disabled = true;
+                return;
+            }
+
+            start.disabled = false;
+        }
+
+        // Start the broadcast
+        async function startBroadcast()
+        {
+
+            const streamKeyEl = document.getElementById("stream-key");
+            const endpointEl = document.getElementById("ingest-endpoint");
+            const start = document.getElementById("start");
+
+            try {
+                $('.escortChat').removeAttr('readonly');
+                start.disabled = true;
+                await window.client.startBroadcast(streamKeyEl.value, endpointEl.value);
+               // startLiveCam();
+                toastr.info("Broadcast started.");
+            } catch (err)
+            {
+                start.disabled = false;
+                $('.escortChat').attr('readonly', true);
+                setError(err.toString());
+            }
+        }
+
+        // Stop the broadcast
+        async function stopBroadcast() {
+            $('.escortChat').removeAttr('readonly');
+            await window.client.stopBroadcast();
+
+            toastr.info("Broadcast Stopped");
+        }
+
+         function exitBroadcast() {
+             
+           stopBroadcast();
+          
+             const response = $.post(`/streaming/stop`, { ChannelArn: '@Model.Channel.Arn', RoomArn: '@ViewBag.RoomId', forceDelete :'false'});
+        }
+
+        // Handle the enabling/disabling of buttons
+        function onActiveStateChange(active)
+        {
+            const start = document.getElementById("start");
+            const stop = document.getElementById("stop");
+            // const exit = document.getElementById("exit");
+            const streamConfigSelectEl = document.getElementById("stream-config");
+            const inputEl = document.getElementById("stream-key");
+            inputEl.disabled = active;
+            start.disabled = active;
+            stop.disabled = !active;
+            // exit.disabled = !active;
+            streamConfigSelectEl.disabled = active;
+        }
+
+        // Helper to create an instance of the AmazonIVSBroadcastClient
+        async function createClient()
+        {
+            if (window.client)
+            {
+                window.client.delete();
+            }
+
+            window.client = window.IVSBroadcastClient.create(config);
+
+            window.client.on(
+                window.IVSBroadcastClient.BroadcastClientEvents.ACTIVE_STATE_CHANGE,
+                (active) =>
+                {
+                    onActiveStateChange(active);
+                }
+            );
+
+            const previewEl = document.getElementById("preview");
+            window.client.attachPreview(previewEl);
+
+            await handleVideoDeviceSelect();
+            await handleAudioDeviceSelect();
+        }
+
+        // Initialization function
+        async function init()
+        {
+            try
+            {
+                const initBtn = document.getElementById("init");
+                const videoSelectEl = document.getElementById("video-devices");
+                const audioSelectEl = document.getElementById("audio-devices");
+                const streamConfigSelectEl = document.getElementById("stream-config");
+                const ingestEndpointInputEl = document.getElementById("ingest-endpoint");
+                const streamKeyInputEl = document.getElementById("stream-key");
+
+                await initializeStreamConfigSelect();
+
+                videoSelectEl.addEventListener("change", handleVideoDeviceSelect, true);
+                audioSelectEl.addEventListener("change", handleAudioDeviceSelect, true);
+                streamConfigSelectEl.addEventListener(
+                    "change",
+                    handleStreamConfigSelect,
+                    true
+                );
+                ingestEndpointInputEl.addEventListener(
+                    "input",
+                    handleIngestEndpointChange,
+                    true
+                );
+                streamKeyInputEl.addEventListener("input", handleStreamKeyChange, true);
+
+                // Get initial values from the text fields.  Changes to these will re-create the client.
+                const selectedConfig = streamConfigSelectEl.value;
+                config.streamConfig = channelConfigs[selectedConfig][1];
+                config.ingestEndpoint = ingestEndpointInputEl.value;
+
+                await createClient();
+
+                await initializeDeviceSelect();
+
+                handleValidationErrors(validate(), true);
+            } catch (err)
+            {
+                setError(err.message);
+            }
+        }
+
+        init();
+
+        window.addEventListener("beforeunload", function (e)
+        {
+            exitBroadcast();
+        });
+
+        // function startLiveCam()
+        // {
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/Streaming/StartLiveCam",
+        //         data: { },
+        //         success: function (data)
+        //         {                    
+
+        //         }
+        //     });
+        // }
+       
+    </script>
+}
+

@@ -1,0 +1,2630 @@
+﻿@using Shared.Common;
+@using Newtonsoft.Json;
+@using Shared.Resources
+@model Shared.Model.DTO.EscortDetailDto
+@{
+    ViewData["Title"] = "Edit";
+    var defaultImageUrl = SiteKeys.SiteUrl + Constants.DefaultUserImage;
+    var cameraGranted = ResourceString.cameraGranted;
+    var cameraDenied = ResourceString.cameraDenied;
+    var cameraNotDetected = ResourceString.cameraNotDetected;
+    var enableCamera = ResourceString.EnableCamera;
+}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+<link href="~/cropper/cropper.css" rel="stylesheet" />
+<link href="~/cropper/main.css" rel="stylesheet" />
+
+<style>
+    .select2.select2-container.select2-container--default {
+        width: 100% !important
+    }
+
+    .boxChildSection {
+        background: #211e21;
+        padding: 8px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        .boxChildSection .colBox {
+            width: 20%;
+            float: left;
+            margin-right: 2%
+        }
+
+    sup {
+        color: red !important;
+    }
+
+    video {
+        background: #000 !important
+    }
+
+
+    .error {
+        color: #dc3545; /* Red color for errors */
+    }
+
+    .success {
+        color: #28a745; /* Green color for success */
+    }
+
+    button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+</style>
+<Section class="page-content-container">
+    <div class="container">
+        <div class="d-flex justify-content-between">
+            <a href="javascript:history.back();" class="btn btn-light backBtn"><img src="~/assets/images/backarrow.svg"> Back to Profile</a>
+           
+            <a href="~/Profile/FullProfile?id=@Model.UserId" class="btn btn-primary mb-2" id="detailedProfileBtn">View Profile</a>
+        </div>
+        <div class="card border-0 mt-3">
+            <div class="row mt-2 row justify-content-md-center">
+                <div class="col-lg-12 col-md-12">
+                    <form id="frmAddUpdateProfile" enctype="multipart/form-data" autocomplete="off">
+                        <input type="hidden" asp-for="@Model.EscortID" />
+                        <input type="hidden" asp-for="@Model.UserId" />
+                        <input type="hidden" asp-for="@Model.IsPhotoVerified" />
+                        @if (Model.EscortID > 0)
+                        {
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="m-0">Update Profile </h5>
+                            </div>
+                        }
+
+
+                        <div class="info-msg mt-3">
+                            <div class="d-flex mb-2">
+                                <img width="18" src="@Url.Content("~/assets/images/info-circle.svg")" alt="Profile Verification steps" class="me-2" />
+                                <p class="mb-0">Verify your profile by uploading your pic and capturing your image from the camera.</p>
+                                <br />
+                                <p class="mb-0 error">(Make sure you give camera permission to browser. <a href="javascript:void(0)" id="permission-btn" class="error">Click here</a>)</p>
+                            </div>
+                            <div class="d-flex">
+                                <img width="18" src="@Url.Content("~/assets/images/pixelated-icon.png")" alt="Pixelated Icon" class="me-2" style="border-radius:3px" />
+                                <p class="mb-0">Blur your image from this icon.</p>
+                            </div>
+                        </div>
+                        
+
+                        <div class="row mt-2">
+                            <div class="col-md-12 mb-2">
+                                <label for="" class="form-label">Upload Profile Image <sup>*</sup></label>
+                                <div class="d-flex">
+                                    <div class="postfiles">
+                                        <label class="uploadPostButton" for="ProfileFile">
+                                            <figure class="upload-theme-btn mb-0">
+                                                <img src="~/assets/images/addicon-circle.svg" class="img-fluid">
+                                            </figure>
+                                        </label>
+                                        <input type="hidden" asp-for="CroppedProfileFile" />
+                                        <input type="file" class="inputFile" asp-for="ProfileFile" style="padding-bottom: 4px;" />
+                                        <span asp-validation-for="ProfileFile" class="text-danger"></span>
+                                    </div>
+                                    <div class="uploadViewImg position-relative" id="profileImg">
+                                        <img id="ProfileImage" asp-for="ProfileImage" data-src="@Model.ProfileImage" src="@Url.Content("~/assets/images/est-vt-default-profile.png")" class="img-fluid viewImgUpload">
+                                        <span class="pixelatedBox" title="Blurry" onclick="PixlateShow('#ProfileImage')" id="PixlateSpan" hidden>
+                                            <img width="18" src="@Url.Content("~/assets/images/pixelated-icon.png")" alt="Pixelated Icon" />
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div id="status-message"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">First Name <sup>*</sup></label>
+                                    <input type="text" asp-for="FirstName" class="form-control" placeholder="First name" maxlength="50">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Last Name <sup>*</sup></label>
+                                    <input type="text" asp-for="LastName" class="form-control" placeholder="Last name" maxlength="50">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="DisplayName" class="form-label">Display Name <sup>*</sup></label>
+                                    <input type="text" asp-for="DisplayName" class="form-control" placeholder="Display Name" maxlength="50">
+                                    <span asp-validation-for="DisplayName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Email <sup>*</sup></label>
+                                    @if (Model.Email != null)
+                                    {
+                                        <input type="text" asp-for="Email" class="form-control" placeholder="Email" readonly />
+                                    }
+                                    else
+                                    {
+                                        <input type="text" asp-for="Email" class="form-control" placeholder="Email" />
+                                    }
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="PhoneNumber" class="form-label">Phone Number <sup>*</sup></label>
+                                    <div class="ddlcountrycodes2">
+                                        <input class="form-control" asp-for="CountryCode" />
+                                        <input type="text" asp-for="PhoneNumber" class="form-control numbersOnly" placeholder="Phone Number" autocomplete="off">
+                                    </div>
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Country <sup>*</sup></label>
+                                    <select class="form-control form-select" asp-for="Country" asp-items="@ViewBag.SelectListItems" placeholder="select">
+                                        @* <option value="Select"></option> *@
+                                    </select>
+                                    <span asp-validation-for="Country" class="text-danger"></span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                            <div class="col-md-12">
+                                <h6 class="color-heading">Tour Location  <sup>*</sup></h6>
+                                <div class="ratesBlog">
+                                    <div class="row">
+
+                                        <div id="divTourLocation" class="col-lg-8 col-md-12 divParentSection">
+
+                                            <div class="row">
+                                                <div class="col-md-12" style="max-width: calc(100% - 66px);">
+                                                    <div class="mb-3">
+
+                                                        <input type="text" class="form-control sl-input" id="setTourLocation" placeholder="Select Tour Location" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-auto align-self-end">
+                                                    <div class="mb-3">
+                                                        <a href="javascript:void(0);" class="add-row-btn btnAddClone" onclick="CreateTourBaseLocationClone(this, 'TourLocation')">
+                                                            <img src="~/assets/images/addrow-btn.svg">
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            @if (Model != null && Model.TourLocation != null)
+                                            {
+                                                var i = 0;
+
+                                                foreach (var item in Model.TourLocation)
+                                                {
+                                                    <div class="row rowChildSection div-parent-location-sec">
+                                                        <input type="hidden" asp-for="@Model.TourLocation[i].EscortID">
+
+                                                        <input type="hidden" asp-for="@Model.TourLocation[i].AddressType" value="@((byte)Shared.Common.Enums.LocationTypes.TourLocation)">
+                                                        <input type="hidden" asp-for="@Model.TourLocation[i].Latitude" />
+                                                        <input type="hidden" asp-for="@Model.TourLocation[i].Longitude" />
+                                                        <input type="hidden" asp-for="@Model.TourLocation[i].Location" />
+                                                        <div class="col-lg-12">
+                                                            <div class="boxChildSection">
+                                                                <div class="colBox">
+                                                                    <div class="mb-3">
+                                                                        <label for="" class="form-label">City</label>
+                                                                        <input asp-for="@Model.TourLocation[i].City" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="colBox">
+                                                                    <div class="mb-3">
+                                                                        <label for="" class="form-label">State</label>
+                                                                        <input asp-for="@Model.TourLocation[i].State" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="colBox">
+                                                                    <div class="mb-3">
+                                                                        <label for="" class="form-label">Country</label>
+                                                                        <input asp-for="@Model.TourLocation[i].Country" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="colBox">
+                                                                    <div class="mb-3">
+                                                                        <label for="" class="form-label">Postal Code</label>
+                                                                        <input asp-for="@Model.TourLocation[i].PostalCode" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-auto align-self-end">
+                                                                    <div class="mb-3">
+                                                                        <a href="javascript:void(0);" class="add-row-btn btnRemoveClone">
+                                                                            <img src="~/assets/images/minusrow-btn.svg">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    i++;
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                            @*   } *@
+                            <div class="col-md-12">
+                                <h6 class="color-heading">Base Location  <sup>*</sup></h6>
+                                <div class="ratesBlog">
+                                    <div class="row">
+                                        <div id="divBaseLocation" class="col-lg-8 col-md-12 divParentSection">
+
+                                            <div class="row">
+                                                <div class="col-md-12" style="max-width: calc(100% - 66px);">
+                                                    <div class="mb-3">
+
+                                                        <input type="text" class="form-control sl-input" id="setBaseLocation" placeholder="Select Base Location" />
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-auto align-self-end">
+                                                    <div class="mb-3">
+                                                        <a href="javascript:void(0);" class="add-row-btn btnAddClone" onclick="CreateTourBaseLocationClone(this, 'BaseLocation')">
+                                                            <img src="~/assets/images/addrow-btn.svg">
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            @if (Model != null && Model.BaseLocation != null)
+                                            {
+                                                var i = 0;
+
+
+                                                foreach (var item in Model.BaseLocation)
+                                                {
+                                                    <div class="row rowChildSection div-parent-location-sec">
+                                                        <input type="hidden" asp-for="@Model.BaseLocation[i].EscortID">
+
+                                                        <input type="hidden" asp-for="@Model.BaseLocation[i].AddressType" value="@((byte)Shared.Common.Enums.LocationTypes.BaseLocation)">
+                                                        <input type="hidden" asp-for="@Model.BaseLocation[i].Latitude" />
+                                                        <input type="hidden" asp-for="@Model.BaseLocation[i].Longitude" />
+                                                        <input type="hidden" asp-for="@Model.BaseLocation[i].Location" />
+                                                        <div class="col-lg-12">
+                                                            <div class="boxChildSection">
+                                                                <div class="colBox">
+                                                                    <div class="mb-3">
+                                                                        <label for="" class="form-label">City</label>
+                                                                        <input asp-for="@Model.BaseLocation[i].City" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="colBox">
+                                                                    <div class="mb-3">
+                                                                        <label for="" class="form-label">State</label>
+                                                                        <input asp-for="@Model.BaseLocation[i].State" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="colBox">
+                                                                    <div class="mb-3">
+                                                                        <label for="" class="form-label">Country</label>
+                                                                        <input asp-for="@Model.BaseLocation[i].Country" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="colBox">
+                                                                    <div class="mb-3">
+                                                                        <label for="" class="form-label">Postal Code</label>
+                                                                        <input asp-for="@Model.BaseLocation[i].PostalCode" class="form-control" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-auto align-self-end">
+                                                                    <div class="mb-3">
+                                                                        <a href="javascript:void(0);" class="add-row-btn btnRemoveClone">
+                                                                            <img src="~/assets/images/minusrow-btn.svg">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    i++;
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+
+                            <div class="col-md-12">
+                                <h6 class="color-heading">Quick Facts</h6>
+                                <div class="ratesBlog">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="" class="form-label">Age</label>
+                                                        <select asp-for="Age" asp-items="@ViewBag.Age" class="form-control form-select" placeholder="Select age"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="Gender" class="form-label">Gender</label>
+                                                        <select class="form-control form-select" asp-for="Gender">
+                                                            <option value="">Select Gender</option>
+                                                            <option value="Male">Male</option>
+                                                            <option value="Female">Female</option>
+                                                            <option value="Transgender">Transgender</option>
+                                                        </select>
+                                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="" class="form-label">Height (cm)</label>
+                                                        <select asp-for="Height" asp-items="@ViewBag.Height" class="form-control form-select" placeholder="Select height"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="" class="form-label">Weight</label>
+                                                        <input type="text" asp-for="Weight" class="form-control" placeholder="Weight" maxlength="20">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="" class="form-label">Eyes</label>
+                                                        <input type="text" asp-for="Eyes" class="form-control" placeholder="Eyes" maxlength="20">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="" class="form-label">Body Type</label>
+                                                        <input type="text" asp-for="BodyType" class="form-control" placeholder="Body Type" maxlength="20">
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="" class="form-label">Ethnicity</label>
+                                                        <input type="text" asp-for="Ethnicity" class="form-control" placeholder="Ethnicity" maxlength="20">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label for="" class="form-label">Hair Color</label>
+                                                        <input type="text" asp-for="HairColor" class="form-control" placeholder="Hair Color" maxlength="20">
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                        @*   <div class="col-md-6">
+                                        <div class="mb-3">
+                                        <label for="" class="form-label">Category</label>
+                                        <select asp-for="Category" asp-items="@ViewBag.Category" multiple="multiple" class="form-control form-select" placeholder="Select category"></select>
+                                        </div>
+                                        </div> *@
+
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Choose your sex partner </label>
+                                                <select asp-for="Categories" asp-items="@ViewBag.Categories " multiple="multiple" class="form-control form-select" placeholder="Select your sex partner"></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4" id="divBust">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Bust</label>
+                                                <input type="text" asp-for="Bust" class="form-control" placeholder="Bust" maxlength="20">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3" id="divDress">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Dress</label>
+                                                <input type="text" asp-for="Dress" class="form-control" placeholder="Dress" maxlength="20">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="" class="form-label">Language</label>
+                                                <select asp-for="Language" asp-items="@ViewBag.Language" multiple="multiple" class="form-control form-select" placeholder="Select language"></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                            <div class="col-md-12">
+                                <h6 class="color-heading">About Me</h6>
+                                <div class="mb-3">
+
+                                    <input type="hidden" asp-for="Bio"></input>
+                                    <div id="content_text" style="display:none;">@Html.Raw(Model?.Bio ?? "".Replace("\n", "<br />"))</div>
+                                    <textarea id="aboutUsEditor" class="form-control" maxlength="1000"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                            @*   @if (LoginMemberSession.UserDetailSession?.SubscriptionPlanType == Shared.Common.Enums.SubscriptionPlanType.Gold ||
+                            LoginMemberSession.UserDetailSession?.SubscriptionPlanType == Shared.Common.Enums.SubscriptionPlanType.Platinum)
+                            { *@
+
+
+
+                            <div class="col-md-12">
+                                <h6 class="color-heading">Proffered Contact Details</h6>
+                                <div class="mb-3">
+                                    <textarea asp-for="Proffered" class="form-control" style="height: 100px;" maxlength="500"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                            <div class="col-md-12">
+                                <h6 class="color-heading">Things I Prefer In Private</h6>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Select Things</label>
+                                    <select asp-for="SexualPreferences" asp-items="@ViewBag.SexualPreferences" multiple="multiple" class="form-control form-select" placeholder="Select things"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+
+                            <div class="col-md-12">
+                                <h6 class="color-heading">Rates</h6>
+                                <div class="ratesBlog">
+                                    <div class="row">
+
+                                        <div class="col-md-12 divParentSection">
+
+                                            @if (Model != null && Model.Rates != null && Model.Rates.Count > 0)
+                                            {
+                                                var i = 0;
+                                                foreach (var item in Model.Rates)
+                                                {
+                                                    <div class="row rowChildSection">
+                                                        <div class="col-md-3 col-12">
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Duration</label>
+                                                                <select asp-for="@Model.Rates[i].Duration" asp-items="@ViewBag.Duration" value="@item.Duration" class="form-control form-select" placeholder="Select duration"></select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-6">
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Incall</label>
+                                                                <input type="text" asp-for="@Model.Rates[i].InCallRate" value="@item.InCallRate" class="form-control decimalOnly" placeholder="Incall" maxlength="8">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3 col-6">
+                                                            <div class="mb-3">
+                                                                <label for="" class="form-label">Outcall</label>
+                                                                <input type="text" asp-for="@Model.Rates[i].OutCallRate" value="@item.OutCallRate" class="form-control decimalOnly" placeholder="Outcall" maxlength="8">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-auto align-self-end">
+                                                            <div class="mb-3">
+                                                                @if (i == 0)
+                                                                {
+                                                                    <a href="javascript:void(0);" class="add-row-btn btnAddClone" onclick="CreateRateClone(this, 'Rate')">
+                                                                        <img src="~/assets/images/addrow-btn.svg">
+                                                                    </a>
+                                                                    <a href="javascript:void(0);" class="add-row-btn btnRemoveClone d-none">
+                                                                        <img src="~/assets/images/minusrow-btn.svg">
+                                                                    </a>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <a href="javascript:void(0);" class="add-row-btn btnRemoveClone">
+                                                                        <img src="~/assets/images/minusrow-btn.svg">
+                                                                    </a>
+                                                                }
+                                                                @{
+                                                                    i++;
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+
+                            <div class="col-md-12">
+                                <h6 class="color-heading">Rates Notes</h6>
+                                <div class="mb-3">
+                                    <textarea asp-for="RatesNotes" class="form-control" style="height: 100px;" maxlength="300"></textarea>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                            <div class="col-md-12 divAvailability">
+                                <h6 class="color-heading">Manage My Availability</h6>
+                                <div class="ratesBlog">
+                                    @if (Model != null && Model.AvailabilityCalendar != null)
+                                    {
+                                        var i = 0;
+                                        foreach (var item in Model.AvailabilityCalendar)
+                                        {
+                                            var isChecked = (!string.IsNullOrEmpty(item.FromTime) || !string.IsNullOrEmpty(item.ToTime) ? true : false);
+                                            <div class="row rowChildSection">
+                                                <div class="mb-1 col-auto">
+                                                    <label for="" class="form-label">Days</label>
+                                                    <input type="hidden" asp-for="@Model.AvailabilityCalendar[i].DayNumber" value="@item.DayNumber"></input>
+                                                    <label class="form-control">@(((Shared.Common.Enums.DayOfWeekType)item.DayNumber).ToString())</label>
+                                                </div>
+                                                <div class="mb-1 col-auto">
+                                                    <label for="" class="form-label">Start Time</label>
+                                                    <input type="text" asp-for="@Model.AvailabilityCalendar[i].FromTime" value="@item.FromTime" class="timeInput form-control timeInputBox fromTime" placeholder="HH:MM" maxlength="5">
+                                                    <p id="error" style="color: red;line-height: 14px;font-size: 13px;padding-top: 5px;"></p>
+                                                </div>
+                                                <div class="mb-1 col-auto">
+                                                    <label for="" class="form-label">End Time</label>
+                                                    <input type="text" asp-for="@Model.AvailabilityCalendar[i].ToTime" value="@item.ToTime" class="timeInput form-control timeInputBox toTime" placeholder="HH:MM" maxlength="5">
+                                                    <p id="error" style="color: red;line-height: 14px;font-size: 13px;padding-top: 5px;"></p>
+                                                </div>
+                                                <div class="col-auto align-self-center">
+                                                    <div class="form-check">
+                                                        @if (item.IsNotAvailable)
+                                                        {
+                                                            <input asp-for="@Model.AvailabilityCalendar[i].IsNotAvailable" checked class="form-check-input isNotAvailable" type="checkbox" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input asp-for="@Model.AvailabilityCalendar[i].IsNotAvailable" class="form-check-input isNotAvailable" type="checkbox" />
+                                                        }
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            Not Available
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto align-self-center">
+                                                    <div class="form-check">
+                                                        @if (item.IsAvailable24X7)
+                                                        {
+                                                            <input asp-for="@Model.AvailabilityCalendar[i].IsAvailable24X7" checked class="form-check-input isAvailable24X7" type="checkbox" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input asp-for="@Model.AvailabilityCalendar[i].IsAvailable24X7" class="form-check-input isAvailable24X7" type="checkbox" />
+                                                        }
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            24/7 Available
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            i++;
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                            <div class="col-md-12">
+                                <h6 class="color-heading">Availablity Notes</h6>
+                                <div class="mb-3">
+                                    <textarea asp-for="AvailablityNotes" class="form-control" style="height: 100px;" maxlength="300"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+
+                            <div class="col-md-12">
+                                <h6 class="color-heading">Social Links</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Facebook</label>
+                                            <input type="text" asp-for="FaceBookUrl" class="form-control" placeholder="Facebook" maxlength="100">
+                                            <span asp-validation-for="FaceBookUrl" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Twitter</label>
+                                            <input type="text" asp-for="TwitterUrl" class="form-control" placeholder="Twitter" maxlength="100">
+                                            <span asp-validation-for="TwitterUrl" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Instagram</label>
+                                            <input type="text" asp-for="InstagramUrl" class="form-control" placeholder="Instagram" maxlength="100">
+                                            <span asp-validation-for="InstagramUrl" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Linkedin</label>
+                                            <input type="text" asp-for="LinkedinUrl" class="form-control" placeholder="Linkedin" maxlength="100">
+                                            <span asp-validation-for="LinkedinUrl" class="text-danger"></span>
+
+                                        </div>
+                                    </div><div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">TikTok</label>
+                                            <input type="text" asp-for="TikTokUrl" class="form-control" placeholder="TikTok" maxlength="100">
+                                            <span asp-validation-for="TikTokUrl" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Snapchat</label>
+                                            <input type="text" asp-for="SnapChatUrl" class="form-control" placeholder="Snapchat" maxlength="100">
+                                            <span asp-validation-for="SnapChatUrl" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">YouTube</label>
+                                            <input type="text" asp-for="YouTubeUrl" class="form-control" placeholder="YouTube" maxlength="100">
+                                            <span asp-validation-for="YouTubeUrl" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="text-end mt-3">
+                                <a class="btn btn-outline-primary me-2" href="javascript:history.back();">Cancel</a>
+                                <button class="btn btn-primary" type="button" onclick="AddUpdateProfile(this)">Save</button>
+                            </div>
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                            <div id="mediaSection" style="display:none">
+                                <div id="image-section">
+                                    <partial name="_ImageUpload" model="Model" />
+                                </div>
+                                <div id="video-section">
+                                    <partial name="_VideoUpload" model="Model" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</Section>
+<div class="row  rowClonableTourLocationChildSection div-parent-location-sec" style="display:none">
+    <input type="hidden" id="TourLocation_0__EscortID" name="TourLocation[0].EscortID" value="@Model.EscortID" />
+    <input type="hidden" id="TourLocation_0__AddressType" name="TourLocation[0].AddressType" value="@((byte)Shared.Common.Enums.LocationTypes.TourLocation)" />
+    <input type="hidden" id="TourLocation_0__Latitude" name="TourLocation[0].Latitude" />
+    <input type="hidden" id="TourLocation_0__Longitude" name="TourLocation[0].Longitude" />
+    <input type="hidden" id="TourLocation_0__Location" name="TourLocation[0].Location" />
+    <div class="col-lg-12">
+        <div class="boxChildSection">
+            <div class="colBox">
+                <div class="mb-3">
+                    <label for="" class="form-label">City</label>
+                    <input id="TourLocation_0__City" name="TourLocation[0].City" class="form-control" />
+                </div>
+            </div>
+            <div class="colBox">
+                <div class="mb-3">
+                    <label for="" class="form-label">State</label>
+                    <input id="TourLocation_0__State" name="TourLocation[0].State" class="form-control" />
+                </div>
+            </div>
+            <div class="colBox">
+                <div class="mb-3">
+                    <label for="" class="form-label">Country</label>
+                    <input id="TourLocation_0__Country" name="TourLocation[0].Country" class="form-control" />
+                </div>
+            </div>
+            <div class="colBox">
+                <div class="mb-3">
+                    <label for="" class="form-label">Postal Code</label>
+
+                    <input id="TourLocation_0__PostalCode" name="TourLocation[0].PostalCode" class="form-control" />
+                </div>
+            </div>
+            <div class="col-auto align-self-end">
+                <div class="mb-3">
+                    <a href="javascript:void(0);" class="add-row-btn btnRemoveClone">
+                        <img src="~/assets/images/minusrow-btn.svg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row rowClonableBaseLocationChildSection div-parent-location-sec" style="display:none">
+
+    <input type="hidden" id="BaseLocation_0__EscortID" name="BaseLocation[0].EscortID" value="@Model.EscortID" />
+    <input type="hidden" id="BaseLocation_0__AddressType" name="BaseLocation[0].AddressType" value="@((byte)Shared.Common.Enums.LocationTypes.BaseLocation)" />
+    <input type="hidden" id="BaseLocation_0__Latitude" name="BaseLocation[0].Latitude" />
+    <input type="hidden" id="BaseLocation_0__Longitude" name="BaseLocation[0].Longitude" />
+    <input type="hidden" id="BaseLocation_0__Location" name="BaseLocation[0].Location" />
+    <div class="col-lg-12">
+        <div class="boxChildSection">
+            <div class="colBox">
+                <div class="mb-3">
+                    <label for="" class="form-label">City</label>
+                    <input id="BaseLocation_0__City" name="BaseLocation[0].City" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="colBox">
+                <div class="mb-3">
+                    <label for="" class="form-label">State</label>
+                    <input id="BaseLocation_0__State" name="BaseLocation[0].State" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="colBox">
+                <div class="mb-3">
+                    <label for="" class="form-label">Country</label>
+                    <input id="BaseLocation_0__Country" name="BaseLocation[0].Country" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="colBox">
+                <div class="mb-3">
+                    <label for="" class="form-label">Postal Code</label>
+
+                    <input id="BaseLocation_0__PostalCode" name="BaseLocation[0].PostalCode" class="form-control" readonly />
+                </div>
+            </div>
+            <div class="col-auto align-self-end">
+                <div class="mb-3">
+                    <a href="javascript:void(0);" class="add-row-btn btnRemoveClone">
+                        <img src="~/assets/images/minusrow-btn.svg">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@await Html.PartialAsync("_CropImageModal")
+@await Html.PartialAsync("_VideoCutterModal")
+@await Html.PartialAsync("_ImageVarify")
+@await Html.PartialAsync("_pixelat")
+@section Scripts {
+
+    <script src="~/cropper/cropper.js"></script>
+
+    @* <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script> *@
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.css" />
+    <script type="importmap">
+        {
+            "imports": {
+                "ckeditor5": "https://cdn.ckeditor.com/ckeditor5/43.3.1/ckeditor5.js",
+                "ckeditor5/": "https://cdn.ckeditor.com/ckeditor5/43.3.1/"
+            }
+        }
+    </script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="@Url.Content("~/sitejs/user.js")"></script>
+    <script src="@Url.Content("~/sitejs/common/cropperSetup.js")"></script>
+    <script src="@Url.Content("~/sitejs/common/media-validation.js")"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=@SiteKeys.GeoLocationApiKey"></script>
+    <script src="@Url.Content("~/sitejs/common/geoLocation.js")"></script>
+    <script src="@Url.Content("~/sitejs/common/Camera.js")"></script>
+    
+
+    <script type="module">
+
+        function SpecialCharactersEmoji(editor)
+        {
+            editor.plugins.get('SpecialCharacters').addItems('Emoji', common.getEmojiIcons(), { label: 'Emoticons' });
+        }
+        import
+        {
+            ClassicEditor,
+            Essentials,
+            Bold, Heading,
+            Italic,
+            Font,
+            Paragraph,
+            SpecialCharacters, SpecialCharactersEssentials,
+            Image, ImageInsert,
+            Link, List,
+            Indent, IndentBlock, BlockQuote, MediaEmbed
+        } from 'ckeditor5';
+
+        ClassicEditor
+            .create(document.querySelector('#aboutUsEditor'), {
+                plugins: [
+                    Heading, Essentials, Bold, Italic, Font, Paragraph,
+                    SpecialCharacters, SpecialCharactersEssentials, SpecialCharactersEmoji,
+                    Image, ImageInsert, Link, List,
+                    Indent, IndentBlock, BlockQuote, MediaEmbed
+                ],
+                toolbar: [
+                    'heading', '|', 'bold', 'italic', '|', 'link', 'bulletedList',
+                    'numberedList', '|', 'indent',
+                    'outdent', '|', 'insertImage',
+                    'blockQuote', '|', 'mediaEmbed', '|', 'undo', 'redo', '|',
+                    'specialCharacters',
+                ]
+            })
+            .then(instance =>
+            {
+                aboutUsEditor = instance;
+                var $_text = $("#content_text").html();
+                aboutUsEditor.setData($_text);
+            }).catch(error => { });
+    </script>
+
+    <script>
+        var croppedImg;
+        var aboutUsEditor;
+
+        cameraGrantedMessage = '@cameraGranted';
+        cameraDeniedMessage = '@cameraDenied';
+        cameraNotDetected = '@cameraNotDetected';
+        enableCamera = '@enableCamera';
+
+        $(document).ready(function ()
+        {
+
+            setAutoCompleteOnInput('setTourLocation');
+            setAutoCompleteOnInput('setBaseLocation');
+
+            $("#MyProfile").addClass('active');
+            setupCropper('ProfileFile', '#ProfileImage');
+            if ($("#EscortID").val() > 0)
+            {
+                $("#mediaSection").show();
+            }
+            enabledDisbleGenderSection();
+            // Initialize CKEditor on the aboutUs textarea
+
+            // ClassicEditor.create(document.querySelector('#aboutUsEditor')).then(instance => {
+            //     aboutUsEditor = instance;
+            //     var $_text = $("#content_text").html();
+            //     aboutUsEditor.setData($_text);
+            // }).catch(error => { });
+
+            $('#SexualPreferences').select2();
+            // $('#Category').select2();
+            $('#Categories').select2();
+            $('#Language').select2();
+
+            ResetList(".divAvailability");
+            //disableLocationEl();
+
+            // Remove button click event for the original child box div
+            $(document).on('click', '.btnRemoveClone', function ()
+            {
+                var parent = $(this).parents(".divParentSection");
+                $(this).closest('.rowChildSection').remove();
+                ResetList(parent);
+                //enableLocationEl();
+                //disableLocationEl();
+            });
+
+
+
+            $(document).on('keyup', '.timeInputBox', function (event)
+            {
+                const timeInputs = document.querySelectorAll('.timeInput');
+
+                timeInputs.forEach(function (input)
+                {
+                    input.addEventListener('input', function (event)
+                    {
+                        var parent = $(this);
+                        let inputValue = event.target.value;
+                        const errorDiv = input.nextElementSibling;
+
+                        // Format the time as HH:MM
+                        let formattedTime = '';
+
+                        if (inputValue != "")
+                        {
+                            // Remove any non-digit characters
+                            inputValue = inputValue.replace(/\D/g, '');
+
+                            // Ensure the input is not longer than 4 characters
+                            inputValue = inputValue.slice(0, 4);
+
+                            if (inputValue.length >= 2)
+                            {
+                                const hour = inputValue.slice(0, 2);
+                                formattedTime = hour;
+
+                                if (inputValue.length >= 4)
+                                {
+                                    const minute = inputValue.slice(2, 4);
+                                    formattedTime += `:${minute}`;
+                                }
+                            }
+
+                            // Validate the time format
+                            if (!validateTime(formattedTime))
+                            {
+                                errorDiv.textContent = 'Invalid time format. Please use HH:MM.';
+                                return;
+                            }
+                            $(parent).parents(".rowChildSection").find('.isAvailable24X7').prop('checked', false);
+                        }
+                        // Update the input value
+                        event.target.value = formattedTime;
+                        errorDiv.textContent = '';
+                    });
+                });
+            });
+
+            var imagecount = 0;
+
+            $(document).on('change', '#Images', function (e)
+            {
+                var files = e.target.files;
+                // if ('@LoginMemberSession.UserDetailSession?.SubscriptionPlanType' == '@Shared.Common.Enums.SubscriptionPlanDurationType.EstablishmentWeeklyPro' &&
+                //     files.length > 6) {
+                //     toastr.error('With silver plan only 6 image you can upload.');
+                //     return;
+                // }
+                // else if ('@LoginMemberSession.UserDetailSession?.SubscriptionPlanType' == '@Shared.Common.Enums.SubscriptionPlanDurationType.EstablishmentWeeklyPro' &&
+                //     files.length > 30) {
+                //     toastr.error('With gold plan only 30 image you can upload.');
+                //     return;
+                // }
+                var count = files.length + selectedFiles.length;
+                if (count <= 3)
+                {
+                    var parentDiv = document.querySelector('#parentEscortsImg');
+                    var escortsImages = document.querySelector('.escortsImageCloneDiv');
+                    for (var i = 0; i < files.length; i++)
+                    {
+                        if (files[i])
+                        {
+                            var fileSizeInMB = files[i].size / (1024 * 1024);
+                            if (fileSizeInMB > 10)
+                            {
+                                console.error('Please ensure the image size is not larger than 10 MB.');
+                            } else
+                            {
+                                ;
+                                selectedFiles.push(event.target.files[i]);
+                                var reader = new FileReader();
+                                var filename = event.target.files[i].name;
+
+                                reader.onload = function (event)
+                                {
+                                    var cloneDiv = escortsImages.cloneNode(true);
+                                    imagecount++;
+                                    var filenameWithoutExtension = event.target.result.split('/')[3].substr(1, 9);
+
+                                    $(cloneDiv).attr("style", "display:block");
+                                    $(cloneDiv).attr("data-src", filename);
+                                    $(cloneDiv).find(".image").attr("src", event.target.result);
+                                    $(cloneDiv).find(".image").attr("data-filename", filename);
+                                    $(cloneDiv).find(".image").attr("id", "cloneImage" + imagecount);
+                                    $(cloneDiv).find(".pixelatedBox").attr("onclick", `PixlateShow('#cloneImage${imagecount}')`);
+                                    $(cloneDiv).find(".pixelatedBox").css("display", "block");
+                                    parentDiv.appendChild(cloneDiv);
+                                };
+                                reader.readAsDataURL(files[i]);
+                            }
+
+                        }
+
+                    }
+                } else
+                {
+                    toastr.warning('Only 3 image you can upload at a Time.');
+                }
+
+            });
+
+            $(document).on('change', '#Videos', function (e)
+            {
+
+                const videoFile = event.target.files[0];
+                if (videoFile)
+                {
+                    document.getElementById('videoModal').style.display = 'block';
+                    document.getElementById('modalOverlay').style.display = 'block';
+                    const videoPlayer = document.getElementById('videoPlayerCutter');
+                    const videoURL = URL.createObjectURL(videoFile);
+
+                    videoPlayer.src = videoURL;
+                    videoPlayer.style.display = 'block'; // Show the video player
+                    videoPlayer.load(); // Load the new video
+
+                    videoPlayer.onerror = function ()
+                    {
+                        alert('This video format is not supported by your browser.');
+                        videoPlayer.style.display = 'none'; // Hide the video player
+                    };
+                }
+            });
+
+            document.getElementById('closeModalBtn').addEventListener('click', function ()
+            {
+                document.getElementById('videoModal').style.display = 'none';
+                document.getElementById('modalOverlay').style.display = 'none';
+            });
+
+            $(document).on('click', '.remove-file', function ()
+            {
+
+                let isVideoDelete = false;
+                const parentDiv = $(this).closest(".uploadViewImg");
+                let imgElement = parentDiv.find("img.img-fluid");
+
+
+                if (imgElement.length == 0 || imgElement == "undefined")
+                {
+                    isVideoDelete = true;
+                    imgElement = parentDiv.find("video").find("source.video_here");
+                } else
+                {
+                    imageCount = $('.escortsImages').length + $('.escortsImageCloneDiv').length - 1;
+                    if (imageCount <= 3)
+                    {
+                        toastr.error('Cannot proceed with deletion when there are only 3 images left.');
+                        return
+                    }
+                }
+                // Get the data-src attribute value
+                const dataSrcValueindex = parentDiv.attr("data-src");
+                const fileIndex = selectedFiles.findIndex(file => file.name === dataSrcValueindex);
+
+                const dataSrcValue = imgElement.attr("data-src");
+
+                // Remove the file from selectedFiles if it is found
+                if (fileIndex > -1)
+                {
+                    selectedFiles.splice(fileIndex, 1);
+                }
+                swal({
+                    title: 'Are you sure?',
+                    text: "Do you want to delete?",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#EC881D',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then(function (result)
+                {
+                    if (result)
+                    {
+                        if (dataSrcValue == '' || dataSrcValue == undefined)
+                        {
+                            parentDiv.remove();
+                        }
+                        else
+                        {
+                            $.ajax({
+                                url: '/Profile/Delete',
+                                type: 'GET',
+                                data: { fileName: dataSrcValue },
+                                success: function (imageUrl)
+                                {
+                                    parentDiv.remove();
+                                    if (isVideoDelete)
+                                    {
+                                        toastr.success("Video removed successfully.");
+                                    }
+                                    else
+                                    {
+                                        toastr.success("Image removed successfully.");
+                                    }
+                                },
+                                error: function (xhr, status, error)
+                                {
+                                    if (isVideoDelete)
+                                    {
+                                        toastr.error("Video not removed.");
+                                    }
+                                    else
+                                    {
+                                        toastr.error("Image not removed.");
+                                    }
+
+
+                                    console.error('Failed to fetch image URL for item with ID');
+                                }
+                            });
+                            if (isVideoDelete)
+                            {
+                                if ($("#Videos")[0].files.length == 1)
+                                {
+                                    $("#Videos").val('');
+                                }
+                            }
+                            else
+                            {
+                                if ($("#Images")[0].files.length == 1)
+                                {
+                                    $("#Images").val('');
+                                }
+                            }
+                        }
+
+
+                    }
+                });
+            });
+        });
+
+        function enabledDisbleGenderSection()
+        {
+            if ($("#Gender").val() == "Female")
+            {
+                $("#divBust").fadeIn();
+                $("#divDress").fadeIn();
+            }
+            else
+            {
+                $("#divBust").fadeOut();
+                $("#divDress").fadeOut();
+                $("#Bust").val('');
+                $("#Dress").val('');
+            }
+        }
+
+        $(document).on('change', '#Gender', function ()
+        {
+            enabledDisbleGenderSection();
+        });
+
+        $(document).on('change', '.isNotAvailable', function ()
+        {
+            if ($(this).prop("checked"))
+            {
+                $(this).parents(".rowChildSection").find('.isAvailable24X7').prop('checked', false);
+            }
+            else
+            {
+                $(this).prop('checked', true);
+            }
+        });
+
+        $(document).on('change', '.isAvailable24X7', function ()
+        {
+            if ($(this).prop("checked"))
+            {
+                $(this).parents(".rowChildSection").find('.isNotAvailable').prop('checked', false);
+                $(this).parents(".rowChildSection").find(".toTime").val('');
+                $(this).parents(".rowChildSection").find(".fromTime").val('');
+            }
+            else
+            {
+                $(this).prop('checked', true);
+            }
+        });
+
+        setTimeout(function ()
+        {
+            //-- For profile gallery videos
+            $($('.escortsVideos')).each(function (index, element)
+            {
+                const escortImageElement = $(element).find('.video_here');
+                if ($(escortImageElement).data('src') != "")
+                {
+                    common.getFile(`${$(escortImageElement).data('src')}`, $(escortImageElement), 'videos')
+                }
+            });
+
+        }, 200);
+
+        //-- For profile image
+        const escortImageElement = $("#ProfileImage");
+
+        if ($("#ProfileImage").data('src') != "")
+        {
+            common.getFile(`user/thumbnail_profile/${$(escortImageElement).data('src')}`, $(escortImageElement), 'images')
+        }
+
+        setTimeout(function ()
+        {
+            $($('.escortsVideos')).each(function (index, element)
+            {
+                const video = $(element).find('video');
+                if (video)
+                {
+                    video[0].load();
+                }
+            });
+
+        }, 3000);
+
+        //-- For profile gallery images
+        $($('.escortsImages')).each(function (index, element)
+        {
+            const escortImageElement = $(element).find('.image');
+            if ($(escortImageElement).data('src') != "")
+            {
+                common.getFile(`user/thumbnail_detail/${$(escortImageElement).data('src')}`, $(escortImageElement), 'images')
+            }
+        });
+
+
+
+
+        function CreateTourBaseLocationClone(_this, cloneType)
+        {
+            if (cloneType == 'TourLocation' && (tourLocation.country == '' || $('#setTourLocation').val() == ""))
+            {
+                toastr.warning("Please select any tour location first");
+                return;
+            }
+
+            if (cloneType == 'BaseLocation' && (baseLocation.country == '' || $('#setBaseLocation').val() == ""))
+            {
+                toastr.warning("Please select any base location first");
+                return;
+            }
+
+            var parent = $(_this).parents(".divParentSection");
+            var strhtml = parent;
+            var cloned;
+            if (cloneType == 'TourLocation')
+            {
+                cloned = $(".rowClonableTourLocationChildSection").first().clone(true);
+            }
+            else
+            {
+                cloned = $(".rowClonableBaseLocationChildSection").first().clone(true);
+            }
+
+
+            const $clonedHtml = $(cloned);
+
+            // Find an element by ID
+            const $stateElement = $clonedHtml.find(`[id$="_State"]`);
+            const $cityElement = $clonedHtml.find(`[id$="_City"]`);
+            const $countryElement = $clonedHtml.find(`[id$="_Country"]`);
+            const $postalCodeElement = $clonedHtml.find(`[id$="_PostalCode"]`);
+            const $locationElement = $clonedHtml.find(`[id$="_Location"]`);
+            const $latitudeElement = $clonedHtml.find(`[id$="_Latitude"]`);
+            const $longitudeElement = $clonedHtml.find(`[id$="_Longitude"]`);
+
+            if (cloneType == 'TourLocation')
+            {
+                $($stateElement).val(tourLocation.state);
+                $($cityElement).val(tourLocation.city);
+                $($countryElement).val(tourLocation.country);
+                $($postalCodeElement).val(tourLocation.postCode);
+                $($locationElement).val(tourLocation.location);
+                $($latitudeElement).val(tourLocation.latitude);
+                $($longitudeElement).val(tourLocation.longitude);
+                $(cloned).removeClass('rowClonableTourLocationChildSection').addClass('rowChildSection');
+            }
+            else
+            {
+                $($stateElement).val(baseLocation.state);
+                $($cityElement).val(baseLocation.city);
+                $($countryElement).val(baseLocation.country);
+                $($postalCodeElement).val(baseLocation.postCode);
+                $($locationElement).val(baseLocation.location);
+                $($latitudeElement).val(baseLocation.latitude);
+                $($longitudeElement).val(baseLocation.longitude);
+                $(cloned).removeClass('rowClonableBaseLocationChildSection').addClass('rowChildSection');
+            }
+
+
+            // Add remove button to the cloned div
+            $(cloned).find(".btnAddClone").remove();
+            $(cloned).find(".btnRemoveClone").removeClass('d-none');
+
+            $(cloned).appendTo(strhtml);
+            $(cloned).removeAttr('style');
+
+            $($(_this).closest('.row').find('input')).val('');
+            if (cloneType == 'TourLocation')
+            {
+                tourLocation = {
+                    postCode: '',
+                    subUrb: '',
+                    city: '',
+                    state: '',
+                    country: '',
+                    countryCode: '',
+                    latitude: '',
+                    longitude: '',
+                    location: ''
+                }
+            } else if (cloneType == 'BaseLocation')
+            {
+                baseLocation = {
+                    postCode: '',
+                    subUrb: '',
+                    city: '',
+                    state: '',
+                    country: '',
+                    countryCode: '',
+                    latitude: '',
+                    longitude: '',
+                    location: ''
+                }
+            }
+            ResetList(parent);
+
+        }
+
+
+        function CreateRateClone(_this, cloneType)
+        {
+            var parent = $(_this).parents(".divParentSection");
+            var strhtml = parent;
+            var cloned = $(_this).parents(".rowChildSection").first().clone(true);
+
+            // Add remove button to the cloned div
+            $(cloned).find(".btnAddClone").remove();
+            $(cloned).find(".btnRemoveClone").removeClass('d-none');
+            $(cloned).appendTo(strhtml);
+
+            ResetList(parent);
+
+        }
+
+        function ResetList(parent)
+        {
+            var selector = $(parent).find(".rowChildSection");
+            var j = 0;
+            $(selector).each(function ()
+            {
+                var _that = $(this);
+                var suffix = _that.find(':input:first').attr('name').match(/\d+/)
+                $.each($(this).find(':input:not(:button)'), function (i, val)
+                {
+                    var oldN = $(this).attr('name');
+                    var newN = oldN.replace('[' + suffix + ']', '[' + (parseInt(j)) + ']');
+                    $(this).attr('name', newN);
+                    $(this).attr('id', newN);
+                });
+                j++;
+            });
+        }
+
+        // Function to validate time format
+        function validateTime(time)
+        {
+            const regex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+            return regex.test(time);
+        }
+        var input = document.querySelector("#CountryCode");
+        var phonenumber = window.intlTelInput(input, {
+
+            autoPlaceholder: "off",
+            initialCountry: "au",
+            showFlags: true,
+            utilsScript: "/lib/intlTelInput/js/utils.js"
+        });
+
+        function AddUpdateProfile(_this)
+        {
+
+            $("#toast-container").remove();
+            var phoneNumber = phonenumber.getSelectedCountryData().dialCode;
+
+            $("#CountryCode").val('+' + phoneNumber);
+
+            $("#Bio").val(aboutUsEditor.getData());
+
+            if ($('#divBaseLocation .rowChildSection').length <= 0)
+            {
+                toastr.error("Please choose any Base Location.");
+                return;
+            }
+
+            if ($("#frmAddUpdateProfile").valid())
+            {
+
+                if ($("#ProfileImage").attr("data-src") == "")
+                {
+                    if ($("#CroppedProfileFile").val() == "")
+                    {
+                        toastr.error("Kindly provide profile image.");
+                        return;
+                    }
+                }
+
+
+
+                applyWatermark('CroppedProfileFile').then(resultthis =>
+                {
+                    if (resultthis)
+                    {
+                        $('.Loading').show();
+                        var formData = new FormData($("#frmAddUpdateProfile")[0]);
+                        $.ajax({
+                            type: 'POST',
+                            url: "/profile/edit",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            cache: false,
+                            enctype: 'multipart/form-data',
+                            success: function (response)
+                            {
+                                $('.Loading').hide();
+
+                                if (response.escortId > 0)
+                                {
+                                    toastr.success(response.message);
+                                    $("#EscortID").val(response.escortId);
+                                    $('#detailedProfileBtn').attr('href', '/Profile/FullProfile?id=' + response.userId);
+                                    document.getElementById("PixlateSpan").setAttribute("hidden", "");
+
+
+                                    if ($("#EscortID").val() > 0)
+                                    {
+                                        $("#mediaSection").show();
+                                    }
+                                } else
+                                {
+                                    toastr.error(response.message);
+                                }
+                            },
+                            error: function (response)
+                            {
+                                $('.Loading').hide();
+                                toastr.error(response.responseJSON?.message);
+                            }
+                        });
+                    }
+                }).catch(error =>
+                {
+                    console.error('Error applying watermark:', error);
+                    toastr.error('Failed to apply watermark');
+                });
+
+
+
+
+
+            }
+            else
+            {
+                toastr.error("Please fill all mandatory fields.");
+                return false;
+            }
+        }
+
+        var cropper;
+
+        // Function to open the Cropper modal
+        function openCropperModal()
+        {
+            $('#cropperModal').modal('show');
+        }
+
+        // Initialize Cropper.js
+        function initCropper()
+        {
+            var image = document.getElementById('cropperImage');
+            cropper = new Cropper(image, {
+                aspectRatio: 1, // Set the aspect ratio as needed
+                viewMode: 1,    // Set the view mode as needed
+                cropBoxResizable: false,
+            });
+        }
+
+        // Function to crop the image
+        function cropImage()
+        {
+            // Get the cropped data as a data URL
+            var croppedCanvas = cropper.getCroppedCanvas();
+
+            var croppedData = croppedCanvas.toDataURL();
+
+            // Display the cropped image below the modal
+            document.getElementById('croppedImage').src = croppedData;
+            document.getElementById('croppedImageContainer').style.display = 'block';
+            document.getElementById('ProfileImage').src = croppedData;
+
+        }
+
+        function CloseModal()
+        {
+
+            // Close the Cropper modal
+            cropper.destroy();
+            document.getElementById('cropperImage').src = "";
+            document.getElementById('croppedImage').src = "";
+            document.getElementById('croppedImageContainer').style.display = 'none';
+            $('#cropperModal').modal('hide');
+        }
+        var selectedFiles = [];
+
+        async function uploadImages()
+        {
+            if ($('.escortsImageCloneDiv').length - 1 != 0)
+            {
+
+                imageCount = $('.escortsImages').length + $('.escortsImageCloneDiv').length - 1;
+                if (imageCount >= 3 && imageCount <= 30)
+                {
+                    if ($("#Images")[0].files.length > 0)
+                    {
+                        $('.Loading').show();
+                        var formData = new FormData($("#frmAddUpdateProfile")[0]);
+
+                        for (let i = 1; i < $('.escortsImageCloneDiv').length; i++)
+                        {
+
+                            let nearestImg = $('.escortsImageCloneDiv').eq(i).find('img');
+
+                            let resultthis = await applyWatermark(nearestImg.attr('id'));
+                            if (resultthis && nearestImg.length > 0)
+                            {
+                                formData.append('ListImages', nearestImg[0].src);
+                            }
+                        }
+
+                        $.ajax({
+                            url: "/profile/uploadImages",
+                            type: "POST",
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (response)
+                            {
+                                $('.Loading').hide();
+                                try
+                                {
+                                    var data = JSON.parse(response);
+                                    if (response.data == true)
+                                    {
+
+                                        toastr.success(response.message);
+
+                                    }
+                                    else
+                                    {
+                                        toastr.error(response.message);
+                                    }
+                                }
+                                catch {
+                                    $("#image-section").html(response);
+                                    $($('.escortsImages')).each(function (index, element)
+                                    {
+                                        const escortImageElement = $(element).find('.image');
+                                        if ($(escortImageElement).data('src') != "")
+                                        {
+                                            common.getFile(`user/thumbnail_detail/${$(escortImageElement).data('src')}`, $(escortImageElement), 'images')
+                                        }
+                                    });
+                                    selectedFiles = [];
+                                    toastr.success("Image upload successfully.");
+                                }
+                            },
+                            error: function (xhr, status, error)
+                            {
+                                $('.Loading').hide();
+                                console.error(xhr.responseText); // Log the error response
+                                toastr.error("An error occurred while uploading. Please try again.");
+                            }
+                        });
+                    }
+
+                }
+                else
+                {
+                    toastr.error("Kindly provide between 3 to 30 images.");
+                }
+            } else
+            {
+                toastr.warning("Not any image is selected.");
+            }
+
+        }
+
+        function uploadVideos()
+        {
+
+            let videoUploaded = $('.escortsVideos').length;
+            let newVideoUploaded = ($('.escortsVideosCloneDiv').length - 1);
+            let newVideos = $('.10secvideo').length;
+
+            if ((videoUploaded + newVideoUploaded) <= 5)
+            {
+                if (newVideos > 0)
+                {
+                    const uploadPromises = [];
+                    $('.Loading').show();
+                    $.each($('.10secvideo'), function (index, videoElement)
+                    {
+                        const sourceElement = videoElement.querySelector('source');
+
+                        // Check if a video file is present in the source
+                        if (sourceElement && sourceElement.src)
+                        {
+                            // Extract the video file (if it's stored as a file or URL)
+                            const videoUrl = sourceElement.getAttribute('src');
+
+                            // Create a new File object from the video URL
+                            uploadPromises.push(
+                                fetch(videoUrl)
+                                    .then(response => response.blob()) // Convert the URL to a Blob
+                                    .then(blob =>
+                                    {
+                                        const file = new File([blob], "video.mp4", { type: "video/mp4" });
+
+                                        // Now you can upload the file to S3
+                                        const bucketName = 'escorvideos';
+                                        const objectKey = generateGUID() + encodeURIComponent(file.name);
+
+                                        $(sourceElement).removeAttr('data-src');
+                                        $(sourceElement).attr('data-src', objectKey);
+                                        return uploadLargeFileToS3(file, bucketName, objectKey); // Return the upload promise
+                                    })
+                                    .catch(error =>
+                                    {
+                                        console.error('Error uploading video:', error);
+                                    })
+                            );
+                        } else
+                        {
+                            console.error('No video file found');
+                        }
+                    });
+
+                    // After processing all videos, show the success message
+                    Promise.all(uploadPromises)
+                        .then(() =>
+                        {
+                            $.each($('.10secvideo'), function (index, newVideoElement)
+                            {
+                                $(newVideoElement).removeClass('10secvideo');
+                            });
+                            toastr.success("Video's uploaded successfully.");
+                            $('.Loading').hide();
+                        })
+                        .catch(error =>
+                        {
+                            $('.Loading').hide();
+                            console.error('Error during uploads:', error);
+                        });
+
+                }
+                else
+                {
+                    toastr.warning("Please select any video to upload.");
+                }
+
+            }
+            else
+            {
+                toastr.error("Please upload only 5 video maximum.");
+            }
+        }
+
+        function checkVideoFileSize(file)
+        {
+            toastr.remove();
+            let fileExtension = file.name.split('.').pop().toLowerCase();
+            let validExtensions = ['mov', 'mp4', 'webm'];
+            let videoUrl = window.URL.createObjectURL(file);
+
+            if (validExtensions.indexOf(fileExtension) === -1)
+            {
+                toastr.warning('Invalid file type. Please select a mov, mp4 or webm file.');
+                $("#Videos").val('');
+                return false;
+            }
+
+            let videoElement = document.createElement('video');
+            videoElement.src = videoUrl;
+            videoElement.addEventListener('canplay', function ()
+            {
+                // Get the duration in seconds
+                let durationInSeconds = videoElement.duration;
+
+                if (parseInt(durationInSeconds) > 10)
+                {
+                    toastr.warning('Video duration exceeds 10 seconds. Please select a shorter video.');
+                    $("#Videos").val('');
+                    return false;
+                } else
+                {
+                    var parentDiv = document.querySelector('#parentEscortsVideo');
+                    var escortsVideo = document.querySelector('.escortsVideosCloneDiv');
+                    var reader = new FileReader();
+                    reader.onload = function (event)
+                    {
+                        var cloneDiv = escortsVideo.cloneNode(true);
+                        $(cloneDiv).attr("style", "display:block");
+                        var $source = $(cloneDiv).find('.video_here');
+                        $(cloneDiv).addClass('10secvideo');
+                        $source[0].src = videoUrl;
+                        $source.parent()[0].load();
+                        parentDiv.appendChild(cloneDiv);
+                        return true;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+    </script>
+    <script>
+
+        function initiateMultipartUpload(bucketName, objectKey)
+        {
+            return new Promise((resolve, reject) =>
+            {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `/profile/initiatemultipartupload?bucketName=${bucketName}&objectKey=${objectKey}`);
+                xhr.onload = function ()
+                {
+                    if (xhr.status === 200)
+                    {
+                        const response = JSON.parse(xhr.responseText);
+                        resolve(response.uploadId);
+                    } else
+                    {
+                        RemoveDisabledAttr(false);
+                        reject(`Failed to initiate multipart upload: ${xhr.statusText}`);
+                    }
+                };
+                xhr.onerror = function ()
+                {
+                    RemoveDisabledAttr(false);
+                    reject(`Failed to initiate multipart upload: ${xhr.statusText}`);
+                };
+                xhr.send();
+            });
+
+
+        }
+
+        function getPresignedUrlForPart(bucketName, objectKey, uploadId, partNumber)
+        {
+            return new Promise((resolve, reject) =>
+            {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `/Profile/getpresignedurlforpart?bucketName=${bucketName}&objectKey=${objectKey}&uploadId=${uploadId}&partNumber=${partNumber}`);
+                xhr.onload = function ()
+                {
+                    if (xhr.status === 200)
+                    {
+                        const response = JSON.parse(xhr.responseText);
+                        resolve(response.presignedUrl);
+                    } else
+                    {
+                        reject(`Failed to get presigned URL for part ${partNumber}: ${xhr.statusText}`);
+                    }
+                };
+                xhr.onerror = function ()
+                {
+                    reject(`Failed to get presigned URL for part ${partNumber}: ${xhr.statusText}`);
+                };
+                xhr.send();
+            });
+        }
+
+        function uploadPartToS3(presignedUrl, partData)
+        {
+            return new Promise((resolve, reject) =>
+            {
+                const xhr = new XMLHttpRequest();
+                xhr.open('PUT', presignedUrl);
+                xhr.onload = function ()
+                {
+                    if (xhr.status === 200 || xhr.status === 204)
+                    {
+
+                        console.log('Part uploaded successfully!');
+                        resolve(xhr.getResponseHeader('ETag').replace(/"/g, ""));
+                    } else
+                    {
+                        reject(`Failed to upload part: ${xhr.statusText}`);
+                    }
+                };
+                xhr.onerror = function ()
+                {
+                    reject(`Failed to upload part: ${xhr.statusText}`);
+                };
+                xhr.send(partData);
+            });
+        }
+
+        function completeMultipartUpload(bucketName, objectKey, uploadId, partETags)
+        {
+            return new Promise((resolve, reject) =>
+            {
+                ;
+                var partETagsparameter = JSON.stringify(partETags);
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', `/Profile/CompleteMultipartUpload?bucketName=${bucketName}&objectKey=${objectKey}&uploadId=${uploadId}&partETags=${partETagsparameter}`);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function ()
+                {
+                    if (xhr.status === 200)
+                    {
+                        const response = JSON.parse(xhr.responseText);
+
+                        resolve('Multipart upload completed successfully!');
+                    } else
+                    {
+                        reject(`Failed to complete multipart upload: ${xhr.statusText}`);
+                    }
+                };
+                xhr.onerror = function ()
+                {
+                    reject(`Failed to complete multipart upload: ${xhr.statusText}`);
+                };
+                //partETags
+                xhr.send();
+            });
+        }
+
+
+        function LargeFileCompleteMultipartUpload(bucketName, objectKey, uploadId, partETags)
+        {
+            return new Promise((resolve, reject) =>
+            {
+
+
+                var partETagsparameter = JSON.stringify(partETags);
+                var videoEscortId = $('#EscortID').val();
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', `/Profile/LargeFileCompleteMultipartUpload?bucketName=${bucketName}&objectKey=${objectKey}&uploadId=${uploadId}&partETags=${partETagsparameter}&escortID=${videoEscortId}&userId=${@Model.UserId}`);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onload = function ()
+                {
+
+                    if (xhr.status === 200)
+                    {
+                        //const response = JSON.parse(xhr.responseText);
+
+                        console.log("Video uploaded successsfully.");
+                        resolve('Multipart upload completed successfully!');
+                    } else
+                    {
+                        reject(`Failed to complete multipart upload: ${xhr.statusText}`);
+                    }
+                };
+                xhr.onerror = function ()
+                {
+                    reject(`Failed to complete multipart upload: ${xhr.statusText}`);
+                };
+                //partETags
+                xhr.send();
+            });
+        }
+
+
+        async function uploadLargeFileToS3(file, bucketName, objectKey)
+        {
+
+            //$('.Loading').show();
+            const chunkSize = 20 * 1024 * 1024; // 20 MB (adjust the chunk size as needed)
+            const totalChunks = Math.ceil(file.size / chunkSize);
+            const uploadId = await initiateMultipartUpload(bucketName, objectKey);
+            if (!uploadId)
+            {
+                console.error('Failed to initiate multipart upload');
+                return;
+            }
+
+            const partETags = [];
+            for (let i = 0; i < totalChunks; i++)
+            {
+                const start = i * chunkSize;
+                const end = Math.min(start + chunkSize, file.size);
+                const partData = file.slice(start, end);
+                const presignedUrl = await getPresignedUrlForPart(bucketName, objectKey, uploadId, i + 1); // Part numbers start from 1
+                if (!presignedUrl)
+                {
+                    console.error(`Failed to get presigned URL for part ${i + 1}`);
+                    return;
+                }
+                const partETag = await uploadPartToS3(presignedUrl, partData);
+                if (!partETag)
+                {
+                    console.error(`Failed to upload part ${i + 1}`);
+                    return;
+                }
+                var partETagver2 = { 'partNumber': i + 1, 'eTag': partETag }
+                partETags.push(partETagver2);
+                //  if file size are more than 400MB
+                // await SaveFilePartForCompleteMultipartUpload(bucketName, objectKey, uploadId, partETagver2)
+                //  if file size are more than 400MB  ENd
+
+                // partETags.push({ PartNumber: i + 1, ETag: partETag });  ///  less than or eqaul to 400MB
+            }
+
+            try
+            {
+                // await completeMultipartUpload(bucketName, objectKey, uploadId, partETags); ///  less than or eqaul to 400MB
+                await LargeFileCompleteMultipartUpload(bucketName, objectKey, uploadId, partETags)
+
+                console.log('File uploaded successfully!');
+                //$('.Loading').hide();
+            } catch (error)
+            {
+                console.error('Failed to complete multipart upload:', error);
+                //$('.Loading').hide();
+            }
+
+        }
+
+
+
+
+        function SaveFilePartForCompleteMultipartUpload(bucketName, objectKey, uploadId, partETags)
+        {
+            return new Promise((resolve, reject) =>
+            {
+
+                var partETagsparameter = JSON.stringify(partETags);
+                console.log(partETagsparameter)
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', `/Profile/SaveFilePartForCompleteMultipartUpload`);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                var data = {
+                    "bucketName": bucketName,
+                    "objectKey": objectKey,
+                    "uploadId": uploadId,
+                    "partEtags": partETags
+                };
+                xhr.onload = function ()
+                {
+                    if (xhr.status === 200)
+                    {
+                        const response = JSON.parse(xhr.responseText);
+
+                        resolve(' SaveFilePartForCompleteMultipartUpload upload completed successfully!');
+                    } else
+                    {
+                        reject(`SaveFilePartForCompleteMultipartUpload Failed to complete multipart upload: ${xhr.statusText}`);
+                    }
+                };
+                xhr.onerror = function ()
+                {
+                    reject(` SaveFilePartForCompleteMultipartUpload Failed to complete multipart upload: ${xhr.statusText}`);
+                };
+                //partETags
+                xhr.send(data);
+                //xhr.send();
+            });
+        }
+
+
+        function AjaxFormSubmit(bucketName, objectKey, uploadId, partETags)
+        {
+            // Set the URL.
+            return new Promise((resolve, reject) =>
+            {
+                // $('.loaderOuter').show();
+                ;
+                $.ajax({
+                    type: 'POST',
+                    url: '/Profile/CompleteMultipartUpload',
+                    data: JSON.stringify({ bucketName: bucketName, objectKey: objectKey, uploadId: uploadId, partETags: partETags }),
+                    contentType: "application/json",
+                    success: function (data)
+                    {
+                        ;
+                        console.log(JSON.stringify(data));
+                        console.log('Multipart upload completed successfully!');
+                        resolve('Multipart upload completed successfully!');
+                        // window.location.href = "/recipe";
+                    },
+                    error: function (data)
+                    {
+                        $('.loaderOuter').hide();
+                        console.log('Failed to complete multipart upload!');
+                        console.log(JSON.stringify(data));
+                        reject('Failed to complete multipart upload!');
+                        // $('.lodingImg').hide();
+                    }
+                });
+            });
+        }
+        function generateGUID()
+        {
+            const timestamp = new Date().getTime(); // Current timestamp in milliseconds
+            const timestampStr = timestamp.toString(16); // Convert timestamp to hexadecimal string
+            const randomPart = 'xxxxxxxxxxxx'.replace(/[x]/g, function (c)
+            {
+                const r = Math.random() * 16 | 0;
+                return r.toString(16);
+            });
+            return `${timestampStr}-${randomPart}`;
+        }
+
+
+    </script>
+
+    <script>
+
+        var modal = document.getElementById("pixlateModal");
+        var btn = document.getElementById("open-modal");
+        var span = document.getElementsByClassName("close")[0];
+        var canvas = document.getElementById('pixelated-canvas');
+        var ctx;
+        var image = document.getElementById('original-image');
+        var imageSelector = document.getElementById('image-selector');
+        var saveButton = document.getElementById('save-button');
+        var previewImage = document.getElementById('preview-image');
+        var pixelateAreas = [];
+        var isSelecting = false;
+
+        // When the user clicks the button, open the modal
+        function PixlateShow(element)
+        {
+            currentelement = document.querySelector(element);
+            var modal1 = document.getElementById('pixlateModal');
+            $(modal1).modal('show');
+            showImage(currentelement);
+        }
+
+        function showImage(event)
+        {
+            pixelateAreas = [];
+            image.src = event.src;
+            image.onload = function ()
+            {
+                canvas.width = 450;
+                canvas.height = 550;
+                ctx = canvas.getContext('2d');
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                canvas.addEventListener('mousedown', startSelecting);
+                canvas.addEventListener('mousemove', selectArea);
+                canvas.addEventListener('mouseup', finishSelecting);
+            };
+        }
+
+        function startSelecting(event)
+        {
+            isSelecting = true;
+            var rect = canvas.getBoundingClientRect();
+            var x = event.clientX - rect.left;
+            var y = event.clientY - rect.top;
+            pixelateAreas.push({
+                x: x,
+                y: y,
+                width: 0,
+                height: 0,
+                isBlurred: true
+            });
+        }
+
+        function selectArea(event)
+        {
+            if (!isSelecting) return;
+            var rect = canvas.getBoundingClientRect();
+            var currentX = event.clientX - rect.left;
+            var currentY = event.clientY - rect.top;
+            var currentArea = pixelateAreas[pixelateAreas.length - 1];
+
+            currentArea.width = currentX - currentArea.x;
+            currentArea.height = currentY - currentArea.y;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+            ctx.strokeStyle = 'red';
+            pixelateAreas.forEach(area =>
+            {
+                if (area.isBlurred)
+                {
+                    applyBlur(area.x, area.y, area.width, area.height);
+                } else
+                {
+                    ctx.drawImage(image, area.x, area.y, area.width, area.height, area.x, area.y, area.width, area.height);
+                }
+                ctx.strokeRect(area.x, area.y, area.width, area.height);
+            });
+        }
+
+        function finishSelecting()
+        {
+            isSelecting = false;
+            var currentArea = pixelateAreas[pixelateAreas.length - 1];
+
+            if (currentArea.width < 0)
+            {
+                currentArea.x += currentArea.width;
+                currentArea.width = -currentArea.width;
+            }
+            if (currentArea.height < 0)
+            {
+                currentArea.y += currentArea.height;
+                currentArea.height = -currentArea.height;
+            }
+        }
+
+        function applyBlur(x, y, width, height)
+        {
+            ctx.save(); // Save the current state
+            ctx.filter = 'blur(10px)'; // Apply blur effect with 10px radius
+            ctx.drawImage(canvas, x, y, width, height, x, y, width, height); // Draw the blurred image
+            ctx.restore(); // Restore the original state
+        }
+
+        var currentelement;
+        saveButton.addEventListener('click', function ()
+        {
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+            pixelateAreas.forEach(area =>
+            {
+                if (area.isBlurred)
+                {
+                    applyBlur(area.x, area.y, area.width, area.height);
+                } else
+                {
+                    ctx.drawImage(image, area.x, area.y, area.width, area.height, area.x, area.y, area.width, area.height);
+                }
+            });
+            var dataURL = canvas.toDataURL();
+            currentelement.src = dataURL;
+
+            if (currentelement.id == "ProfileImage")
+            {
+                $("#CroppedProfileFile").val(dataURL);
+            }
+
+            $(modal).modal('hide');
+        });
+
+        function getMimeTypeFromFileName(fileName)
+        {
+            const extension = fileName.split('.').pop().toLowerCase();
+            const extensionToMimeType = {
+                'png': 'image/png',
+                'jpg': 'image/jpeg',
+                'jpeg': 'image/jpeg',
+            };
+
+            return extensionToMimeType[extension];
+        }
+
+
+        // var modal = document.getElementById("pixlateModal");
+        // var btn = document.getElementById("open-modal");
+        // var span = document.getElementsByClassName("close")[0];
+        // var canvas = document.getElementById('pixelated-canvas');
+        // var ctx;
+        // var image = document.getElementById('original-image');
+        // var imageSelector = document.getElementById('image-selector');
+        // var saveButton = document.getElementById('save-button');
+        // var previewImage = document.getElementById('preview-image');
+        // var pixelateAreas = [];
+        // var isSelecting = false;
+
+        // // When the user clicks the button, open the modal
+        // function PixlateShow(element) {
+        //     currentelement = document.querySelector(element);
+        //     var modal1 = document.getElementById('pixlateModal');
+        //     modal1.style.display = 'block';
+        //     showImage(currentelement);
+        // }
+
+        // function showImage(event) {
+        //     pixelateAreas = [];
+        //     image.src = event.src;
+        //     image.onload = function () {
+        //         canvas.width = 450;
+        //         canvas.height = 550;
+        //         ctx = canvas.getContext('2d');
+        //         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        //         canvas.addEventListener('mousedown', startSelecting);
+        //         canvas.addEventListener('mousemove', selectArea);
+        //         canvas.addEventListener('mouseup', finishSelecting);
+        //     };
+        // }
+
+        // function startSelecting(event) {
+        //     isSelecting = true;
+        //     var rect = canvas.getBoundingClientRect();
+        //     var x = event.clientX - rect.left;
+        //     var y = event.clientY - rect.top;
+        //     pixelateAreas.push({
+        //         x: x,
+        //         y: y,
+        //         width: 0,
+        //         height: 0,
+        //         isBlurred: false
+        //     });
+        //     applyBlur(x, y, 0, 0);
+        // }
+
+        // function selectArea(event) {
+        //     if (!isSelecting) return;
+        //     var rect = canvas.getBoundingClientRect();
+        //     var currentX = event.clientX - rect.left;
+        //     var currentY = event.clientY - rect.top;
+        //     var currentArea = pixelateAreas[pixelateAreas.length - 1];
+
+        //     currentArea.width = currentX - currentArea.x;
+        //     currentArea.height = currentY - currentArea.y;
+
+        //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        //     ctx.strokeStyle = 'red';
+        //     pixelateAreas.forEach(area => {
+        //         if (area.isBlurred) {
+        //             applyBlur(area.x, area.y, area.width, area.height);
+        //         } else {
+        //             ctx.drawImage(image, area.x, area.y, area.width, area.height, area.x, area.y, area.width, area.height);
+        //         }
+        //         ctx.strokeRect(area.x, area.y, area.width, area.height);
+        //     });
+        // }
+
+        // function finishSelecting() {
+        //     isSelecting = false;
+        //     var currentArea = pixelateAreas[pixelateAreas.length - 1];
+
+        //     if (currentArea.width < 0) {
+        //         currentArea.x += currentArea.width;
+        //         currentArea.width = -currentArea.width;
+        //     }
+        //     if (currentArea.height < 0) {
+        //         currentArea.y += currentArea.height;
+        //         currentArea.height = -currentArea.height;
+        //     }
+        // }
+
+        // function applyBlur(x, y, width, height) {
+        //     var pixelSize = 10;
+        //     var startX = x;
+        //     var endX = x + width;
+        //     var startY = y;
+        //     var endY = y + height;
+
+        //     if (width < 0) {
+        //         startX = x + width;
+        //         endX = x;
+        //     }
+        //     if (height < 0) {
+        //         startY = y + height;
+        //         endY = y;
+        //     }
+
+        //     for (var i = startX; i < endX; i += pixelSize) {
+        //         for (var j = startY; j < endY; j += pixelSize) {
+        //             var pixelData = ctx.getImageData(i, j, pixelSize, pixelSize);
+        //             ctx.putImageData(pixelate(pixelData, pixelSize), i, j);
+        //         }
+        //     }
+        //     var lastArea = pixelateAreas[pixelateAreas.length - 1];
+        //     lastArea.isBlurred = true;
+        // }
+
+        // function pixelate(pixelData, pixelSize) {
+        //     var data = pixelData.data;
+        //     for (var i = 0; i < data.length; i += 4) {
+        //         var r = data[i];
+        //         var g = data[i + 1];
+        //         var b = data[i + 2];
+
+        //         for (var dx = 0; dx < pixelSize; dx++) {
+        //             for (var dy = 0; dy < pixelSize; dy++) {
+        //                 var index = i + (dx + dy * pixelData.width) * 4;
+        //                 data[index] = r;
+        //                 data[index + 1] = g;
+        //                 data[index + 2] = b;
+        //             }
+        //         }
+        //     }
+        //     return pixelData;
+        // }
+
+        // var currentelement;
+        // saveButton.addEventListener('click', function () {
+        //     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        //     pixelateAreas.forEach(area => {
+        //         if (area.isBlurred) {
+        //             applyBlur(area.x, area.y, area.width, area.height);
+        //         } else {
+        //             ctx.drawImage(image, area.x, area.y, area.width, area.height, area.x, area.y, area.width, area.height);
+        //         }
+        //     });
+        //     var dataURL = canvas.toDataURL();
+        //     currentelement.src = dataURL;
+
+        //     if (currentelement.id == "ProfileImage") {
+        //         $("#CroppedProfileFile").val(dataURL);
+        //     }
+
+        //     modal.style.display = "none";
+        // });
+
+        // function getMimeTypeFromFileName(fileName) {
+        //     const extension = fileName.split('.').pop().toLowerCase();
+        //     const extensionToMimeType = {
+        //         'png': 'image/png',
+        //         'jpg': 'image/jpeg',
+        //         'jpeg': 'image/jpeg',
+        //     };
+
+        //     return extensionToMimeType[extension];
+        // }
+
+
+
+
+
+
+
+
+    </script>
+
+    <script>
+
+
+
+        const video = document.getElementById('videoPlayerCutter');
+        const startTimeInput = document.getElementById('startTime');
+        const endTimeInput = document.getElementById('endTime');
+        const startTimeDisplay = document.getElementById('startTimeDisplay');
+        const endTimeDisplay = document.getElementById('endTimeDisplay');
+
+        video.addEventListener('loadedmetadata', () =>
+        {
+            startTimeInput.max = video.duration - 10; // Adjust max start time
+            endTimeInput.max = video.duration; // Adjust max start time
+            updateStartTime(); // Initialize start and end time display
+        });
+
+        function updateStartTime()
+        {
+            const startTime = parseFloat(startTimeInput.value);
+            const endTime = Math.min(video.duration, startTime + 10);
+
+            startTimeDisplay.textContent = formatTime(startTime);
+            endTimeInput.value = endTime; // Set the end time based on the start time
+            endTimeDisplay.textContent = formatTime(endTime);
+
+            video.currentTime = startTime;
+            startTimeInput.max = video.duration - 10; // Ensure start time doesn't exceed valid range
+        }
+
+        function formatTime(seconds)
+        {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        async function submitVideoCut()
+        {
+            document.getElementById('videoModal').style.display = 'none';
+            document.getElementById('modalOverlay').style.display = 'none';
+            const starttime = parseFloat(document.getElementById('startTime').value)
+            const endtime = parseFloat(document.getElementById('endTime').value);
+            const duration = endtime - starttime;
+
+            const videoInput = document.getElementById('Videos');
+            const videofile = videoInput.files[0];
+
+            if (!videofile)
+            {
+                alert('Please upload a video file first.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('VideoFile', videofile);
+            formData.append('StartTime', starttime);
+            formData.append('Duration', duration);
+
+            $('.Loading').show();
+            try
+            {
+                const response = await fetch('/Home/VideoCutter', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok)
+                {
+
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+
+                    const objectKey = generateGUID() + '_' + videofile.name;
+
+                    const orignalfile = new File([blob], objectKey, { type: 'application/octet-stream' });
+                    var isValid = checkVideoFileSize(orignalfile);
+                    $('.Loading').hide();
+
+                } else
+                {
+                    $('.Loading').hide();
+                    const error = await response.text();
+                    alert('Error: ' + error);
+                }
+            } catch (error)
+            {
+                $('.Loading').hide();
+                console.error('Error:', error);
+                alert('An error occurred while trimming the video.');
+            }
+        }
+    </script>
+
+
+    @*  //image varification script  *@
+
+    <script>
+        const verifyvideo = document.getElementById('verifyvideo');
+        const verifycanvas = document.getElementById('verifycanvas');
+        const countdownElement = document.getElementById('countdown');
+        const captureBtn = document.getElementById('captureBtn');
+        let timeRemaining = 10; // 5 minutes in seconds
+        let countdownInterval;
+
+        function openModalVarify()
+        {
+            $('#IsPhotoVerified').val(false);
+            document.getElementById('imageVerifyModal').style.display = 'block';
+            document.getElementById('modalOverlay').style.display = 'block';
+            startWebcam();
+            startCountdown();
+        }
+
+        function closeModalVarify()
+        {
+            document.getElementById('imageVerifyModal').style.display = 'none';
+            document.getElementById('modalOverlay').style.display = 'none';
+            stopWebcam();
+            timeRemaining = 10;
+            countdownElement.textContent = `${timeRemaining.toString().padStart(2, '0')}`;
+            if (countdownInterval)
+            {
+                clearInterval(countdownInterval);
+            }
+        }
+
+        function startWebcam()
+        {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) =>
+                {
+                    verifyvideo.srcObject = stream;
+                })
+                .catch((err) =>
+                {
+                    console.error('Error accessing webcam: ', err);
+                });
+        }
+
+        function stopWebcam()
+        {
+            const stream = verifyvideo.srcObject;
+            if (stream)
+            {
+                const tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+            verifyvideo.srcObject = null;
+        }
+
+        function startCountdown()
+        {
+            countdownInterval = setInterval(() =>
+            {
+                updateCountdown(countdownInterval);
+            }, 1000);
+        }
+
+        function updateCountdown(countdownInterval)
+        {
+            timeRemaining--;
+            const seconds = timeRemaining % 60;
+            countdownElement.textContent = `${seconds.toString().padStart(2, '0')}`;
+
+            if (timeRemaining <= 0)
+            {
+                clearInterval(countdownInterval); // Stop the countdown
+                captureImage();
+            }
+        }
+
+        function captureImage()
+        {
+            verifycanvas.width = verifyvideo.videoWidth;
+            verifycanvas.height = verifyvideo.videoHeight;
+            const context = verifycanvas.getContext('2d');
+            context.drawImage(verifyvideo, 0, 0, verifycanvas.width, verifycanvas.height);
+            const imageDataUrl = verifycanvas.toDataURL('image/jpeg');
+            sendImageData(imageDataUrl); // Send the captured image via AJAX
+        }
+
+        function sendImageData(capturedImageBase64)
+        {
+            var profileImage = document.getElementById('ProfileImage');
+
+            $.ajax({
+                type: "POST",
+                url: "/Profile/VerifyUser",
+                data: {
+                    capturedImage: capturedImageBase64, // Base64 of the captured image
+                    referenceImage: profileImage.getAttribute("src") // Base64 of the reference image
+                },
+                success: function (response)
+                {
+                    if (response.success)
+                    {
+
+                        if (response.verified)
+                        {
+                            $('#IsPhotoVerified').val(true);
+                            toastr.success(response.message);
+                        } else
+                        {
+                            toastr.error(response.message);
+                        }
+                    }
+                    timeRemaining = 10;
+                    closeModalVarify();
+                },
+                error: function (error)
+                {
+                    timeRemaining = 10;
+                    countdownElement.textContent = `${timeRemaining.toString().padStart(2, '0')}`;
+                    console.log(error);
+                    alert("An error occurred.");
+                }
+            });
+        }
+    </script>
+
+}
+
+

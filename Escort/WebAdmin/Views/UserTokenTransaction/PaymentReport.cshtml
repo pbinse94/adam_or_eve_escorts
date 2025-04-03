@@ -1,0 +1,195 @@
+﻿@using Shared.Common.Enums
+@using Shared.Resources;
+@model Shared.Model.DTO.PaymentReportDto
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "Payment Report";
+    var list = new List<string>();
+    if (Model.PaidFilter == 1)
+    {
+        list = new List<string>() { "ID", "EscortId", "TotalRecord", "FromDate", "ToDate", "IsPaid", "UserId", "PaidFilter", "IsPaymentDone" };
+    }
+    else
+    {
+        list = new List<string>() { "ID", "EscortId", "TotalRecord", "FromDate", "ToDate", "IsPaid", "UserId", "PaidFilter" };
+    }
+}
+<style>
+    tfoot b {
+        font-weight: bold;
+    }
+</style>
+@Html.HiddenFor(x => pageSize)
+@Html.HiddenFor(x => pageIndex)
+
+<input id="paidFilter" type="hidden" value="@Model.PaidFilter" />
+<input id="fromDate" type="hidden" value="@Model.FromDate" />
+<input id="toFilter" type="hidden" value="@Model.ToDate" />
+<input id="hiddenFieldId" type="hidden" value="" />
+
+<div class="d-flex">
+    <h4 class="mb-3">Payment Report</h4>
+
+    <div class="ms-auto d-flex align-items-center mb-2">
+        <a href="@Url.Action("ExportPaymentReport","UserTokenTransaction", new { @paidFilter = Model.PaidFilter })" class="btn login-btn">Export Excel</a>
+
+    </div>
+</div>
+
+<style>
+    .date-input-gp {
+        position: relative;
+        width: 150px
+    }
+
+        .date-input-gp input {
+            padding-right: 25px
+        }
+
+        .date-input-gp i {
+            position: absolute;
+            right: 13px;
+            top: 7px;
+        }
+
+    .outline-btn {
+        border: solid 1px #EC881D !important;
+        color: #EC881D;
+        font-weight: 500;
+        padding: 6px 15px;
+        border: 1px solid #fff;
+        border-radius: 20px;
+        font-size: 14px;
+    }
+
+
+</style>
+
+
+<div class="white-box">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="Paid-tab" data-filter="@((short)PaymentReport.Paid)" type="button" role="tab">Paid</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="UnPaid-tab" data-filter="@((short)PaymentReport.UnPaid)" type="button" role="tab">UnPaid</button>
+        </li>
+    </ul>
+
+    <div class="calendarOuter row align-items-center mb-3 mt-3">
+        <div class="col-auto ps-0">Filter :</div>
+        <div class="col-auto ">
+            <div class="date-input-gp">
+                <i><img src="~/assets/images/calendar.svg"> </i>
+                <input type="text" id="txtFromDate" class="form-control calendarIconCss mb-2" placeholder="From" autocomplete="off" readonly="readonly">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <div class="date-input-gp">
+                <i><img src="~/assets/images/calendar.svg"> </i>
+                <input type="text" id="txtToDate" class="form-control calendarIconCss mb-2" placeholder="To" autocomplete="off" readonly="readonly">
+            </div>
+        </div>
+
+
+        <div class="col-auto">
+            <a href="javascript:void(0)" onclick="Reset();" class="btn outline-btn mb-2">Reset All</a>
+            <a href="javascript:void(0)" onclick="LoadTable();" class="btn login-btn mb-2">Search</a>
+
+            @if (Model.PaidFilter == 2)
+            {
+                <a href="javascript:void(0);" onclick="MarkPaymentDone()" id="markPayment" class="btn login-btn mb-2">Mark Payment Done</a>
+            }
+        </div>
+
+        <div class="col">
+            <div class="col-6 col-sm-auto mb-2 mt-0" style="float:right">
+                <div class="Searchbar">
+                    <input id="seachinput" type="text" class="form-control seachinput search-input" placeholder="Search here">
+                </div>
+            </div>
+
+        </div>
+
+        @if (Model.PaidFilter == 2)
+        {
+            <div class="form-check mt-2">
+                <input type="checkbox" id="selectAll" class="form-check-input" /> <label class="form-check-label mb-2"> Select All</label>
+            </div>
+        }
+
+
+    </div>
+
+    <div class="table-responsive">
+
+
+        <table class="table table-sm table-default align-middle nowrap" id="data-table_paymentReport" style="width:100% !important">
+            <thead>
+                <tr>
+                    @{
+                        int columnCounts = new Shared.Model.DTO.PaymentReportDto().GetType().GetProperties().Count(p => !list.Contains(p.Name));
+                    }
+                    @foreach (var p in new Shared.Model.DTO.PaymentReportDto().GetType().GetProperties().Where(p => !list.Contains(p.Name)))
+                    {
+                        <th data-name="@p.Name">@(p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name)</th>
+                    }
+                </tr>
+
+            </thead>
+            <tfoot>
+                <tr>
+                    <td colspan="@(columnCounts-2)"></td>
+                    <td><b>Total</b></td>
+                    <td id="total_amount"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+
+@section scripts {
+    <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/paymentReport.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/paymentReport.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        $(document).ready(function () {
+            $("#PaymentReport").addClass('active');
+            $("#revenuereport").addClass('active');
+        });
+
+        if ($('#paidFilter').val() == 1) {
+            $(document).ready(function () {
+                $("#Paid-tab").addClass('active');
+            });
+        } else {
+            $(document).ready(function () {
+                $("#UnPaid-tab").addClass('active');
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var buttons = document.querySelectorAll('.nav-link');
+            buttons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var isPaid = this.getAttribute('data-filter');
+                    var fromDate = $("#txtFromDate").val();
+                    var toDate = $("#txtToDate").val();
+
+                    // Update the URL to make sure parameters are passed
+                    window.location.href = `/UserTokenTransaction/PaymentReport?fromDate=${fromDate}&toDate=${toDate}&paidFilter=${isPaid}`;
+                });
+            });
+        });
+
+    </script>
+}

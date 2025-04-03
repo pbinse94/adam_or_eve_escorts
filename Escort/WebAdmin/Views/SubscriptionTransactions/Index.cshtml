@@ -1,0 +1,130 @@
+﻿@using Shared.Resources;
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "Transaction Report";
+}
+
+<style>
+    tfoot b {
+        font-weight: bold;
+    }
+
+    .date-input-gp {
+        position: relative;
+        width: 150px
+    }
+
+        .date-input-gp input {
+            padding-right: 25px
+        }
+
+        .date-input-gp i {
+            position: absolute;
+            right: 13px;
+            top: 7px;
+        }
+
+    .outline-btn {
+        border: solid 1px #EC881D !important;
+        color: #EC881D;
+        font-weight: 500;
+        padding: 6px 15px;
+        border: 1px solid #fff;
+        border-radius: 20px;
+        font-size: 14px;
+    }
+</style>
+@Html.HiddenFor(x => pageSize)
+@Html.HiddenFor(x => pageIndex)
+
+<div class="row flex-fill g-4">
+    <div class="col-md-12">
+        <div class="box-header mt-3 border-0 mb-3" style="display:flex; align-items:center">
+            <h1>Transaction Report</h1>
+            
+        </div>
+        <div class="white-box">
+
+            <div class="calendarOuter row align-items-center mb-3 mt-3">
+                <div class="col-auto ps-0">Filter :</div>
+                <div class="col-auto ">
+                    <div class="date-input-gp">
+                        <i><img src="~/assets/images/calendar.svg"> </i>
+                        <input type="text" id="txtFromDate" class="form-control calendarIconCss mb-2" placeholder="From" autocomplete="off" readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <div class="date-input-gp">
+                        <i><img src="~/assets/images/calendar.svg"> </i>
+                        <input type="text" id="txtToDate" class="form-control calendarIconCss mb-2" placeholder="To" autocomplete="off" readonly="readonly">
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-auto mb-2 mt-0">
+                    <input type="text" id="searchinput" maxlength="20" autocomplete="off" class="form-control icon-holder" placeholder="Search here">
+                    
+                </div>
+
+                <div class="col-auto">
+                    <a href="javascript:void(0)" onclick="ResetSubscriptionTransactionsTable();" class="btn outline-btn">Reset All</a>
+                    <a href="javascript:void(0)" onclick="LoadSubscriptionTransactionsTable();" class="btn login-btn ">Search</a>
+                </div>
+
+                <div class="col text-end">
+                    <a  id="exportTransactionListButton" class="btn login-btn">Export Excel</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-auto">
+                    <p class="text-danger">Note : The next billing date may vary as it dependent on PayPal.</p>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-default align-middle nowrap" id="data-table_subscriptionTransaction" style="width:100% !important">
+                    <thead>
+                        <tr>
+                            @foreach (var p in new Shared.Model.DTO.SubscriptionTransactionsDto().GetType().GetProperties().Where(p => !new List<string>() { "TransactionDate", "TotalRecord", "NextBillingTime" }.Contains(p.Name)))
+                            {
+                                if (p.GetCustomAttribute<DisplayAttribute>()?.Name == "Display Name")
+                                {
+                                    <th data-name="@p.Name">User Name</th>
+
+                                }
+                                else
+                                {
+                                    <th data-name="@p.Name">@(p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name)</th>
+
+                                } 
+                            }
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+@section scripts {
+    <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/subscriptionTransaction.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/subscriptionTransaction.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        $(document).ready(function () {
+            
+            $("#SubscriptionTransactionReport").addClass('active');
+
+            
+        });
+    </script>
+}
+

@@ -1,0 +1,182 @@
+﻿@using Shared.Model.DTO
+@model Tuple<AdminDashboardStatisticsDto,bool,bool,bool,bool>
+@{
+    ViewData["Title"] = "Dashboard";
+    bool canViewEscorts = Model.Item3;
+    bool canViewClients = Model.Item4;
+    bool canViewEstablishment = Model.Item5;
+}
+
+
+<div class="row flex-fill g-4">
+    <div class="col-md-12">
+        <div class="box-header mt-3 border-0 mb-3">
+            <h1>Dashboard</h1>
+        </div>
+        <div class="row dashboardBlog">
+            <div class="col mb-4">
+                <div class="card-body p-0">
+                    <a href="@Url.Action("Index","Escort")" class="text-center" style="cursor:@(canViewEscorts ? "pointer":"default")">
+                        <div class="text-center">
+                            <i class="IconBody">
+                                <img src="~/assets/images/ico01.svg" alt="" />
+                            </i>
+                        </div>
+                        <div>
+                            <h2>Total Escorts</h2>
+                            <h3>@Model.Item1.TotalEscort</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="col mb-4">
+                <div class="card-body p-0">
+                    <a href="@Url.Action("Index","User")" class="text-center" style="cursor:@(canViewClients ? "pointer":"default")">
+                        <div class="text-center">
+                            <i class="IconBody">
+                                <img src="~/assets/images/total_clients.svg" alt="" />
+                            </i>
+                        </div>
+                        <div>
+                            <h2>Total Clients</h2>
+                            <h3>@Model.Item1.TotalClients</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col mb-4">
+                <div class="card-body p-0">
+                    <a href="@Url.Action("Index","Establishment")" class="text-center" style="cursor:@(canViewEstablishment ? "pointer":"default")">
+                        <div class="text-center">
+                            <i class="IconBody">
+                                <img src="~/assets/images/ico04.svg" alt="" />
+                            </i>
+                        </div>
+                        <div>
+                            <h2>Total Establishments</h2>
+                            <h3>@Model.Item1.TotalEstablishment</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            @if (Model.Item2)
+            {
+                <div class="col mb-4">
+                    <div class="card-body p-0">
+                        <a href="@Url.Action("PaymentReport","UserTokenTransaction")" class="text-center">
+                            <div class="text-center">
+                                <i class="IconBody">
+                                    <img src="~/assets/images/ico03.svg" alt="" />
+                                </i>
+                            </div>
+                            <div>
+                                <h2>Total Revenue</h2>
+                                <h3>@(Model.Item1.TotalRevenue > 0 ? $"${Model.Item1.TotalRevenue}" : "-")</h3>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+
+
+            <div class="col mb-4">
+                <div class="card-body p-0">
+                    <a href="javascript:void(0)" class="text-center" style="cursor:default">
+                        <div class="text-center">
+                            <i class="IconBody">
+                                <img src="~/assets/images/ico05.svg" alt="" />
+                            </i>
+                        </div>
+                        <div>
+                            <h2>Live Cams Running</h2>
+                            <h3>@Model.Item1.TotalActiveLiveCams</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col mb-4">
+                <div class="card-body p-0">
+                    <a href="javascript:void(0)" class="text-center" style="cursor:default">
+                        <div class="text-center">
+                            <i class="IconBody">
+                                <img src="~/assets/images/ico05.svg" alt="" />
+                            </i>
+                        </div>
+                        <div>
+                            <h2>Total Live Cams</h2>
+                            <h3>@Model.Item1.TotalLiveCams</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+        <div class="row">
+            @if (Model.Item2)
+            {
+                <div class="col-md-6">
+                    <div class="white-box dashboardWh mb-3">
+                        <h5>Revenue Report</h5>
+                        <div class="chBlog" id="weekly-revenue-report">
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            <div class="col-md-6">
+                <div class="white-box dashboardWh mb-3">
+                    <h5>Country Wise Escorts</h5>
+                    <div class="dashTable" id="country-wise-escorts">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="white-box dashboardWh mb-3">
+                    <h5>Gift Spent Analysis</h5>
+                    <div class="chBlog" id="gift-chart">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="white-box dashboardWh mb-3">
+                    <h5>Subscription </h5>
+                    <div class="chBlog" id="subscription-report">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <environment include="Development">
+        <script src="~/sitejs/dashboard.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/dashboard.min.js"></script>
+    </environment>
+    <script>
+        var isRevenueReportAvailable = '@Model.Item2';
+        
+        $(document).ready(function ()
+        {
+            $("#Dashboard").addClass('active');
+        });
+    </script>
+}
+
+

@@ -1,0 +1,92 @@
+﻿@* ImageVerificationModal.cshtml *@
+@{
+    Layout = null; // No layout for the partial view
+}
+
+<style>
+    #imageVerifyModal h3 {
+        color: #000 !important;
+    }
+
+    #imageVerifyModal label {
+        color: #000 !important;
+    }
+
+    #modalOverlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+    #imageVerifyModal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        background-color: #e6d8ca;
+        padding:24px 30px;
+        border-radius: 20px;
+        max-width:650px
+    }
+
+        #imageVerifyModal h3{font-size:26px; margin-bottom:15px; font-weight:base}
+
+    video {
+       background:#fff; border-radius:10px
+    }
+
+  
+
+    .videoSecBox{ position:relative}
+
+    .timerSet {
+        position: absolute;
+        bottom: 20px;
+        left: 25px;
+        font-size: 100px;
+        font-weight: bold;
+        color: #fff;
+        opacity:0.8;
+    }
+
+    .smTextLive{font-size:18px; font-weight:600; color:#000; margin:10px 0; text-align:center; line-height:24px}
+</style>
+
+<div id="modalOverlay"></div>
+
+<div id="imageVerifyModal">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h3 class="fw-bold">Get Ready for Image Verification!</h3>
+    
+    </div>
+
+    <div class="videoSecBox">
+
+        <video id="verifyvideo" width="100%" height="100%" autoplay></video>
+        <canvas id="verifycanvas" style="display: none;"></canvas>
+
+        <div id="countdown" class="timerSet">⏳ 10</div>
+
+    </div>
+
+    <p class="smTextLive">
+        Smile and strike a confident pose!
+        We'll capture your image in 10 seconds for verification.
+    </p>
+    <div class="text-center mt-3">
+    <button type="button" class="btn btn-primary" id="closeModalBtn" aria-label="Close" onclick="closeModalVarify()">Close</button>
+    </div>
+
+
+   
+</div>
+
+

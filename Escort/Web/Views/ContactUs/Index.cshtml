@@ -1,0 +1,170 @@
+﻿@model Shared.Model.Request.WebUser.ContactUsRequestModel
+@using Shared.Common.Enums
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<Section class="page-content-container">
+    <div class="container">
+
+        <div class="pageTitles mt-1">
+            <h2><span style="color:#EC881D">Contact </span> Us</h2>
+            <a href="~/Home/Index" class="btn btn-light backBtn"><img src="assets/images/backarrow.svg"> Back to Home</a>
+        </div>
+
+
+        
+        <form id="support-frm" method="post">
+            <div class="card border-0 mt-3">
+
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <img style="border-radius: 10px;" class="img-fluid" src="assets/images/contactimg.jpg">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="" class="form-label">First Name</label>
+                                    <input asp-for="FirstName" type="text" class="form-control" maxlength="50" placeholder="First Name" autocomplete="off">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Last Name</label>
+                                    <input asp-for="LastName" type="text" class="form-control" maxlength="50" placeholder="Last Name" autocomplete="off">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Email</label>
+                                    <input asp-for="Email" maxlength="50" type="text" class="form-control" placeholder="Email" autocomplete="off">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="PhoneNumber" class="form-label">Phone Number</label>
+                                    <div class="ddlcountrycodes2 contactUsPhone">
+                                    <input class="form-control" asp-for="CountryCode" />
+                                    <input type="text" asp-for="PhoneNumber" maxlength="15" class="form-control numbersOnly" placeholder="Phone Number" autocomplete="off">
+                                    </div>                                    
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Query</label>
+                                    <textarea asp-for="Query" maxlength="500" class="form-control textAreaHeight" ></textarea>
+                                    <span asp-validation-for="Query" class="text-danger"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="mb-3 text-end">
+                                    <a href="javascript:void(0);" onclick="saveData.call();" id="submit-btn" class="btn btn-primary">Submit</a>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</Section>
+
+<!--support form-->
+@section scripts {
+    <script src="~/assets/js/toastr-2.1.0.js"></script>
+    <script src="~/assets/js/ui-toastr.min.js"></script>
+    <script>
+        let phonenumber;
+        $(document).ready(function ()
+        {
+            $("#Support").addClass("active");
+            let input = document.querySelector("#CountryCode");
+            phonenumber = window.intlTelInput(input, {
+
+                autoPlaceholder: "off",
+                initialCountry: "au",
+                showFlags: true,
+                utilsScript: "/lib/intlTelInput/js/utils.js"
+            });
+        })
+
+        var saveData = () =>
+        {
+            let phoneNumberCode = phonenumber.getSelectedCountryData().dialCode;
+
+            $("#CountryCode").val('+' + phoneNumberCode);
+
+            let formData = new FormData($('#support-frm')[0]);
+            if (!$('#support-frm').valid()) { return }
+            // apply loading
+            $('#submit-btn').attr("disabled", "disabled");
+            $.ajax({
+                type: 'POST',
+                url: '/ContactUs/SaveContactUsDetails',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function (data)
+                {
+                    toastr.remove()
+                    if (data && data.data)
+                    {
+                        toastr.success(data.message)
+                        $('#submit-btn').removeAttr("disabled");
+                        $('#support-frm')[0].reset();
+                    } else
+                    {
+                        toastr.error(data.message)
+                        $('#submit-btn').removeAttr("disabled");
+                    }
+                },
+                error: function ()
+                {
+                    toastr.remove()
+                    toastr.error("Something went wrong")
+                    $('#submit-btn').removeAttr("disabled");
+                }
+            })
+        }
+
+        $(document).on('keydown', '.numbersOnly', function (event)
+        {
+            if (event.shiftKey == true)
+            {
+                event.preventDefault();
+            }
+
+            if ((event.keyCode >= 48 && event.keyCode <= 57) ||
+                (event.keyCode >= 96 && event.keyCode <= 105) ||
+                event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 ||
+                event.keyCode == 39 || event.keyCode == 46)
+            {
+            } else
+            {
+                event.preventDefault();
+            }
+
+            if ($(this).val().indexOf('.') !== -1 && event.keyCode == 190)
+                event.preventDefault();
+        });
+
+        $('.numbersOnly').on("drag drop", function (e)
+        {
+            e.preventDefault();
+        });
+        $('input[type="text"], textarea').on('blur', function ()
+        {
+            // Trim the value of the input and update it
+            $(this).val($(this).val().trim());
+        });
+
+    </script>
+}

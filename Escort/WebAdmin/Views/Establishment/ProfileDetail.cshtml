@@ -1,0 +1,168 @@
+﻿@using Shared.Resources;
+@using Shared.Common;
+@model Shared.Model.DTO.EscortDetailDto
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "Establishment Profile Detail";
+    string isActivePermission = (bool)ViewBag.CanUpdate ? "" : "IsActive";
+    var establishmentId = ViewBag.EstablishmentId;
+    var frontSiteUrl = SiteKeys.FrontSiteUrl;
+}
+<style>
+    label{
+        font-weight:bold;
+    }
+</style>
+<div class="row flex-fill g-4">
+    <div class="col-md-12">
+        <div class="box-header mt-3 border-0 mb-3">
+            <div class="d-flex">
+            <h1>Establishment Profile Detail</h1>
+            <a href="javascript:history.back();" class="btn btn-secondary">Back</a>
+        </div>
+        </div>
+    </div>
+
+        <div class="col-md-12 m-0">
+
+        <div class="white-box mb-3">
+                <div class="row">
+                  @*   <div class="col-auto">
+                        <img class="img-fluid" id="ProfileImage" asp-for="ProfileImage" data-src="@Model.ProfileImage" src="@Url.Content("~/assets/images/no-image.png")">
+
+                    </div> *@
+                    <div class="col-md-8 ps-lg-4 mt-4 mt-md-0">
+                        <div class="profile-content-innner detailsPage">
+                            <label>
+                                <h2> @Model.FirstName @Model.LastName </h2>
+                                @if (Model.IsPhotoVerified)
+                                {
+                                    <i><img width="80px" src="~/assets/images/verified.svg" /></i>
+                                }
+                            </label>
+
+                            <ul class="w-100 mt-2">
+                                <li>
+
+                                    <label>Email :</label>
+                                    <span>@Model.Email</span>
+
+                                </li>
+                                <li>
+                                    <label>Phone Number :</label>
+                                    <span>@Model.CountryCode</span>
+                                    <span>@Model.PhoneNumber</span>
+
+                                </li>
+                                <li>
+                                    <label>Display Name :</label>
+                                    <span>@Model.DisplayName</span>
+                                </li>
+                                <li class="mb-4">
+                                    <label>Country :</label>
+                                    <span>@Model.Country</span>
+
+                                </li>
+                                <li>
+                                    <b style="font-size:16px;"> Subscription</b>
+                                </li>
+                            @if (Model.EscortSubscription != null && !string.IsNullOrEmpty(Model.EscortSubscription.PurchaseDateString) && !string.IsNullOrEmpty(Model.EscortSubscription.ExpiryDateString))
+                                { 
+                                <li>
+                                    <label>Start Date :</label> @Model.EscortSubscription.PurchaseDateString   -
+                                    <label>End Date :</label>   @Model.EscortSubscription.ExpiryDateString
+
+                                </li>
+                                }
+                                else
+                                {
+                                <li> 
+                                   N/A
+                                </li>
+                                }
+                            </ul>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+        </div>
+
+        <div class="white-box">
+
+            <div class="d-flex row mt-2 g-sm-2">
+                <div class="col-6 col-sm-auto mb-2 mt-0">
+                    <div class="Searchbar">
+                        <input id="seachinput" type="text" class="form-control seachinput search-input" placeholder="Search here">
+                    </div>
+                </div>
+
+                <div class="col-6 col-sm-auto mb-2 mt-0 " style=" width:210px !important">
+                    <select id="ddlStatus" class="form-control form-select" asp-for="Gender" onchange="esc.filterRecord()">
+                        <option value="">Select Status</option>
+                        <option value="Active">Active</option>
+                        <option value="InActive">Inactive</option>
+                    </select>
+                </div>
+               
+            </div>
+
+
+            <div class="table-responsive">
+                <table class="table table-sm table-default align-middle nowrap" id="data-table_EscortList" style="width:100% !important">
+                    <thead>
+                        <tr>
+                            @foreach (var p in new Shared.Model.Establishment.EstablishmentModel().GetType().GetProperties().Where(p => !new List<string>() { "TotalRecord","Subscription", "AccessToken", "AddedOnUTC", "UpdatedOnUTC", "IsDeleted", "Action", isActivePermission }.Contains(p.Name)))
+                            {
+                                <th data-name="@p.Name">@(p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name)</th>
+                            }
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+@section scripts {
+
+    <script>
+        var establishmentId = '@establishmentId';
+        var frontSiteUrl = '@frontSiteUrl' // Inject frontSiteUrl into global scope
+    </script>
+    
+    
+    <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/establishmentProfile.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/establishmentProfile.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        $(document).ready(function () {
+            $("#Establishment").addClass('active');
+            const escortImageElement = $("#ProfileImage");
+            if ($("#ProfileImage").data('src') != "")
+            {
+                common.getFile(`user/thumbnail_profile/${$(escortImageElement).data('src')}`, $(escortImageElement), 'images')
+            }
+        });
+
+    
+
+        
+    </script>
+}
+

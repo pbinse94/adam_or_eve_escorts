@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Broadcast";
+}
+<div id="streamCheckModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="streamCheckModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+        
+            <div class="modal-body text-center">
+                <div class="pt-4 pb-4">
+                    <h5 class="modal-title" id="streamCheckModalLabel">Action required</h5>
+                    <p>Cease all streaming activities across all devices.</p>
+                    <button type="button" class="btn btn-primary " data-dismiss="modal" onclick="StopBroadcastForce(this)">Stop Streaming</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+   @section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#streamCheckModal').modal("show");
+        });
+        function StopBroadcastForce(element) {
+            element.classList.add('disabled');
+            const response = $.post(`/streaming/stop`, { ChannelArn: '@Model.ChannelArn', RoomArn: '@Model.RoomArn', forceDelete: 'true' });
+            setTimeout(function () {
+                window.location.href = '/home/index';
+            }, 4000);
+        }
+
+    </script>
+   }

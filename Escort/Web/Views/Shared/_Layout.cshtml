@@ -1,0 +1,435 @@
+﻿@using Shared.Common;
+@using Shared.Common.Enums
+
+@{
+    var SessionUserName = LoginMemberSession.UserDetailSession?.DisplayName;
+    var escortBodyClass = string.Empty;
+    if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.IndependentEscort || LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Establishment)
+    {
+        escortBodyClass = "subsn-det-strip";
+    }
+    else if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Client)
+    {
+        escortBodyClass = "clientPage";
+    }
+    else{
+        escortBodyClass = "guest";
+    }
+
+    var controllerName = ViewContext.RouteData.Values["controller"]?.ToString();
+    var actionName = ViewContext.RouteData.Values["action"]?.ToString();
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @await Html.PartialAsync("_CSSPartial")
+    <title>@ViewData["Title"] - Adam or Eve</title>
+    <script>
+        var mapsApiKey = '@SiteKeys.GeoLocationApiKey';
+    </script>
+    @if (!SiteKeys.IsLive)
+    {
+        <meta name="robots" content="noindex">
+    }
+</head>
+<body class="inner @escortBodyClass">
+
+    <div class="Loading" style="display:none">
+        <img src="@Url.Content("~/assets/images/loader.gif")">
+    </div>
+
+        <header class="">
+            <div class="container">
+                <nav class="navbar navbar-expand ">
+                    <div class="container-fluid mobileLogoH">
+
+
+
+                        <a class="navbar-brand hLogo webTopLogo" href="@Url.Action("Index","Home")"><img class="sitelogo" src="~/assets/images/whiteLogo.svg"></a>
+                    <a class="navbar-brand hLogo mobileTopLogo" href="@Url.Action("Index","Home")"><img class="sitelogo" src="~/assets/images/mobile_logo.png"></a>
+
+
+                        <div class="collapse navbar-collapse" id="navbarNav">
+
+
+                            @if (ViewBag.CountryItems != null && ViewBag.CountryItems.Count > 0)
+                            {
+                                <div class="country-select ms-auto">
+                                    <select class="form-control form-select select2" id="ddlCountry" onchange="CountryChange();">
+                                        <option value="">Select Country</option>
+                                        @foreach (var item in ViewBag.CountryItems)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            }
+
+
+
+
+                            <ul class="navbar-nav @(ViewBag.CountryItems != null && ViewBag.CountryItems.Count > 0 ? "" : "ms-auto")">
+                                <li class="nav-item homeIconMobile">
+                                    <a class="nav-link home-link" href="@Url.Action("Index","Home")"> <img src="~/assets/images/home_icon.svg" title="Home"> </a>
+                                </li>
+                                @if (LoginMemberSession.UserDetailSession == null)
+                                {
+                                    <li class="nav-item signupBtnMobile">
+                                        <a href="@Url.Action("Registration","Account")" class="nav-link livecam-link registerTop">
+                                            <span class="loginMobile"><img src="~/assets/images/register-icon.svg" title="Register"></span>
+                                            <span class="loginWeb">Register </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link livecam-link" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#login">
+                                            <span class="loginMobile"><img src="~/assets/images/login_icon.svg" title="Login"></span>
+                                            <span class="loginWeb">Login </span>
+                                        </a>
+                                    </li>
+
+                                }
+
+
+                                @if (LoginMemberSession.UserDetailSession == null || LoginMemberSession.UserDetailSession.UserTypeId == (short)UserTypes.Client)
+                                {
+                                    <li class="nav-item" style="display:none">
+                                        <a class="nav-link livecam-link" href="@Url.Action("LiveCams","Streaming")">
+                                            <span class="liveCamsMobile"><img src="~/assets/images/livecams.svg" title="Live Cams"></span>
+                                            <span class="liveCamsWeb">Live Cams</span>
+                                        </a>
+                                    </li>
+                                }
+                                else if (LoginMemberSession.UserDetailSession != null && (LoginMemberSession.UserDetailSession.UserTypeId == (short)UserTypes.IndependentEscort))
+                                {
+                                    <li class="nav-item" style="display:none">
+                                        <a class="nav-link livecam-link" href="@Url.Action("StartVideo", "Streaming")" onclick="this.classList.add('disabled');">
+                                            <span class="liveCamsMobile"><img src="~/assets/images/livecams.svg" title="Live Cams"></span>
+                                            <span class="liveCamsWeb">Start Live Cam</span>
+                                        </a>
+                                    </li>
+
+                                }
+
+
+
+
+
+                            </ul>
+                        </div>
+
+
+                        @if (LoginMemberSession.UserDetailSession != null)
+                        {
+                            <div class="dropdown user-tp-info">
+                                <a href="javascript:void(0)" data-bs-toggle="dropdown" aria-expanded="false"> <img id="ProfilePic" src="@Url.Content("~/assets/images/home-profile-avatar.svg")" data-src="@LoginMemberSession.UserDetailSession?.ProfileImage" onerror="this.onerror=null;this.src='@Url.Content("~/assets/images/home-profile-avatar.svg")'"></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <span class="profileBlog">
+
+                                            <span><b id="user-name">@LoginMemberSession.UserDetailSession?.DisplayName</b></span>
+                                        </span>
+                                    </li>
+                                    @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.IndependentEscort)
+                                    {
+                                        <li><a class="dropdown-item" href="@Url.Action("Index","Escort")"><img src="@Url.Content("~/assets/images/dashboard-1.svg")"> My  Dashboard</a></li>
+                                    }
+
+                                    @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Client)
+                                    {
+                                        <li><a class="dropdown-item" href="@Url.Action("Profile","User")"><img src="@Url.Content("~/assets/images/profile-icon.svg")"> My  Profile</a></li>
+                                    }
+                                    else if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.EstablishmentEscort)
+                                    {
+                                        <li><a class="dropdown-item" href="@Url.Action("FullProfile","Profile")"><img src="@Url.Content("~/assets/images/profile-icon.svg")"> My  Profile</a></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a class="dropdown-item" href="@Url.Action("ProfileDetails","Profile")"><img src="@Url.Content("~/assets/images/profile-icon.svg")"> My  Profile</a></li>
+                                    }
+
+                                    @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Establishment)
+                                    {
+                                        <li><a class="dropdown-item" href="@Url.Action("index","establishment")"><img src="@Url.Content("~/assets/images/user_menu_icon.svg")"> My Escorts </a></li>
+                                    }
+
+                                    @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.IndependentEscort)
+                                    {
+                                        <li><a class="dropdown-item" href="@Url.Action("index","subscription")"><img src="@Url.Content("~/assets/images/subscription-icon.svg")"> My Subscription </a></li>
+                                    }
+                                    else if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Establishment)
+                                    {
+                                        <li><a class="dropdown-item" href="@Url.Action("index","subscription")"><img src="@Url.Content("~/assets/images/subscription-icon.svg")"> Establishment Subscription </a></li>
+                                    }
+
+                                    @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Client)
+                                    {
+                                        <li style="display:none"><a class="dropdown-item" href="@Url.Action("index","Credit")"><img src="@Url.Content("~/assets/images/subscription-icon.svg")"> My Credit </a></li>
+                                    }
+
+                                    <li><a class="dropdown-item" href="@Url.Action("MyFavorite","Home")"><img src="@Url.Content("~/assets/images/user_menu_icon.svg")"> My Favorite  </a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("ChangePassword","Profile")"><img src="@Url.Content("~/assets/images/change-password.svg")">   Change Password</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Logout","Account")"><img src="@Url.Content("~/assets/images/logout.svg")">  Logout</a></li>
+                                </ul>
+                            </div>
+                        }
+                    </div>
+                </nav>
+
+
+            </div>
+        </header>
+   
+    
+
+
+
+    @if (LoginMemberSession.UserDetailSession != null && !string.IsNullOrEmpty(LoginMemberSession.UserDetailSession.SubscriptionPlanExpireOn) && (LoginMemberSession.UserDetailSession.UserTypeId == (short)UserTypes.IndependentEscort || LoginMemberSession.UserDetailSession.UserTypeId == (short)UserTypes.Establishment))
+    {
+        <div class="subsn-details">
+            @if (LoginMemberSession.UserDetailSession.SubscriptionPlanId == (short)SubscriptionPlanDurationType.IndependentEscortBasic)
+            {
+                <div>You have basic subscription plan, To upgrade it <a href="@Url.Action("Index","Subscription")" style="color:#EC881D">Click here</a></div>
+
+            }
+            else if (LoginMemberSession.UserDetailSession.SubscriptionPlanExpireDateTime >= DateTime.UtcNow)
+            {
+                <div>Your subscription plan will be expire on @LoginMemberSession.UserDetailSession.SubscriptionPlanExpireOn</div>
+            }
+            else
+            {
+                <div>You have no subscription, To purchase <a href="@Url.Action("Index","Subscription")" style="color:#EC881D">Click here</a></div>
+            }
+        </div>
+    }
+
+
+
+    @RenderBody()
+
+
+
+    @await Html.PartialAsync("_FooterPartial")
+
+    @if(actionName?.ToLower() != "terms")
+    {
+    
+    <div class="modal" id="plan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content" style="padding: 30px;">
+                <div class="modal-body statingPopup">
+                    <div class="row">
+
+                        <div class="col-md-12 text-center">
+                            <div class="mb-3">
+
+                                <img src="~/assets/images/whiteLogo.svg" class="img-fluid mb-5">
+
+                                <h6>WARNING: This Website Contains Adult Content</h6>
+                                <p>You Must Be 18 Years of Age or Older to Access.</p>
+                                <p>
+                                    By clicking “I AGREE AND ENTER” below, you confirm you are 18 years of age or older and you have read and accepted our <a href="@Url.Action("terms","home")" target="_blank"> Terms and Conditions</a>.
+
+                                </p>
+                                <p>
+                                    <b> PARENTAL WARNING:</b> If you are a parent, please <a href="https://www.esafety.gov.au/key-topics/esafety-guide" target="_blank"> click here</a>  to read the eSafety Commissioner’s Online Safety Guide before registering as a member.
+                                </p>
+
+                                <div class="mt-5">
+
+                                    <button type="button" class="btn btn-primary agreeBtn mb-3">AGREE</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="siteaccess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content" style="padding: 30px;">
+                <div class="modal-body statingPopup">
+                    <div class="row">
+
+                        <div class="col-md-12 text-center">
+                            <div class="mb-3">
+
+                                <img src="~/assets/images/whiteLogo.svg" class="img-fluid mb-5">
+
+                                <h6>WARNING: This Website Contains Adult Content</h6>
+                                <p>You Must Be 18 Years of Age or Older to Access.</p>
+                                <p>
+                                    By clicking “I AGREE AND ENTER” below, you confirm you are 18 years of age or older and you have read and accepted our <a href="@Url.Action("terms","home")" target="_blank"> Terms and Conditions</a>.
+
+                                </p>
+                                <p>
+                                    <b> PARENTAL WARNING:</b> If you are a parent, please <a href="https://www.esafety.gov.au/key-topics/esafety-guide" target="_blank"> click here</a>  to read the eSafety Commissioner’s Online Safety Guide before registering as a member.
+                                </p>
+
+                                <div class="mt-5">
+                                    <button type="button" class="btn btn-primary declineBtn mb-3">DECLINE</button>
+                                    <button type="button" class="btn btn-primary agreeBtn mb-3">AGREE AND ENTER</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    }
+
+    @if (LoginMemberSession.UserDetailSession == null)
+    {
+        <div class="modal fade" id="login" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content popupPadding">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        @await Html.PartialAsync("_Login", new Shared.Model.Request.Account.LoginRequest())
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="forgotPassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content popupPadding">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        @await Html.PartialAsync("_ForgotPassword", new Shared.Model.Request.Account.ForgotPasswordRequestModel())
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="loginmodel" tabindex="-1" aria-labelledby="loginmodel" aria-hidden="true" data-bs-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Verify Email</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="ClosePopup()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="loginmodelbody">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+
+    @await Html.PartialAsync("_JsScriptsPartial")
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    @await Html.PartialAsync("_CommonScriptsPartial")
+
+
+    @if (LoginMemberSession.UserDetailSession == null)
+    {
+        <environment include="Development">
+            <script src="~/sitejs/loginsignup.js"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="~/js/loginsignup.min.js"></script>
+        </environment>
+    }
+    <script>
+        $(document).ready(function () {
+
+            
+            $('#togglePassword').on('click', function () {
+
+                var passwordField = $('#Password');
+                var type = passwordField.attr('type');
+                if (type === 'password') {
+                    passwordField.attr('type', 'text');
+                    $(this).attr('src', '/assets/images/eye-slash.svg');
+                } else {
+                    passwordField.attr('type', 'password');
+                    $(this).attr('src', '/assets/images/eye.svg');
+                }
+            }); 
+
+           
+        });
+        const ProfilePicElement = $("#ProfilePic");
+        if ($("#ProfilePic").data('src') != "") {
+            common.getFile(`user/thumbnail_profile/${$(ProfilePicElement).data('src')}`, $(ProfilePicElement), 'images')
+        }
+
+        $('#ddlCountry').select2({
+            templateResult: formatCountry,
+            templateSelection: formatCountry,
+            placeholder: "Select Country"
+        });
+
+        // Custom rendering for each country option
+        function formatCountry(option) {
+            if (!option.id) return option.text;  // Handle placeholder
+
+            // Split value to get abbreviation and country name
+            var [abbreviation, countryName] = option.id.split('|');
+
+            var $option = $(
+                `<span>
+                            <img src='/assets/images/flags/${abbreviation.toLowerCase()}.svg'
+                                 style='width:20px; height:15px; margin-right:5px;' />
+                            ${countryName}
+                         </span>`
+            );
+
+           
+            return $option;
+             
+        }
+
+
+        function CountryChange() { 
+             
+           // alert("hello");
+                var selectedValue = $("#ddlCountry").val(); // e.g., "AU|Australia"
+
+                if (selectedValue) {
+                    var [abbreviation, countryName] = selectedValue.split('|');
+                    //console.log("Abbreviation:", abbreviation);
+                    //console.log("Country Name:",countryName);
+                    // alert(countryName);
+
+                setCookie("userSelectedLocation", countryName,1); // Expires in 7 days
+                    activateCountryByCountryDropdown(countryName);
+
+                    // Now you can use abbreviation and countryName as needed
+                }
+        }
+        
+       
+       
+
+
+    </script>
+    
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

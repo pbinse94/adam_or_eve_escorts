@@ -1,0 +1,62 @@
+﻿@using Shared.Common
+@using Shared.Common.Enums
+@{
+    ViewData["Title"] = "Subscription";
+}
+<Section class="">
+    <div class="container">
+
+        <div class="pageTitles mt-3">
+            <h2><span style="color:#EC881D">@(LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Establishment ? "Establishment" : "My")</span> Subscription</h2>
+        </div>
+       
+        <div class="row" id="subscriptionPlans">
+        </div>
+
+    </div>
+</Section>
+@section scripts {
+    <script>
+
+        $(function ()
+        {
+            getSubscriptionPlans();
+        });
+
+        $('input[type=radio][name=plan-type]').on('change', function ()
+        {
+            getSubscriptionPlans();
+        });
+
+
+        function getSubscriptionPlans()
+        {
+            var planType = $('input[name="plan-type"]:checked').val() || 1;
+            EnableDisableButton($('#choosePlanBtn'), false);
+            $.ajax({
+                type: 'GET',
+                url: "/Subscription/GetSubscriptionPlan?planDuration=" + planType,
+                success: function (htmlContent)
+                {
+                    $.when($('#subscriptionPlans').html(htmlContent)).done(function ()
+                    {
+                        $('#Plan').val($('.select_purchase_package:eq(0) .btn').data('planId'));
+                    });
+                },
+                error: function (data)
+                {
+                    if (data.responseJSON)
+                    {
+                        toastr.error(data.responseJSON?.message);
+                    }
+                    else
+                    {
+                        toastr.error(somethingWrongMsg);
+                    }
+                    EnableDisableButton($('#choosePlanBtn'), false);
+                }
+            });
+
+        }
+    </script>
+}

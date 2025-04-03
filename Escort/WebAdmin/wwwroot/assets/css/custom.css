@@ -1,0 +1,104 @@
+﻿/*--*/
+.manageList.table th {
+    background-color: #353535;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.manageList.table thead tr th:last-child {
+    width: 150px !important
+}
+
+.manageList.table thead tr th:nth-child(2) {
+    width: 150px !important
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+    cursor: default;
+    color: #666 !important;
+    border: 1px solid #bbb !important;
+    background: transparent;
+    box-shadow: none;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    color: #333 !important;
+    border: 1px solid #EC881D !important;
+    background-color: #EC881D !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    color: black !important;
+    border: 1px solid #EC881D !important;
+    background-color: #EC881D !important;
+    background: #EC881D !important;
+}
+
+
+.switchBtn input:checked + .switch {
+    background: #EC881D;
+}
+
+.switchBtn .switch {
+    display: inline-block;
+    position: relative;
+    width: 50px;
+    height: 25px;
+    border-radius: 20px;
+    background: #BEBEBE;
+    transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border: 1px solid #bbb !important;
+}
+
+.switchBtn input:checked + .switch::before {
+    left: 27px;
+    background: #fff;
+}
+
+.switchBtn .switch::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    background: #fafafa;
+    border-radius: 50%;
+    transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1), background 0.28s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dataTables_wrapper .dataTables_length {
+    float: left;
+    margin-top: 8px;
+    margin-left: 13px;
+}
+
+/* Hide the default eye icon in Edge */
+input[type="password"]::-ms-reveal {
+    display: none;
+}
+
+.iconInputRight {
+    position: absolute;
+    right: 7px;
+    top: 18px;
+}
+.eye-icon {
+    /*position: absolute;*/
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 15px;
+}
+
+.swal2-modal .swal2-buttonswrapper .swal2-confirm {
+    border: 0px !important;
+    background: #EC881D !important
+}

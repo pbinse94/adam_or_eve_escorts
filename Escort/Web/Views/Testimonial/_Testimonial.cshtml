@@ -1,0 +1,46 @@
+﻿@using Shared.Common
+@model List<Shared.Model.Entities.TestimonialModel>
+@{
+    Layout = null;
+  
+}
+<style>
+    .testimonial-container {
+        max-height: 400px; /* Adjust this value as needed */
+        overflow-y: auto;
+    }
+
+    .testimonialMessBox {
+        margin-bottom: 15px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        background-color: #f9f9f9;
+    }
+</style>
+@if (Model.Count() > 0)
+{
+
+    <div class="testimonial-container">
+        @foreach (var testimonial in Model)
+        {
+            <div class="col-md-12">
+                <div class="testimonialMessBox">
+                    <h6>By @testimonial.UserName</h6>
+                    <span>@testimonial.AddedOnUTC.ToString("MM/dd/yyyy 'at' h:mmtt")</span>
+                    <p>
+                        @testimonial.Testimonial
+                    </p>
+                    @* <a href="javascript:void(0)">Click here to read the full testimonials</a> *@
+                </div>
+            </div>
+        }
+    </div>
+
+}
+else
+{
+    <div style="padding: 15px 0px;text-align: left;font-size: 14px;font-weight: 300;">
+        No Testimonial Available 
+    </div>
+}
+

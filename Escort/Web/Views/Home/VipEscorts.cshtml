@@ -1,0 +1,138 @@
+﻿@using Shared.Common
+@using Shared.Common.Enums
+@model List<Shared.Model.DTO.EscortSearchDto>
+@{
+    ViewData["Title"] = "VIP Escorts";
+}
+
+<Section class="vipEscorts">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="searcFilterBar mb-3">
+
+                    <input type="text" class="searchBox form-control me-3" id="searchText" placeholder="Enter country">
+                    <a href="javascript:void(0)" class="clear_icons" style="display:none">
+                        <i><img src="~/assets/images/clear_icon.svg" width="20" /></i>
+                    </a>
+
+                    <a href="javascript:void(0)" onclick="getVipEscort()" class="btn btn-primary searchByName">Search</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2><span>VIP</span> Escorts</h2>
+            </div>
+        </div>
+        @if (Model.Any())
+        {
+            <div class="row vipEscortsRow">
+                @foreach (var escort in Model)
+                {
+                    <div class="col-lg-3 col-md-6">
+                        <div style="position:relative">
+                            <a href="/profile/fullProfile?id=@(escort.UserId)" class="escortsBlog">
+                                <img class="escortImg" src="@Url.Content("~/assets/images/uploading.gif")" data-dimension="vertical" data-src="@escort.ProfileImage">
+                                @if (escort.IsPhotoVerified)
+                                {
+                                    <i class="verifiedIcon"><img src="~/assets/images/verified.svg" /></i>
+                                }
+                                <div class="abBlog">@(escort.UserType == (int)UserTypes.IndependentEscort ? "Independent" : "Establishment")</div>
+                                <div class="escortsDetails">
+                                    <h4>@escort.DisplayName</h4>
+                                    <h6>@escort.CityName, @escort.StateName</h6>
+                                    <ul class="allDetailsEscort">
+                                        <li>Age: <span>@escort.Age</span> </li>
+                                        <li>Dress Size: <span>@(escort.Dress ?? "N/A")</span> </li>
+                                        <li>Price: <span>Visit Profile for Rates</span> </li>
+                                        <li>Place of Service: <span>Incall, Outcall</span> </li>
+                                    </ul>
+                                </div>
+                            </a>
+                            <div class="rating-row">
+                                <div class="viewCountNo"><img src="~/assets/images/viewcount.svg"> <span>@escort.TotalViews</span></div>
+
+                                @if (LoginMemberSession.UserDetailSession != null)
+                                {
+                                    if (escort.IsFavorite)
+                                    {
+                                        <div class="favoriteIcon" onClick="common.favoriteIcon(this)" data-bool="true" data-id="@escort.EscortId" style="cursor:pointer"><img src="@Url.Content("~/assets/images/favorite_fi.svg")"></div>
+                                    }
+                                    else
+                                    {
+                                        <div class="favoriteIcon" onClick="common.favoriteIcon(this)" data-bool="false" data-id="@escort.EscortId" style="cursor:pointer"><img src="@Url.Content("~/assets/images/favorite.svg")"></div>
+                                    }
+                                }
+                            </div>
+                            
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div style="border: 1px solid #47254b;padding: 100px 15px;text-align: center;font-size: 20px;font-weight: 300;background: #2c2332;">
+                No record found
+            </div>
+        }
+    </div>
+</Section>
+
+@section scripts{
+    <script>
+        $(function ()
+        {
+            getEscortImages();
+
+            $('#searchText').on('keypress', function (e)
+            {
+                if (e.which == 13)
+                {
+                    getVipEscort()
+                }
+            });
+        })
+
+        function getEscortImages()
+        {
+            $($('.vipEscorts .escortsBlog')).each(function (index, element)
+            {
+                const escortImageElement = $(element).find('.escortImg');
+
+                if ($(escortImageElement).data('src') != "")
+                {
+                    common.getFile(`user/thumbnail_profile/${$(escortImageElement).data('src')}`, $(escortImageElement))
+
+                }
+            });
+        }
+
+        function getVipEscort()
+        {
+            $.ajax({
+                url: '/Home/GetVipEscortsPage',
+                type: 'POST',
+                data: { country: $('#searchText').val() },
+                success: function (result)
+                {
+                    $.when($(".vipEscortsRow").html(result)).done(function ()
+                    {
+                        getEscortImages();
+                    });
+
+
+                    $('.Loading').hide();
+                },
+                error: function (xhr, status, error)
+                {
+                    // Handle error response if needed
+                    $('.Loading').hide();
+                }
+            });
+
+        }
+    </script>
+    
+}

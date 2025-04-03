@@ -1,0 +1,97 @@
+﻿@using Shared.Resources;
+@model Shared.Model.Establishment.EstablishmentModel
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "Establishments";
+    string isActivePermission = (bool)ViewBag.CanUpdate ? "" : "IsActive";
+}
+@Html.HiddenFor(x => pageSize)
+@Html.HiddenFor(x => pageIndex)
+@Html.HiddenFor(x => ResourceString.ActivateEstablishment, new { @id = "activateEstablishmentsMsg" })
+@Html.HiddenFor(x => ResourceString.DeactivateEstablishment, new { @id = "deactivateEstablishmentsMsg" })
+ 
+    <div class="row flex-fill g-4">
+        <div class="col-md-12">
+            <div class="box-header mt-3 border-0 mb-3">
+            <h1>Establishments</h1>
+            </div>
+            <div class="white-box">
+              
+                <div class="d-flex row mt-2 g-sm-2">
+                    <div class="col-6 col-sm-auto mb-2 mt-0">
+                        <div class="Searchbar">
+                        <input id="seachinput" type="text" class="form-control seachinput search-input" placeholder="Search here">
+                        </div>
+                    </div>
+
+                <div class="col-6 col-sm-auto mb-2 mt-0">
+                    <select class="form-control form-select select2" asp-for="Country" onchange="Establishments.filterRecord()" asp-items="@ViewBag.SelectListItems" placeholder="select County">
+                        <option value="">Select  Country</option>
+                    </select>
+                </div>
+                </div>
+
+
+                <div class="table-responsive">
+                <table class="table table-sm table-default align-middle nowrap" id="data-table_Establishments" style="width:100% !important">
+                        <thead>
+                            <tr>
+                            @foreach (var p in new Shared.Model.Establishment.EstablishmentModel().GetType().GetProperties().Where(p => !new List<string>() { "TotalRecord", "AccessToken", "AddedOnUTC", "UpdatedOnUTC", "IsDeleted", "Action", isActivePermission }.Contains(p.Name)))
+                                {
+                                    <th data-name="@p.Name">@(p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name)</th>
+                                }
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+@section scripts {
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/establishment.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/establishment.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        $(document).ready(function () {
+            $("#Establishment").addClass('active');
+            $('.select2').select2();
+        });
+    </script>
+ 
+}
+
+
+
+ <style>
+    .select2-container .select2-selection--single {
+        height: 42px !important;
+        border-color: #CDD9D7 !important;
+        line-height: 42px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 42px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 42px !important;
+        font-size: 13px !important;
+    }
+
+    .select2-container {
+        width: 220px !important;
+    }
+ </style>

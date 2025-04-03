@@ -1,0 +1,89 @@
+﻿@using Shared.Common;
+@model Shared.Model.DTO.UserDetailsDto
+<div class="content">
+    <div class="row flex-fill g-4">
+        <div class="col-md-12">
+            <div class="white-box">
+                <div class="white-box-header">
+                    <h1>User Detail</h1>
+                    <a class="btn btn-secondary mw105 my-1 me-3" href="@Url.Action("Index","User",new { @Area ="Admin"})">Back To List</a>
+                </div>
+                <form class="w-100" id="frmUpdateUser">
+                    @Html.HiddenFor(x => x.UserId)
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="" class="form-label">First Name</label><span class="text-danger">*</span>
+                                @Html.TextBoxFor(x => x.FirstName, new {@tabindex = "1", @class = "form-control text-capitalize", @maxlength="100", @placeholder = "Name" })
+                                @Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Last Name</label><span class="text-danger">*</span>
+                                @Html.TextBoxFor(x => x.LastName, new { @tabindex = "1", @class = "form-control text-capitalize", @maxlength = "100", @placeholder = "Name" })
+                                @Html.ValidationMessageFor(x => x.LastName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Email</label><span class="text-danger">*</span>
+                                @Html.TextBoxFor(x => x.Email, new { @readonly = "true", @tabindex = "1", @class = "form-control", @placeholder = "Email" })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="" class="form-label">Phone Number</label><span class="text-danger">*</span>
+                                @Html.TextBoxFor(x => x.PhoneNumber, new { @tabindex = "1", @class = "form-control numbersOnly", @maxlength = "15" , @placeholder = "Phone Number" })
+                                @Html.ValidationMessageFor(x => x.PhoneNumber, "", new { @class = "text-danger"})
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <input type="hidden" asp-for="ProfileImage" id="ServiecImage" />
+                                <label>Profile Image</label>
+                                <div class="col-md-12">
+                                    @if (Model.ProfileImage != null)
+                                    {
+                                        <a href="@(Model.ProfileImage == null ? "#" : (Model.ProfileImage))" target="_blank">
+                                            <img id="imgUser" onerror="if(this.src != '@SiteKeys.SiteUrl@Constants.DefaultUserImage')this.src='@SiteKeys.SiteUrl@Constants.DefaultUserImage';" src="@(Model.ProfileImage)" alt="" style="height:70px;width:70px;" class="rounded-circle">
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" target="_blank">
+                                            <img id="imgUser" type="hidden" src="@SiteKeys.SiteUrl@Constants.DefaultUserImage" alt="" style="height:70px; width:70px;" class="rounded-circle">
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <div class="d-flex align-items-center justify-content-end flex-wrap">
+                                    <input class="btn btn-primary mw105 my-1" id="btnsubmit" type="button" value="Update" onclick="users.UpdateUser(this);" style="margin-right:18px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<environment include="Development">
+    <script src="~/sitejs/admin.js"></script>
+</environment>
+<environment exclude="Development">
+    <script src="~/js/admin.min.js"></script>
+</environment>
+<script>
+    $(document).ready(function () {
+        $("#User").addClass('active');
+    });
+</script>
+}
+

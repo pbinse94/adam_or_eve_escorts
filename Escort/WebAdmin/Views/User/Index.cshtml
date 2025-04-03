@@ -1,0 +1,83 @@
+﻿@using Shared.Resources;
+@model Shared.Model.DTO.UsersDto
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "Clients";
+    string isActivePermission = (bool)ViewBag.CanUpdate ? "" : "IsActive";
+
+}
+@Html.HiddenFor(x => pageSize)
+@Html.HiddenFor(x => pageIndex)
+@Html.HiddenFor(x => ResourceString.ActivateUser, new { @id = "activateUserMsg" })
+@Html.HiddenFor(x => ResourceString.DeactivateUser, new { @id = "deactivateUserMsg" })
+@Html.HiddenFor(x => ResourceString.DeleteUser, new { @id = "deleteUserMsg" })
+@Html.HiddenFor(x => ResourceString.RecoverUser, new { @id = "recoverUserMsg" })
+
+
+    <div class="row flex-fill g-4">
+        <div class="col-md-12">
+        <div class="box-header mt-3 border-0 mb-3">
+            <h1>Clients</h1>
+        </div>
+            <div class="white-box">
+                
+                <div class="d-flex row mt-2 g-sm-2">
+                    <div class="col-6 col-sm-auto mb-2 mt-0">
+                        <div class="Searchbar">
+                        <input id="seachinput" type="text" class="form-control seachinput search-input" placeholder="Search here"> 
+                        </div>
+                   
+                    </div>
+
+                <div class="col-6 col-sm-auto mb-2 mt-0">
+                    <select class="form-control form-select" asp-for="Country" onchange="users.filterRecord()" asp-items="@ViewBag.SelectListItems" placeholder="select County">
+                        <option value="">Select  Country</option>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-auto mb-2 mt-0" style=" width:210px !important">
+                    <select id="ddlGender" class="form-control form-select" asp-for="Gender" onchange="users.filterRecord()" >
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Transgender">Transgender</option>
+                    </select>
+                </div>
+
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm table-default align-middle nowrap" id="data-table_users" style="width:100% !important">
+                        <thead>
+                            <tr>
+                            @foreach (var p in new Shared.Model.DTO.UsersDto().GetType().GetProperties().Where(p => !new List<string>() { "UserLoginId","Role", "ProfilePicture", "TotalRecord", "CreatedOn", "RegisterDate", "Action", "IsDeleted", isActivePermission }.Contains(p.Name)))
+                                {
+                                    <th data-name="@p.Name">@(p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name)</th>
+                                }
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+ 
+
+
+@section scripts {
+    <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/admin.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/admin.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        $(document).ready(function ()
+        {
+            $("#User").addClass('active');
+        });
+    </script>
+}
+

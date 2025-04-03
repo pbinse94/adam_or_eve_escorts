@@ -1,0 +1,123 @@
+[
+  {
+    "outputFileName": "wwwroot/js/common.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/common/constant.js",
+      "wwwroot/sitejs/common/common.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/header.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/common/header.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/table.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/common/table.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/List.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/List.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/favorite.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/favorite.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/user.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/user.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/loginsignup.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/loginsignup.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/chatbox.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/chatbox.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/signup.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/signup.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/home.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/home.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/creditPurchase.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/creditPurchase.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/popularEscorts.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/popularEscorts.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  }
+] 

@@ -1,0 +1,664 @@
+
+@media only screen and (min-width:1240px) {
+    .planBlogBox {
+        width: 20%;
+    }
+}
+
+
+@media (min-width: 1200px) and (max-width: 1300px) {
+    .sitelogo {
+        width: 600px !important;
+    }
+    .browse-history {
+        top: 194px;
+    }
+    body.inner {
+        padding-top: 200px !important;
+    }
+}
+
+
+
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+    .sitelogo {
+        width: 410px !important;
+    }
+
+    .browse-history {
+        top: 140px;
+    }
+
+    body.inner {
+        padding-top: 140px !important;
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .sitelogo {
+        width: 240px !important;
+    }
+
+    .browse-history {
+        top:100px;
+    }
+
+    body.inner {
+        padding-top: 100px !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+    @media (max-width: 1440px) {
+
+
+        .browse-history .slick-list {
+            overflow: inherit;
+        }
+
+        .modal-open .browse-history .slick-list {
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        .mainSlideImg {
+            height: 480px;
+        }
+
+        
+    }
+
+
+    @media (max-width: 1660px) {
+
+  
+
+     
+
+            body.inner.subsn-det-strip {
+                padding-top: 6px;
+            }
+
+        body.bodyHomePage.subsn-det-strip .subsn-details {
+            padding-top: 60px;
+            margin-bottom: 0;
+            font-size: 11px;
+        }
+
+        body.subsn-det-strip .subsn-details {
+            margin-bottom: 0;
+            font-size: 11px;
+        }
+
+        body.inner .mainImage {
+            margin-top: 180px;
+        }
+
+        body.bodyHomePage .mainImage {
+            margin-top: 0 !important;
+        }
+    }
+
+
+    @media only screen and (min-width: 992px) {
+        #browse-history-list.collapse:not(.show) {
+            display: flex;
+        }
+    }
+
+
+    @media only screen and (max-width: 1024px) {
+        .servicesList li {
+            width: 50%;
+        }
+
+        .socialist {
+            flex-wrap: wrap !important;
+        }
+
+        .mainSlideImg {
+            height: 430px;
+        }
+    }
+
+
+
+    @media only screen and (max-width: 992px) {
+        .select_purchase_package {
+            padding-top:60px
+        }
+        .home-link {
+            display: none;
+        }
+
+        .dashboardBlog .card-body {
+            padding: 12px !important;
+        }
+
+        .filter-mb-btn {
+            display: block
+        }
+
+            .filter-mb-btn a {
+                width: 100%;
+                font-size: 15px
+            }
+
+        .filter-cont {
+            display: none;
+            margin-top: 20px
+        }
+
+        .mainSlideImg {
+            height: 360px;
+        }
+
+       
+    }
+
+
+
+
+    @media only screen and (max-width:767px) {
+
+
+
+
+        body.inner {
+            padding-top: 130px;
+        }
+
+            body.inner.subsn-det-strip {
+                padding-top: 6px;
+            }
+
+        body.bodyHomePage.subsn-det-strip .subsn-details {
+            margin-bottom: 0;
+            font-size: 11px;
+        }
+
+        body.subsn-det-strip .subsn-details {
+            padding-top: 15px;
+            margin-bottom: 0;
+            font-size: 11px;
+        }
+
+        body.inner .filterBg {
+            /*margin-top: 50px;*/
+            margin-top: 28px;
+        }
+
+        body.bodyHomePage .filterBg {
+            margin-top: 0 !important;
+        }
+
+        body.inner {
+            padding-top: 86px !important;
+        }
+
+
+
+        .favoriteIcon {
+            padding: 0;
+        }
+
+
+
+        /*------*/
+        body.clientPage .filterBg {
+            margin-top: 0 !important;
+        }
+
+        body.clientPage .homePage {
+            margin-top: 40px !important;
+        }
+
+        body.clientPage {
+            margin-top: 5px !important;
+        }
+
+        /*--------------------------------*/
+
+
+        .boxChildSection .colBoxCity {
+            width: 100% !important;
+            margin-right: 0;
+        }
+
+        .browse-history {
+            /* top: 92px;*/
+            top: 75px;
+        }
+
+        .videoAddPopup {
+            display: block;
+            align-items: center
+        }
+
+        .startTimeBox {
+            float: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .endTimeBox {
+            float: left;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .mobileViewTrinBtn {
+            width: 100% !important
+        }
+
+
+
+
+        .dashboardBlog .col {
+            flex: auto;
+        }
+
+        .form-control {
+            height: 44px !important;
+        }
+
+        .ft-menu li {
+            margin: 0 0 8px 0
+        }
+
+        footer h4 {
+            margin: 20px 0 20px 0;
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+
+        .filterBg .mb-3 {
+            margin-bottom: 10px !important;
+        }
+
+        .uploadViewImg {
+            margin-bottom: 15px;
+        }
+
+        .homeIconMobile {
+            display: none;
+        }
+
+        .loginWeb {
+            display: none;
+        }
+
+        .liveCamsWeb {
+            display: none;
+        }
+
+        .loginMobile {
+            display: block;
+        }
+
+        .liveCamsMobile {
+            display: block;
+        }
+
+
+        .livecam-link {
+            padding: 6px 8px !important;
+        }
+
+        .heightCredits {
+            min-height: auto;
+        }
+
+
+        .servicesList li {
+            width: 100%;
+        }
+
+        .card {
+            padding: 15px;
+        }
+        /*.camsBlog img {width: 160px !important;height: 92px;}*/
+        .hLogo img {
+            /*width: 120px;*/
+            width: 190px;
+        }
+
+        .hLogo.mobileTopLogo img {
+            width: 55px;
+        }
+
+        header {
+            padding: 5px 0;
+            z-index: 9;
+        }
+
+        .user-tp-info img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .mainViewImg {
+            height: auto;
+        }
+
+        .quickFactsList li {
+            list-style: none;
+            float: left;
+            width: 100%;
+        }
+
+        .mainSlideImg {
+            height: 150px;
+        }
+
+        .headingBlog {
+            font-size: 26px;
+            padding-top: 1rem;
+        }
+
+        .navbar .nav-item {
+            margin: 0 3px;
+        }
+    }
+
+    @media only screen and (max-width:767px) {
+
+        .signupBtnMobile{
+            display:none
+        }
+        .mobileLogoH {
+            padding-left: 0 !important;
+            padding-right: 0 !important
+        }
+
+        .publish-pause-btn {
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .ft-logo {
+            width: 300px;
+        }
+
+
+
+        .mobileTopLogo {
+            display: none
+        }
+
+        .webTopLogo {
+            display: block
+        }
+
+        .browse-history .slick-next {
+            right: 10px !important
+        }
+
+        .browse-history .slick-prev {
+            left: 10px !important;
+        }
+
+        .slick-next {
+            right: -5px !important
+        }
+
+        .slick-prev {
+            left: -5px !important;
+        }
+
+
+
+        .rowChildSection {
+            border-bottom: 1px solid #2e2d2e;
+            margin-bottom: 15px;
+            padding: 0 0 15px 0;
+        }
+
+            .rowChildSection .col-auto:first-child {
+                width: 100% !important;
+            }
+
+            .rowChildSection .col-auto {
+                width: 50% !important;
+            }
+
+            .rowChildSection p {
+                margin-bottom: 0px !important
+            }
+
+
+            .rowChildSection label.form-control {
+                width: 100% !important;
+            }
+
+        .planBlogBox .select_purchase_package ul li {
+            font-size: 14px;
+        }
+
+        .select_purchase_package {
+            padding-bottom: 40px;
+        }
+
+
+
+
+
+        .bgBlogPayment .calendarOuter .col-auto.pt-2 {
+            width: 100% !important;
+            margin-bottom: 10px
+        }
+
+        .bgBlogPayment .calendarOuter .col-auto {
+            width: 50% !important;
+            margin-bottom: 10px
+        }
+
+            .bgBlogPayment .calendarOuter .col-auto.resetBtns {
+                width: 100% !important
+            }
+
+
+        .profile-content-innner ul li label {
+            min-width: auto;
+            font-weight: 600;
+        }
+
+        .favoriteEscorts h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .textAreaHeight {
+            height: 125px !important
+        }
+
+        .vipEscorts h2, .popularEscorts h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .featuredEscorts h2 {
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        footer h4 {
+            font-size: 20px;
+        }
+
+        .country-select {
+            width: 110px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+
+        .quickFactsList li {
+            list-style: none;
+            float: left;
+            width: 100%;
+        }
+
+        .mainSlideImg {
+            height: 150px;
+        }
+
+        .headingBlog {
+            font-size: 26px;
+            padding-top: 1rem;
+        }
+
+        .browse-history-list-cont {
+            display: block;
+        }
+
+        .browse-history::before, .browse-history::after {
+            width: 50px;
+        }
+
+        .browse-history .slick-prev {
+            left: 10px;
+        }
+
+        .browse-history .slick-next {
+            right: 10px;
+        }
+
+        .browse-history .slick-list {
+            overflow: inherit;
+        }
+
+        .modal-open .browse-history .slick-list {
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+
+
+        .multiple-items {
+            padding: 0 20px;
+        }
+
+        .fullImageDetails h2 {
+            font-size: 28px;
+            margin: 0 0 8px 5px;
+        }
+
+        .pRightSide {
+            padding-right: 12px;
+        }
+
+        .pLeftSide {
+            padding-left: 12px;
+        }
+
+        .liveBootomBar {
+            flex-wrap: wrap;
+        }
+
+        .shareLiveIcon {
+            margin-bottom: 10px;
+        }
+
+        .boxChildSection .colBox {
+            width: 100% !important;
+            float: left;
+            margin-right: 0% !important
+        }
+
+        .boxChildSection {
+            flex-wrap: wrap !important;
+        }
+    }
+
+
+
+
+
+
+
+
+    @media only screen and (max-width:580px) {
+
+        .liveChatView img {
+            height: 250px;
+        }
+
+        .shareLiveIcon a img {
+            width: 33px;
+            padding: 3px;
+        }
+
+        .filterRadioBox {
+            display: block;
+        }
+
+            .filterRadioBox .form-check-inline {
+                margin-bottom: 8px;
+            }
+
+        .searchBox {
+            margin-bottom: 10px;
+            width: calc(100% - 106px);
+            float: left;
+        }
+
+        .searcFilterBar {
+            display: block;
+        }
+
+        .featuredEscorts {
+            padding: 25px 0;
+        }
+
+        .vipEscorts, .popularEscorts {
+            padding: 25px 0;
+        }
+
+        footer {
+            padding: 30px 0 0;
+            margin: 10px 0 0;
+        }
+
+        .copyright {
+            padding: 20px 10px;
+            font-size: 12px;
+            margin-top: 30px;
+        }
+
+        .filterBg {
+            background: #000;
+            padding: 16px 0 10px 0;
+        }
+
+        #frmSignup .form-check-inline {
+            width: 100%;
+        }
+    }
+
+@media only screen and (max-width:375px) {
+    .hLogo img {
+        width: 180px !important;
+    }
+}
+
+
+@media only screen and (max-width:365px) {
+    .hLogo img {
+        width: 150px !important;
+    }
+
+}

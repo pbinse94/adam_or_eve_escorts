@@ -1,0 +1,310 @@
+﻿@using Shared.Common
+@using Shared.Resources
+@model Tuple<List<Shared.Model.Entities.SubscriptionPlan>, Shared.Common.Enums.UserTypes>
+@{
+    Layout = null;
+    var userTypeDescription = Shared.Common.CommonFunctions.GetDescription(Model.Item2);
+    var currentPrice = ViewBag.CurrentPlanPrice;
+    var updateSubscription = ResourceString.UpdateSubscription;
+    var ajaxError = ResourceString.AjaxErrorUpdateSubscription;
+}
+
+<style>
+
+
+
+    .blogsPlans h3 {
+        font-size: 21px;
+        color: #fff;
+        margin-bottom: 2px
+    }
+
+    .blogsPlans p {
+        font-size: 16px;
+        color: #fff;
+    }
+
+    .planBlogBox .select_purchase_package ul li {
+        font-size: 13px;
+    }
+
+</style>
+
+@if (Model.Item1.Count > 0)
+{
+
+    foreach (var plan in Model.Item1)
+    {
+        <div class="col-lg-3 col-sm-6 planBlogBox webWidthBlog mb-3">
+            <div style="position:relative" class="select_purchase_package  @plan.Title.ToLower() @(LoginMemberSession.UserDetailSession?.SubscriptionPlanId == plan.ID ? "activePlan" :"")">
+                @if (plan.Title.ToLower() == "basic package")
+                {
+                    <div class="basic-package">
+                        Free for <br />
+                        Limited time
+                    </div>
+                }
+                <div class="inner_pack">
+                    <h3>@plan.Title</h3>
+                    <h4>@(plan.DisplayPrice <= 0 ? "-" : $"${plan.DisplayPrice}")</h4>
+                    @Html.Raw(plan.Description)
+
+                    <div class="check-package">
+                        <input class="input-pack" type="radio" id="@plan.Title.ToLower()" name="Package">
+                        @* @if (LoginMemberSession.UserDetailSession?.SubscriptionPlanId > 0)
+                {
+                @if (LoginMemberSession.UserDetailSession?.SubscriptionPlanId == plan.ID)
+                {
+                <label class="btn" onclick="cancelPlan(this)" for="@plan.Title.ToLower()" data-planId="@plan.ID">Cancel Package</label>
+                }
+                }
+                else
+                {
+                <label class="btn" onclick="purchasePlan(this)" for="@plan.Title.ToLower()" data-planId="@plan.ID">Select Package</label>
+                } *@
+
+                        @if (LoginMemberSession.UserDetailSession?.SubscriptionPlanId > 0)
+                        {
+                            @if (LoginMemberSession.UserDetailSession?.SubscriptionPlanId == plan.ID)
+                            {
+                                @if (plan.Title.ToLower() != "basic package")
+                                {
+                                    <label class="btn" onclick="cancelPlan(this)" for="@plan.Title.ToLower()" data-planId="@plan.ID">Cancel Package</label>
+                                }
+                            }
+                            else if (plan.DisplayPrice > currentPrice)
+                            {
+                                <label class="btn" onclick="updatePlan(this)" for="@plan.Title.ToLower()" data-planId="@plan.ID">Upgrade</label>
+                            }
+                            else if (plan.DisplayPrice < currentPrice)
+                            {
+                                <label class="btn" onclick="updatePlan(this)" for="@plan.Title.ToLower()" data-planId="@plan.ID">Downgrade</label>
+                            }
+                        }
+                        else
+                        {
+                            <label class="btn" onclick="purchasePlan(this)" for="@plan.Title.ToLower()" data-planId="@plan.ID">Select Package</label>
+                        }
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+
+
+
+    <div class="col-lg-12 mt-4 mb-5">
+
+        <div class="card border-0 mt-3">
+            <div class="blogsPlans mb-3">
+                <h3>Why advertise with us</h3>
+                <p>Adam or Eve Escorts is an World Wide platform for independent escorts. A thoughtfully curated space, designed to be inclusive and supportive of escorts in new and innovative ways. Created for escorts, by escorts. At Adam or Eve Escorts, we believe that empathy comes through experience, which is why our So Adam or Eve Escorts was created by a leading world wide, female escort.</p>
+            </div>
+            <div class="blogsPlans mb-3">
+                <h3>Free Trial</h3>
+                <p>Sign up and receive your first month with Ivy completely free of charge</p>
+            </div>
+
+            <div class="blogsPlans mb-3">
+                <h3>No Contract</h3>
+                <p>We value autonomy, cancel your membership at any time</p>
+            </div>
+
+            <div class="blogsPlans mb-3">
+                <h3>Profile Pause</h3>
+                <p>Take a break and pause your profile for up to 4 weeks within a 12 month period</p>
+            </div>
+            <div class="blogsPlans mb-3">
+                <h3>Privacy</h3>
+                <p>Because the safety and personal security of our advertisers and their clients is our priority, we work to protect you with complete discretion</p>
+            </div>
+            <div class="blogsPlans mb-3">
+                <h3>Personalised Onboarding Experience</h3>
+                <p>
+                    We understand that the sign up process can be time consuming, that is why we
+                    offer personalised onboarding. Send an email to <a style="color:#EC881D" href="mailto:info@adamoreveescorts.com">info@adamoreveescorts.com</a>  to get started with ease
+                </p>
+            </div>
+            <div class="blogsPlans mb-3">
+                <h3>Local Customer Service</h3>
+                <p>
+                    Need help or just want to learn more about Ivy Société? You can contact us via
+                    email at <a style="color:#EC881D" href="mailto:info@adamoreveescorts.com">info@adamoreveescorts.com</a> . We have guaranteed within 48 hours
+                </p>
+            </div>
+            <div class="blogsPlans mb-3">
+                <h3>Verified Profiles</h3>
+                <p>Using discrete methods we verify all our advertisers. This creates trust and security that clientele can rely on</p>
+            </div>
+            <div class="blogsPlans mb-3">
+                <h3>Selfie Gallery</h3>
+                <p>Enhance your profile with selfies</p>
+            </div>
+            <div class="blogsPlans mb-3">
+                <h3>Social Media</h3>
+                <p>Our marketing team is focused on promoting our advertisers across a various of social media platforms</p>
+            </div>
+            <div class="blogsPlans mb-3">
+                <h3>Discreet Payment Options</h3>
+                <p>We accept payments via Pay Pal and credit card payments</p>
+            </div>
+
+        </div>
+    </div>
+}
+else
+{
+
+    <div class="col-lg-12">
+        <div class="mb-3">
+            <div class="availableUnder">
+                Currently no plan available under this category.
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        $('#subscriptionPlanModal .modal-title').html('@userTypeDescription' + ' Packages');
+
+        if ('@Model.Item1.Count' == 0) {
+            $('button[name="signUpSubmit"]').hide()
+        }
+        else {
+            $('button[name="signUpSubmit"]').show()
+        }
+    });
+
+    function purchasePlan(element) {
+        swal({
+            title: 'Are you sure?',
+            text: "Do you want to purchase this plan?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#EC881D',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then(function (result) {
+            if (result) {
+                var planId = $(element).data('planid');
+                $('input[name="Plan"]').val(planId);
+                $('button[name="signUpSubmit"]').removeAttr("disabled");
+                $(element).attr("disabled", true);
+
+                // Call the CreateSubscription action
+                $('.Loading').show();
+                $.ajax({
+                    url: '@Url.Action("CreateSubscription", "Subscription")',
+                    type: 'POST',
+                    data: { planId: planId },
+                    success: function (data) {
+                        $('.Loading').hide();
+                        if (data.redirect) {
+                            window.location.href = data.redirect;
+                        } else {
+                            if (data.isFirstTimeBasic) {
+                                toastr.success(data.message);
+                                setTimeout(function () {
+                                    window.location.href = "/Home/index";
+                                }, setTimeoutIntervalEnum.onRedirection);
+                            }
+                            else {
+                                toastr.error('The Basic subscription cannot be chosen again.');
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('.Loading').hide();
+                        toastr.error('Failed to create subscription.');
+                    }
+                });
+
+
+            }
+        });
+
+    }
+
+    function cancelPlan(element) {
+        swal({
+            title: 'Are you sure, you want to cancel?',
+            text: `Please note, you will lose all the remaining days`,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#EC881D',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then(function (result) {
+            if (result) {
+                var planId = $(element).data('planid');
+                $('input[name="Plan"]').val(planId);
+                $(element).attr("disabled", true);
+
+                // Call the CancelSubscription action
+                $('.Loading').show();
+                $.ajax({
+                    url: '@Url.Action("CancelSubscription", "Subscription")',
+                    type: 'POST',
+                    data: { planId: planId },
+                    success: function (response) {
+                        $('.Loading').hide();
+                        if (response.status) {
+                            toastr.success(response.message);
+                            location.reload();
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('.Loading').hide();
+                        toastr.error('Failed to cancel subscription.');
+                    }
+                });
+
+
+            }
+        });
+
+    }
+
+    function updatePlan(element) {
+        swal({
+            title: 'Are you sure?',
+            text: "@(updateSubscription)",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#EC881D',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then(function (result) {
+            if (result) {
+                var planId = $(element).data('planid');
+                $('input[name="Plan"]').val(planId);
+                $(element).attr("disabled", true);
+                $('.Loading').show();
+                $.ajax({
+                    url: '@Url.Action("UpdateSubscription", "Subscription")',
+                    type: 'POST',
+                    data: { planId: planId },
+                    success: function (data) {
+                        $('.Loading').hide();
+                        if (data.redirect) {
+                            window.location.href = data.redirect; // Redirect after successful purchase
+                        } else {
+                            toastr.error(data.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        $('.Loading').hide();
+                        toastr.error('@ajaxError');
+                    }
+                });
+            }
+        });
+    }
+
+
+</script>

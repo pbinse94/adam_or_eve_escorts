@@ -1,0 +1,300 @@
+﻿@using Shared.Common;
+@using Shared.Common.Enums
+@model Shared.Model.DTO.EscortDetailDto
+@{
+    ViewData["Title"] = "Profile Details";
+    var defaultImageUrl = SiteKeys.SiteUrl + Constants.DefaultUserImage;
+}
+
+<Section class="page-content-container">
+    <div class="container">
+
+        <div class="pageTitles mt-1">
+             <h2><span style="color:#EC881D">My</span> Profile</h2>
+             
+            <a href="javascript:history.back();" class="btn btn-light backBtn">
+               <img src="../assets/images/backarrow.svg"> Back to Home
+            </a>           
+        </div>
+        @if(!Model.IsApprove)
+        {
+            <span class="profileNotAprrove mt-2">Your profile is currently not approved by the admin, so it will not be viewable to other users of the site.</span>
+        }
+
+        <div class="card border-0 mt-3">
+            <div class="row">
+                
+                <d class="col-auto">
+                    <img class="img-fluid" id="ProfileImage" asp-for="ProfileImage" data-src="@Model.ProfileImage" src="@Url.Content("~/assets/images/no-image.png")">
+                   
+                </d iv>
+                <div class="col-md-8 ps-lg-4 mt-4 mt-md-0">
+                   
+                    <div class="profile-content-innner">
+                        <label>
+                            <h2> @Model.FirstName @Model.LastName </h2>
+                            @if (Model.IsPhotoVerified)
+                            {
+                                <i><img width="80px" src="~/assets/images/verified.svg" /></i>
+                            }
+                        </label>
+                        <ul>
+                            <li>
+
+                                <label>Email :</label>
+                                <span>@Model.Email</span>
+
+                            </li>
+                            <li>
+                                <label>Phone Number :</label>
+                                <span>@Model.CountryCode</span>
+                                <span>@Model.PhoneNumber</span>
+
+                            </li>
+                            <li>
+                                <label>Display Name :</label>
+                                <span>@Model.DisplayName</span>
+                            </li>
+                            <li>
+                                <label>Country :</label>
+                                <span>@Model.Country</span>
+
+                            </li>
+                        </ul>
+                        <button class="btn btn-primary mb-2" onclick="showDetails(this)">Bank Details</button>
+                        @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.IndependentEscort)
+                        {
+                            <a href="~/Profile/FullProfile" class="btn btn-primary mb-2">Detailed Profile</a>
+                            <a href="~/Profile/Edit" class="btn btn-primary mb-2">  Edit Profile</a>
+                           
+                            
+                            
+
+                            <a href="javascript:void(0)" onclick="DeleteAccount()" class="btn btn-primary mb-2">  Delete Profile</a>
+                        }
+                        <div id="BankDetails" style="display:none">
+                            <form id="frmAddUpdateBankDetails" enctype="multipart/form-data" autocomplete="off">
+                                <input type="hidden" asp-for="@Model.EscortID" />
+                                <input type="hidden" asp-for="@Model.UserId" />
+                                <div class="row mt-5">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Account Holder`s Name</label>
+                                            <input type="text" asp-for="BankAccountHolderName" class="form-control" placeholder="Account Holder`s Name" maxlength="20">
+                                            <span asp-validation-for="BankAccountHolderName" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Bank Name</label>
+
+                                            <input type="text" asp-for="BankName" class="form-control" placeholder="BankName" maxlength="20">
+                                            <span asp-validation-for="BankName" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">BSB Code</label>
+                                            <input type="text" asp-for="BSBNumber" class="form-control" placeholder="BSB Code" maxlength="10">
+                                            <span asp-validation-for="BSBNumber" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Account Number</label>
+                                            <input type="text" asp-for="BankAccountNumber" class="form-control" placeholder="Account Number" maxlength="20">
+                                            <span asp-validation-for="BankAccountNumber" class="text-danger"></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary" type="button" onclick="AddUpdateBankDetails(this)">
+                                    @(string.IsNullOrEmpty(Model.BankAccountNumber) ? "Save" : "Update")
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                      <div class="publish-pause-btn">
+                            @if (Model.IsPaused.HasValue)
+                            {
+                                if(Model.IsPaused == true)
+                                {
+                                    <a href="javascript:void(0)" onclick="pauseProfile(false)" class="btn btn-primary mb-2">  Publish Profile</a>
+                                }
+                                else
+                                {
+                                    <a href="javascript:void(0)" onclick="pauseProfile(true)" class="btn btn-primary mb-2">  Pause Profile</a>
+                                }
+                            }
+                      </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</Section>
+@section Scripts {
+    <script>
+
+        const escortImageElement = $("#ProfileImage");
+        if ($("#ProfileImage").data('src') != "") {
+
+            common.getFile(`user/thumbnail_profile/${$(escortImageElement).data('src')}`, $(escortImageElement), 'images')
+        }
+        
+        function showDetails(_this) {
+            if ($('#BankDetails').is(':visible')) {
+                $('#BankDetails').hide();
+                $(_this).removeClass("disabled");
+            }
+            else {
+                $('#BankDetails').show();
+                $(_this).addClass("disabled");
+            }
+
+        }
+
+
+        function AddUpdateBankDetails(_this) {
+            $("#toast-container").remove();
+
+
+            if ($("#frmAddUpdateBankDetails").valid()) {
+                var formData = new FormData($("#frmAddUpdateBankDetails")[0]);
+                $.ajax({
+                    type: 'Post',
+                    url: "/profile/profileDetails",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    enctype: 'multipart/form-data',
+                    success: function (response) {
+                        if (response.data > 0) {
+                            toastr.success(response.message);
+
+                        }
+                        else {
+                              setTimeout(() =>
+                                {
+                                    location.href = '/';
+                                },1000)
+                            //toastr.error(response.message);
+                        }
+                    },
+                    error: function (response) {
+                        toastr.error(response.responseJSON?.message);
+                    }
+                });
+            }
+            else {
+                return false;
+            }
+        }
+
+        function DeleteAccount()
+        {
+            swal({
+                title: 'Are you sure?',
+                text: "Do you want to delete your account?",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#EC881D',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then(function (result)
+            {
+                if (result)
+                {
+                    $('.Loading').show();
+                    $.ajax({
+                        type: 'POST',
+                        url: "/profile/DeleteAccount",
+                        data: {},
+                        success: function (response)
+                        {
+                            if (response.data)
+                            {
+                                toastr.success(response.message);
+                                setTimeout(() =>
+                                {
+                                    location.href = '/Home/index';
+                                },2000)
+                            }
+                            else
+                            {
+                                setTimeout(() =>
+                                {
+                                    location.href = '/';
+                                },1000)
+                            }
+                            $('.Loading').hide();
+                        },
+                        error: function (response)
+                        {
+                            $('.Loading').hide();
+                            toastr.error(response.responseJSON?.message);
+                        }
+                    });
+                }
+            });
+            
+        }
+
+        function pauseProfile(isPause)
+        {
+            let swalText = isPause ? "Do you want to pause your account?" : "Do you want to publish your account?";
+            swal({
+                title: 'Are you sure?',
+                text: swalText,
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#EC881D',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then(function (result)
+            {
+                if (result)
+                {
+                    $('.Loading').show();
+                    $.ajax({
+                        type: 'POST',
+                        url: "/profile/PauseAccount",
+                        data: {isPause:isPause},
+                        success: function (response)
+                        {
+                            if (response.data)
+                            {
+                                toastr.success(response.message);
+                                setTimeout(() =>
+                                {
+                                    location.href = '/Home/index';
+                                },2000)
+                            }
+                            else
+                            {
+                                 setTimeout(() =>
+                                {
+                                    location.href = '/';
+                                },1000)
+                            }
+                            $('.Loading').hide();
+                        },
+                        error: function (response)
+                        {
+                            $('.Loading').hide();
+                            toastr.error(response.responseJSON?.message);
+                        }
+                    });
+                }
+            });
+            
+        }
+
+    </script>
+}

@@ -1,0 +1,76 @@
+﻿@using Shared.Resources;
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "Admin Users";
+}
+@Html.HiddenFor(x => pageSize)
+@Html.HiddenFor(x => pageIndex)
+@Html.HiddenFor(x => ResourceString.ActivateUser, new { @id = "activateUserMsg" })
+@Html.HiddenFor(x => ResourceString.DeactivateUser, new { @id = "deactivateUserMsg" })
+@Html.HiddenFor(x => ResourceString.DeleteUser, new { @id = "deleteUserMsg" })
+@Html.HiddenFor(x => ResourceString.RecoverUser, new { @id = "recoverUserMsg" })
+
+
+<div class="row flex-fill g-4">
+    <div class="col-md-12">
+        <div class="box-header mt-3 border-0 mb-3" style="display:flex; align-items:center">
+            <h1>Subordinates</h1>
+            <a href="@Url.Action("AddUsers","AdminUser")" class="btn login-btn">Add Subordinate</a>
+        </div>
+        <div class="white-box">
+
+            <div class="d-flex row mt-2 g-sm-2">
+                <div class="col-6 col-sm-auto mb-2 mt-0">
+                    <div class="Searchbar">
+                        <input id="seachinput" type="text" class="form-control seachinput search-input" placeholder="Search here">
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="table-responsive">
+                <table class="table table-sm table-default align-middle nowrap" id="data-table_adminUsers" style="width:100% !important">
+                    <thead>
+                        <tr>
+                            @foreach (var p in new Shared.Model.DTO.UsersDto().GetType().GetProperties().Where(p => !new List<string>() { "PhoneNumber", "Gender", "Country", "RegisterDate", "CreatedOn", "IsDeleted", "TotalRecord" }.Contains(p.Name)))
+                            {
+                                if (p.GetCustomAttribute<DisplayAttribute>()?.Name == "Display Name")
+                                {
+                                    <th data-name="@p.Name">User Name</th>
+
+                                }
+                                else
+                                {
+                                    <th data-name="@p.Name">@(p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name)</th>
+
+                                }
+                            }
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+@section scripts {
+    <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/adminUser.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/adminUser.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        $(document).ready(function () {
+            $("#adminUser").addClass('active');
+        });
+    </script>
+}
+

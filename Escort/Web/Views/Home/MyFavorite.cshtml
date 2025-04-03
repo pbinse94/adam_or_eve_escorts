@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "My Favorite";
+}
+<Section class="favoriteEscorts">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="searcFilterBar mb-3">
+                    
+                    <input type="text" class="searchBox form-control me-3" id="searchText" placeholder="Enter name or country">
+                    <a href="javascript:void(0)" class="clear_icons" style="display:none">
+                        <i><img src="~/assets/images/clear_icon.svg" width="20" /></i>
+                    </a>
+                    
+                    <a href="javascript:void(0)" onclick="pageNo=1;getFavoriteEscort(1)" class="btn btn-primary searchByName">Search</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2><span>Favorite</span> Escorts</h2>
+            </div>
+            <div class="col-lg-12">
+            <div class="row" id="favoriteEscorts">
+                </div>
+
+            </div>
+            <div class="text-center" id="loadMoreBtn" style="display:none">
+                <button type="button" class="btn btn-primary mt-5">Load More</button>
+            </div>
+        </div>
+    </div>
+</Section>
+@section scripts {
+    <environment include="Development">
+        <script src="~/sitejs/favorite.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/favorite.min.js" asp-append-version="true"></script>
+    </environment>
+}

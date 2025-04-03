@@ -1,0 +1,1088 @@
+﻿@using Shared.Common;
+@using Shared.Common.Enums;
+@model Tuple<Shared.Model.DTO.EscortDetailDto, EscortRules>
+@{
+    ViewData["Title"] = "Full Profile";
+    var defaultImageUrl = SiteKeys.SiteUrl + Constants.DefaultUserImage;
+}
+
+<link href="~/lib/lightgallary/lightgallery.min.css" rel="stylesheet" />
+<link href="~/assets/css/lightgallery.css" rel="stylesheet" />
+
+<style>
+    .boxChildSection {
+        background: #211e21;
+        padding: 8px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        .boxChildSection .colBox {
+            width: 20%;
+            float: left;
+            margin-right: 2%;
+        }
+
+        .boxChildSection .colBoxCity {
+            width: 30%;
+            float: left;
+            margin-right: 2%;
+        }
+
+    .showImgSlider img {      
+        cursor: pointer;
+    }
+
+    .fullImageView img {
+        cursor: pointer;
+    }
+
+
+</style>
+
+<Section class="page-content-container">
+    <div class="container">
+
+        <div class="pageTitles mt-1">
+            <h2><span style="color:#EC881D">Profile </span> Details</h2>
+            <a href="javascript:history.back();" class="btn btn-light backBtn"><img src="../assets/images/backarrow.svg"> Back </a>
+        </div>
+
+
+        @if (Model.Item1.UserId == LoginMemberSession.UserDetailSession?.UserId || Model.Item1.IsApprove)
+        {
+
+            if (Model.Item1.UserId == LoginMemberSession.UserDetailSession?.UserId || !(Model.Item1.IsPaused ?? false))
+            {
+                <div class="card border-0 mt-3">
+                    @if (Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() > 5)
+                    {
+                        <div class="img-vid-gallery-row row">
+                            <div class="col-lg-8 col-md-8">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="fullImageView escortsImages" onclick="openGalleryByIndex(0)">
+                                            <img src="../assets/images/Uploading.gif" class="mainViewImg img-fluid image" data-src="@(Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() > 0 ? @Model.Item1.EscortGallery[0].MediaType == 1 ? (@Model.Item1.EscortGallery[0].FileName) : "" : "")">                                             
+                                            <span class="fullImageDetails">
+                                                <h2>@Model.Item1.DisplayName</h2>
+
+                                                <p class="locations">
+                                                    <i>
+                                                        <img src="../assets/images/location_white.svg" width="24"
+                                                             class="me-1 img-fluid">
+                                                    </i> @Model.Item1.Country
+                                                </p>
+                                            </span>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-md-6 ">
+                                        <div class="showImgSlider escortsImages" onclick="openGalleryByIndex(1)">
+                                            <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() > 1 ? @Model.Item1.EscortGallery[1].MediaType == 1 ? (@Model.Item1.EscortGallery[1].FileName) : "" : "")">                                             
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 escortsImages" onclick="openGalleryByIndex(2)">
+                                        <div class="showImgSlider">                                             
+                                                <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() > 2 ? @Model.Item1.EscortGallery[2].MediaType == 1 ? (@Model.Item1.EscortGallery[2].FileName) : "" : "")">                                             
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4">
+                                <div class="row">
+                                    <div class="col-md-12 escortsImages" onclick="openGalleryByIndex(3)">
+                                        <div class="showImgSlider">                                            
+                                                <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() > 3 ? @Model.Item1.EscortGallery[3].MediaType == 1 ? (@Model.Item1.EscortGallery[3].FileName) : "" : "")">                                             
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 escortsImages" onclick="openGalleryByIndex(4)">
+                                        <div class="showImgSlider">                                        
+                                                <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() > 4 ? @Model.Item1.EscortGallery[4].MediaType == 1 ? (@Model.Item1.EscortGallery[4].FileName) : "" : "")">                                             
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="showImgSlider escortsImages" onclick="openGalleryByIndex(5)">
+                                            <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() > 5 ? @Model.Item1.EscortGallery[0].MediaType == 1 ? (@Model.Item1.EscortGallery[5].FileName) : "" : "")">
+                                            
+                                            @{
+                                                var count = Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() - 6;
+                                            }
+                                            @if (count > 0)
+                                            {
+                                                <a href="javascript:void(0)" class="btn btn-slider w-100 btn-lg" data-bs-toggle="modal" @* data-bs-target="#profile-pic-slider" *@>+ @count</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                    else if (Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() > 0)
+                    {
+                        <div class="img-vid-gallery-row row">
+                            <div class="col-lg-12 col-md-12">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="fullImageView escortsImages" onclick="openGalleryByIndex(0)">                                            
+                                                <img src="../assets/images/Uploading.gif" class="mainViewImg img-fluid image" data-src="@(Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() > 0 ? @Model.Item1.EscortGallery[0].MediaType == 1 ? (@Model.Item1.EscortGallery[0].FileName) : "" : "")">                                            
+                                            <span class="fullImageDetails">
+                                                <h2>@Model.Item1.DisplayName</h2>
+
+                                                <p class="locations">
+                                                    <i>
+                                                        <img src="../assets/images/location_white.svg" width="24"
+                                                             class="me-1 img-fluid">
+                                                    </i> @Model.Item1.Country
+                                                </p>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-4">
+                                        <div class="row">
+
+                                            <div class="col-md-12 ">
+                                                <div class="showImgSlider escortsImages" onclick="openGalleryByIndex(1)">
+                                                    <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.Item1.EscortGallery.Count > 1 ? @Model.Item1.EscortGallery[1].MediaType == 1 ? (@Model.Item1.EscortGallery[1].FileName) : "" : "")">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 escortsImages" onclick="openGalleryByIndex(2)">
+                                                <div class="showImgSlider">                                                   
+                                                        <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.Item1.EscortGallery.Count > 2 ? @Model.Item1.EscortGallery[2].MediaType == 1 ? (@Model.Item1.EscortGallery[2].FileName) : "" : "")">                                                    
+                                                    @{
+                                                        var count = Model.Item1.EscortGallery.Where(item => item.MediaType == 1).Take(Model.Item2.AllowedPhotoGallery).Count() - 3;
+                                                    }
+                                                    @if (count > 0)
+                                                    {
+                                                        <a href="javascript:void(0)" class="btn btn-slider w-100 btn-lg" data-bs-toggle="modal" onclick="openGalleryByIndex(@count)">+ @count</a>
+                                                    }
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    }
+
+
+                    <div class="row mt-2">
+                        <div class="col-lg-8 col-md-12">
+                            <div class="detailsInfo">
+                                <div class="accountInfoDetail">
+                                    <div class="aRightBlog">
+                                        <span><b>Account:</b> @(Model.Item1.UserType == (int)UserTypes.IndependentEscort ? "Escort" : "Establishment")</span>
+                                        <span><b>Updated:</b> @(Model.Item1.UpdatedOnUTC?.ToString("dd/MMM/yyyy") ?? "N/A")</span>
+                                        @if (Model.Item1.IsPhotoVerified)
+                                        {
+                                            <i><img src="~/assets/images/verified.svg" width="80px" /></i>
+                                        }
+                                        <span><b>Favorite By:</b> @Model.Item1.TotalFavoriteMarkByUsers</span>
+                                        <span><b>Views By:</b> @Model.Item1.TotalViews</span>
+                                    </div>
+                                </div>
+                                @if ((Model.Item1.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Video).Take(Model.Item2.AllowedVideos).Count()) > 0)
+                                {
+                                    <div class="col-md-12">
+                                        <div class="borderBlog"></div>
+                                        <h3>Video</h3>
+                                        <div class="row">
+
+                                            @foreach (var escort in Model.Item1.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Video).Take(Model.Item2.AllowedVideos))
+                                            {
+                                                <div class="col-lg-3 col-sm-6">
+                                                    <div class="videosBox escortsVideos">
+                                                        <video class="videoPlayerBlog" controls id="videoPlayer" style="cursor: pointer;">
+                                                            <source data-src="@escort.FileName" src="movie.mp4" type="video/mp4" class="video_here">
+                                                            <source src="movie.ogg" type="video/ogg">
+                                                        </video>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+
+                                }
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="borderBlog"></div>
+                                        <h3>Quick Facts</h3>
+
+                                        <div class="row">
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Gender <span> @(string.IsNullOrEmpty(Model.Item1.Gender) ? "-" : Model.Item1.Gender)</span>
+                                                </div>
+                                            </div>
+
+                                            @*   <div class="col-md-3 col">
+                                    <div class="quickFactsList">
+                                    Body <span> @Model.Item1.BodyType</span>
+                                    </div>
+                                    </div> *@
+
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Age <span> @(Model.Item1.Age == null ? "-" : Model.Item1.Age)</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Height <span> @(Model.Item1.Height == null ? "-" : Model.Item1.Height)</span>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Language <span>
+                                                        @{
+                                                            if (Model.Item1.Language != null)
+                                                            {
+                                                                var language = "";
+                                                                LanguageTypes parsedPreference;
+
+                                                                foreach (var lang in Model.Item1.Language)
+                                                                {
+                                                                    bool isValid = Enum.TryParse(lang, out parsedPreference);
+                                                                    language = language + " " + parsedPreference;
+                                                                }
+                                                                    @language
+                                                                ;
+                                                            }
+                                                            else
+                                                            {
+                                                                    <span> - </span>
+
+                                                            }
+                                                        }
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            @*    <div class="col-md-3 col">
+                                    <div class="quickFactsList">
+                                    Bust <span> C cup</span>
+                                    </div>
+                                    </div>
+
+                                    <div class="col-md-3 col">
+                                    <div class="quickFactsList">
+                                    Dress <span> Size 6</span>
+                                    </div>
+                                    </div> *@
+
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Eyes <span> @(string.IsNullOrEmpty(Model.Item1.Eyes) ? "-" : Model.Item1.Eyes)</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Body Type <span> @(string.IsNullOrEmpty(Model.Item1.BodyType) ? "-" : Model.Item1.BodyType)</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Weight <span> @(string.IsNullOrEmpty(Model.Item1.Weight) ? "-" : Model.Item1.Weight)</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Ethnicity <span>@(string.IsNullOrEmpty(Model.Item1.Ethnicity) ? "-" : Model.Item1.Ethnicity)  </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Hair Color <span> @(string.IsNullOrEmpty(Model.Item1.HairColor) ? "-" : Model.Item1.HairColor) </span>
+                                                </div>
+                                            </div>
+                                            @if (Model.Item1.Gender == "Female")
+                                            {
+                                                <div class="col-md-3 col">
+                                                    <div class="quickFactsList">
+                                                        Bust<span> @(string.IsNullOrEmpty(Model.Item1.Bust) ? "-" : Model.Item1.Bust)</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3 col">
+                                                    <div class="quickFactsList">
+                                                        Dress<span> @(string.IsNullOrEmpty(Model.Item1.Dress) ? "-" : Model.Item1.Dress)</span>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                    @if (Model.Item1.SexualPreferences != null)
+                                    {
+                                        <div class="col-md-12">
+                                            <div class="borderBlog"></div>
+                                            <h3>Services</h3>
+
+                                            <div class="servicesList">
+                                                <ul>
+                                                    @foreach (var prefer in Model.Item1.SexualPreferences)
+                                                    {
+                                                        SexualPreferencesTypes parsedPreference;
+                                                        bool isValid = Enum.TryParse(prefer, out parsedPreference);
+                                                        if (isValid)
+                                                        {
+                                                            <li>@parsedPreference</li>
+                                                        }
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Model.Item1.CategoriesNames))
+                                    {
+                                        <div class="col-md-12">
+                                            <div class="borderBlog"></div>
+                                            <h3>Prefer Sex Partner</h3>
+
+                                            <div class="servicesList">
+                                                <ul>
+                                                    @foreach (var prefer in Model.Item1.CategoriesNames.Split(","))
+                                                    {
+                                                        <li>@prefer</li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    @if (Model.Item1.TourLocation.Any())
+                                    {
+                                        <div class="col-md-12">
+                                            <div class="borderBlog"></div>
+                                            <h3>Tour Location</h3>
+
+                                            <div class="servicesList">
+                                                @foreach (var tourLocation in Model.Item1.TourLocation)
+                                                {
+                                                    <div class="boxChildSection">
+                                                        <div class="colBoxCity">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">City</label>
+                                                                <label class="form-control">@tourLocation.City</label>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="colBox">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">State</label>
+                                                                <label class="form-control">@tourLocation.State</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="colBox">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Country</label>
+                                                                <label class="form-control">@tourLocation.Country</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="colBox">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Postal Code</label>
+                                                                <label class="form-control">@tourLocation.PostalCode</label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                }
+
+                                            </div>
+                                        </div>
+                                    }
+
+
+                                    @if (Model.Item1.BaseLocation.Any())
+                                    {
+                                        <div class="col-md-12">
+                                            <div class="borderBlog"></div>
+                                            <h3>Base Location</h3>
+
+                                            <div class="servicesList">
+                                                @foreach (var baseLocation in Model.Item1.BaseLocation)
+                                                {
+                                                    <div class="boxChildSection">
+                                                        <div class="colBoxCity">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">City</label>
+                                                                <label class="form-control">@baseLocation.City</label>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="colBox">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">State</label>
+                                                                <label class="form-control">@baseLocation.State</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="colBox">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Country</label>
+                                                                <label class="form-control">@baseLocation.Country</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="colBox">
+                                                            <div class="mb-3">
+                                                                <label class="form-label">Postal Code</label>
+                                                                <label class="form-control">@baseLocation.PostalCode</label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                }
+
+                                            </div>
+                                        </div>
+                                    }
+
+
+
+
+
+                                    @if (!string.IsNullOrEmpty(Model.Item1.Proffered))
+                                    {
+                                        <div class="col-md-12">
+                                            <div class="borderBlog"></div>
+                                            <h3>Preferred Contact Details</h3>
+
+                                            <p>
+                                                @Model.Item1.Proffered
+                                            </p>
+                                        </div>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(Model.Item1.Bio))
+                                    {
+                                        <div class="col-md-12">
+                                            <div class="borderBlog"></div>
+                                            <h3>About Me</h3>
+
+                                            @Html.Raw(@Model.Item1.Bio)
+                                        </div>
+                                    }
+
+
+
+                                    <div class="col-md-12">
+                                        <div class="borderBlog"></div>
+                                        <h3>Testimonial </h3>
+                                        <div class="mb-3">
+                                            @if (LoginMemberSession.UserDetailSession?.UserId != Model.Item1.UserId)
+                                            {
+                                                <textarea class="form-control textAreaHeight" placeholder="Write Testimonial" id="TestimonialDetails" maxlength="1000"></textarea>
+                                                @if (LoginMemberSession.UserDetailSession != null)
+                                                {
+                                                    <button class="btn btn-primary mt-2" onclick="addTestimonial()">Submit</button>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#login">Submit</button>
+                                                }
+
+                                            }
+
+                                        </div>
+                                    </div>
+
+
+                                    <div id="testimonial-container">
+                                        <!-- Testimonial partial view will be loaded here -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-lg-4 col-md-12">
+                            @if (Model.Item2.ConnectToSocialMedia)
+                            {
+                                <div class="card info-card mb-4">
+                                    <div class="card-header"><img src="../assets/images/call-icon.svg"> Contact</div>
+                                    <div class="card-body">
+                                        <button class="btn btn-primary me-1 w-auto mb-2" data-bs-toggle="modal" data-bs-target="#smsPopup"><img src="../assets/images/sms-icon.svg"> SMS</button>
+                                        <button class="btn btn-primary me-1 w-auto mb-2" data-bs-toggle="modal" data-bs-target="#SendMeAnEmail"><img src="../assets/images/mail-icon-btn.svg"> Email</button>
+                                        <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#sendCallPopup"><img src="../assets/images/call-icon.svg"> Call</button>
+                                    </div>
+                                </div>
+
+                                if (!string.IsNullOrEmpty(Model.Item1.FaceBookUrl)
+                                || !string.IsNullOrEmpty(Model.Item1.TwitterUrl)
+                                || !string.IsNullOrEmpty(Model.Item1.YouTubeUrl)
+                                || !string.IsNullOrEmpty(Model.Item1.LinkedinUrl)
+                                || !string.IsNullOrEmpty(Model.Item1.InstagramUrl)
+                                || !string.IsNullOrEmpty(Model.Item1.SnapChatUrl)
+                                || !string.IsNullOrEmpty(Model.Item1.TikTokUrl))
+                                {
+                                    <div class="card info-card mb-4">
+                                        <div class="card-header"><img src="../assets/images/social-media-icon.svg"> Social Media </div>
+                                        <div class="card-body py-2">
+                                            <ul class="socialist mt-1 mb-2">
+                                                @if (Model.Item1.FaceBookUrl != null)
+                                                {
+                                                    <li><a href="@Model.Item1.FaceBookUrl"><img class="img-fluid" src="../assets/images/facebbook.png"></a></li>
+                                                }
+
+                                                @if (Model.Item1.TwitterUrl != null)
+                                                {
+                                                    <li><a href="@Model.Item1.TwitterUrl"><img class="img-fluid" src="../assets/images/twitter.png"></a></li>
+                                                }
+
+                                                @if (Model.Item1.YouTubeUrl != null)
+                                                {
+                                                    <li><a href="@Model.Item1.YouTubeUrl"><img class="img-fluid" src="../assets/images/youtube.png"></a></li>
+                                                }
+
+                                                @if (Model.Item1.LinkedinUrl != null)
+                                                {
+                                                    <li><a href="@Model.Item1.LinkedinUrl"><img class="img-fluid" src="../assets/images/linkedin.png"></a></li>
+                                                }
+
+                                                @if (Model.Item1.InstagramUrl != null)
+                                                {
+                                                    <li><a href="@Model.Item1.InstagramUrl"><img class="img-fluid" src="../assets/images/instagram.png"></a></li>
+                                                }
+                                                @if (Model.Item1.SnapChatUrl != null)
+                                                {
+                                                    <li><a href="@Model.Item1.SnapChatUrl"><img class="img-fluid" src="../assets/images/snapchat.svg"></a></li>
+                                                }
+                                                @if (Model.Item1.TikTokUrl != null)
+                                                {
+                                                    <li><a href="@Model.Item1.TikTokUrl"><img class="img-fluid" src="../assets/images/tiktok.svg"></a></li>
+                                                }
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+                            }
+
+
+
+                            @if (Model != null && Model.Item1.AvailabilityCalendar != null && Model.Item1.AvailabilityCalendar.Where(p => p.IsAvailable24X7 == true || p.FromTime != null).Count() > 0)
+                            {
+                                <div class="card info-card mb-4">
+                                    <div class="card-header"><img src="../assets/images/availability-icon.svg"> Availability</div>
+                                    <div class="card-body py-2">
+                                        <table class="table table-borderless mb-0 cardtable">
+                                            <tr>
+                                                <th>Days</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                            </tr>
+
+                                            @foreach (var item in Model.Item1.AvailabilityCalendar)
+                                            {
+                                                @if (!item.IsNotAvailable)
+                                                {
+                                                    <tr>
+                                                        <td class="fw-bold">@(((Shared.Common.Enums.DayOfWeekType)item.DayNumber).ToString())               </td>
+                                                        <td>@(item.IsAvailable24X7 == true ? "00:00" : item.FromTime)</td>
+                                                        <td>@(item.IsAvailable24X7 == true ? "23:59" : item.ToTime)</td>
+                                                    </tr>
+                                                }
+                                            }
+
+
+                                        </table>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(Model?.Item1.AvailablityNotes))
+                                    {
+                                        <div class="card-footer text-body-secondary">
+                                            <h6>Notes</h6>
+                                            <p style="color:#fff"> @Model?.Item1.AvailablityNotes</p>
+
+                                        </div>
+                                    }
+
+                                </div>
+                            }
+
+                            @if (Model != null && Model.Item1.Rates != null && Model.Item1.Rates.Count > 0)
+                            {
+                                <div class="card info-card mb-4">
+                                    <div class="card-header"><img src="../assets/images/availability-icon.svg"> Rates From</div>
+                                    <div class="card-body py-2">
+                                        <table class="table table-borderless mb-0 cardtable">
+
+
+                                            <tr>
+                                                <th>Duration</th>
+                                                <th>Incalls</th>
+                                                <th>Outcalls</th>
+                                            </tr>
+                                            @foreach (var item in Model.Item1.Rates)
+                                            {
+                                                <tr>
+                                                    @if (@item.Duration != null)
+                                                    {
+                                                        <td class="fw-bold">@item.Duration Min</td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td class="fw-bold">@item.Duration</td>
+                                                    }
+
+                                                    <td>@(item.InCallRate > 0 ? $"${item.InCallRate.ToString()}" : "-")</td>
+                                                    <td>@(item.OutCallRate > 0 ? $"${item.OutCallRate.ToString()}" : "-")</td>
+
+
+                                                </tr>
+                                            }
+                                        </table>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(Model?.Item1.RatesNotes))
+                                    {
+                                        <div class="card-footer text-body-secondary">
+                                            <h6>Rates Extras</h6>
+                                            <p style="color:#fff"> @Model?.Item1.RatesNotes</p>
+
+                                        </div>
+                                    }
+
+
+                                </div>
+                            }
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            }
+            else
+            {
+                <div class="card border-0 mt-3">
+                    <span class="profileNotAprrove">This profile is not available.</span>
+                </div>
+            }
+
+        }
+        else
+        {
+            <div class="card border-0 mt-3">
+                <span class="profileNotAprrove">This profile is not available.</span>
+            </div>
+        }
+    </div>
+</Section>
+<Section style="display:none">
+    <div id="lightgallery">
+
+        @if (Model?.Item1.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Image) != null)
+        {
+            int count = 0;
+            foreach (var escort in Model.Item1.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Image).Take(Model.Item2.AllowedPhotoGallery))
+            {
+                 <div class="carousel-item">
+                    <a href="/assets/images/Uploading.gif" data-id="@count">
+                        <img src="/assets/images/Uploading.gif"
+                             data-src="@escort.FileName" class="d-block w-100 image lightgalleryimg" alt="...">
+                    </a>
+                 </div>
+                count++;
+            }
+        }
+
+    </div>
+</Section>
+
+
+
+
+
+
+
+@* <div class="modal fade" id="profile-pic-slider">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content px-3 detailPageImagesOuter">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="carouselExampleFade" class="carousel slide carousel-fade ">
+                    <div class="carousel-inner">
+
+                        @if (Model?.Item1.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Image) != null)
+                        {
+                            int count = 0;
+                            foreach (var escort in Model.Item1.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Image).Take(Model.Item2.AllowedPhotoGallery))
+                            {
+                                <div class="carousel-item @(count==0?"active":"") escortsImages">
+                                    <img src="assets/images/sliderimg1.png"
+                                         data-src="@escort.FileName" class="d-block w-100 image" alt="...">
+                                </div>
+                                count++;
+                            }
+                        }
+
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> *@
+
+
+<!--Call  Modal -->
+<div class="modal fade" id="sendCallPopup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content popupPadding">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-0">
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <h5>SMS</h5>
+                        <p>No blocked/private numbers will be answered.</p>
+
+                        <h6 class="mb-4">I accept SMS Messages</h6>
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Mobile 1</label>
+                                    <div class="mobileNumber">
+                                        <a href="javascript:void(0)"> @Model?.Item1.CountryCode  @Model?.Item1.PhoneNumber</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="colorPink">Please let BRISBANE MILF Honey B 0480406210 know you found them on Escorts and Babes!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Email  Modal -->
+<div class="modal fade" id="SendMeAnEmail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content popupPadding">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-0">
+                <form id="emailForm">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <h5>Send Me An Email</h5>
+                            </div>
+                        </div>
+                        <input type="text" name="EscortMail" value="@Model?.Item1.Email" class="form-control" id="EscortMail" placeholder="Name" maxlength="50" hidden>
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" asp-for="Item1.EmailRequestModel.Name" class="form-control" id="name" placeholder="Name" maxlength="50" required>
+                                <span asp-validation-for="Item1.EmailRequestModel.Name" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" asp-for="Item1.EmailRequestModel.Email" class="form-control" id="email" placeholder="Email" maxlength="50" required>
+                                <span asp-validation-for="Item1.EmailRequestModel.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <label for="phoneNumber" class="form-label">Phone Number</label>
+                                <input type="text" asp-for="Item1.EmailRequestModel.PhoneNumber" class="form-control numbersOnly" id="phoneNumber" placeholder="Phone Number" minlength="7" maxlength="15" data-val="true" datval-length="The phone number must be between 7 and 15 digits." data-val-length-max="15" data-val-length-min="7" required />
+                                <span asp-validation-for="Item1.EmailRequestModel.PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <label for="day" class="form-label">Which day?</label>
+                                <select class="form-control form-select" asp-for="Item1.EmailRequestModel.Day" id="day">
+                                    <option value="">Select Which day?</option>
+                                    <option value="Monday" selected>Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                    <option value="Sunday">Sunday</option>
+                                </select>
+                                <span asp-validation-for="Item1.EmailRequestModel.Day" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <label for="time" class="form-label">What time?</label>
+                                <input type="time" asp-for="Item1.EmailRequestModel.Time" class="form-control" id="time" placeholder="What time?" required>
+                                <span asp-validation-for="Item1.EmailRequestModel.Time" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-2">
+                                <label for="duration" class="form-label">How long for? (Hours)</label>
+                                <input type="text" class="form-control numbersOnly" asp-for="Item1.EmailRequestModel.Duration" id="duration" placeholder="How long for? (Hours)" max="24" min="1" required>
+                                <span asp-validation-for="Item1.EmailRequestModel.Duration" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-2">
+                                <label for="service" class="form-label">What services would you like me to perform?</label>
+                                <input type="text" class="form-control" asp-for="Item1.EmailRequestModel.Service" id="service" placeholder="" required maxlength="200">
+                                <span asp-validation-for="Item1.EmailRequestModel.Service" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-2">
+                                <label for="meetLocation" class="form-label">Where would you like to meet?</label>
+                                <input type="text" class="form-control" asp-for="Item1.EmailRequestModel.MeetLocation" id="meetLocation" placeholder="" required maxlength="100">
+                                <span asp-validation-for="Item1.EmailRequestModel.MeetLocation" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-2">
+                                <label class="w-100 mb-2">Is this your first time?</label>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" asp-for="Item1.EmailRequestModel.IsFirstTime" type="radio" id="isFirstTimeYes" value="true">
+                                    <label class="form-check-label" for="isFirstTimeYes">Yes</label>
+                                </div>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" asp-for="Item1.EmailRequestModel.IsFirstTime" type="radio" id="isFirstTimeNo" value="false">
+                                    <label class="form-check-label" for="isFirstTimeNo">No</label>
+                                </div>
+                                <span asp-validation-for="Item1.EmailRequestModel.IsFirstTime" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label class="w-100 mb-2">Your preferred contact method?</label>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" asp-for="Item1.EmailRequestModel.ContactMethod" type="radio" id="contactMethodEmail" value="Email" checked>
+                                    <label class="form-check-label" for="contactMethodEmail">Email</label>
+                                </div>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" asp-for="Item1.EmailRequestModel.ContactMethod" type="radio" id="contactMethodPhone" value="Phone">
+                                    <label class="form-check-label" for="contactMethodPhone">Phone</label>
+                                </div>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" asp-for="Item1.EmailRequestModel.ContactMethod" type="radio" id="contactMethodEither" value="Email or Phone">
+                                    <label class="form-check-label" for="contactMethodEither">Email or Phone</label>
+                                </div>
+                            </div>
+                            <span asp-validation-for="Item1.EmailRequestModel.ContactMethod" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="mb-2">
+                                <img src="assets/images/capcha.png" alt="">
+                            </div>
+                        </div>
+                        <div class="col-md-12 ">
+                            <div class="mb-3 text-end">
+                                <button class="btn btn-primary" type="submit">Send Email</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/lightgallary/lightgallery.min.js"></script>
+    <script src="~/sitejs/lightgallery.js"></script>
+    <script>    
+     //   lightGallery(document.getElementById("lightgallery"));
+       
+
+        loadTestimonial();
+
+
+        // Call the function with the desired testimonial ID
+
+        $($('.escortsImages')).each(function (index, element) {
+
+            const escortImageElement = $(element).find('.image');
+            if ($(escortImageElement).data('src') != "") {
+                common.getFile(`user/detail/${$(escortImageElement).data('src')}`, $(escortImageElement), 'images')
+            }
+        });
+
+        $($('#lightgallery .lightgalleryimg')).each(function (index, element) {
+
+            if ($(element).data('src') != "") {
+                common.getFile(`user/detail/${$(element).data('src')}`, $(element), 'images')
+            }
+        });
+
+        $($('.escortsVideos')).each(function (index, element) {
+
+            const escortImageElement = $(element).find('.video_here');
+            if ($(escortImageElement).data('src') != "") {
+                common.getFile(`${$(escortImageElement).data('src')}`, $(escortImageElement), 'videos')
+            }
+
+        });
+        setTimeout(function () {
+            $($('.escortsVideos')).each(function (index, element) {
+                const video = $(element).find('video');
+                if (video) {
+                    video[0].load();
+                }
+            });
+        }, 3000);
+
+        function addTestimonial() {
+            var modelId = '@Model?.Item1.EscortID'; // Replace with your actual model ID
+            var testimonialDetails = document.getElementById('TestimonialDetails').value;
+            if (!testimonialDetails) {
+                // Set an error message in the textarea
+                toastr.error("Testimonial cannot be empty.");
+            } else {
+                $.ajax({
+                    url: '/testimonial/addTestimonial',
+                    type: 'POST',
+                    data: {
+                        escortId: modelId,
+                        testimonialDetails: testimonialDetails
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success('Testimonial added successfully!');
+                            document.getElementById('TestimonialDetails').value = ""
+                            loadTestimonial('@Model?.Item1.EscortID');
+                        } else {
+                            toastr.error('Oops! You cannot give a testimonial on your own profile.');
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error scenario
+                        toastr.error('Error adding testimonial: ' + error);
+                    }
+                });
+            }
+
+        }
+
+        $('#emailForm').submit(function (event) {
+            event.preventDefault(); // Prevent the form from submitting via the browser
+
+            if ($('#emailForm').valid()) {
+                var formData = $(this).serialize(); // Serialize the form data
+
+
+                var model = {
+
+                    Name: $('#name').val(),
+                    EscortMail: '@Model?.Item1.Email',
+                    DisplayName: "@Model?.Item1.DisplayName",
+                    Email: $('#email').val(),
+                    PhoneNumber: $('#phoneNumber').val(),
+                    Day: $('#day').val(),
+                    Time: $('#time').val(),
+                    Duration: parseInt($('#duration').val()),
+                    Service: $('#service').val(),
+                    MeetLocation: $('#meetLocation').val(),
+                    IsFirstTime: $('input[name="EmailRequestModel.Item1.IsFirstTime"]:checked').val() === 'true',
+                    ContactMethod: $('input[name="EmailRequestModel.Item1.ContactMethod"]:checked').val(),
+                };
+                $.ajax({
+                    url: '/Home/SendEmail',
+                    type: 'POST',
+                    data: model,
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            toastr.success(response.message);
+                            $('#SendMeAnEmail').modal('hide');
+                            $('#emailForm')[0].reset();
+
+                        } else {
+                            // Display validation errors
+                            var errors = response.errors;
+                            var errorMessages = '';
+                            for (var key in errors) {
+                                if (errors.hasOwnProperty(key)) {
+                                    errorMessages += errors[key] + '\n';
+                                }
+                            }
+                            toastr.errors(errorMessages);
+                        }
+                    },
+                    error: function (error) {
+                        toastr.errors('An error occurred while sending the email.');
+                    }
+                });
+            }
+
+        });
+
+        function loadTestimonial() {
+            var modelId = '@Model?.Item1.EscortID';
+            $.ajax({
+                url: '/testimonial/getTestimonial',
+                type: 'POST',
+                data: {
+                    id: modelId
+                },
+                dataType: 'html',
+                success: function (response) {
+
+                    $('#testimonial-container').html(response);
+
+
+                },
+                error: function (xhr, status, error) {
+                    // Handle error scenario
+                    toastr.error('Error adding testimonial: ' + error);
+                }
+            });
+
+
+
+        }
+
+    </script>
+}

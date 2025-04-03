@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="21.699" height="21.703" viewBox="0 0 21.699 21.703">
+  <g id="transactionsIcon" transform="translate(-3695.8 -819.56)">
+    <path id="Icon_awesome-history" data-name="Icon awesome-history" d="M22.261,11.391A10.85,10.85,0,0,1,4.6,19.859,1.049,1.049,0,0,1,4.52,18.3l.493-.493a1.052,1.052,0,0,1,1.4-.087A8.05,8.05,0,1,0,5.9,5.547l2.22,2.22a.7.7,0,0,1-.495,1.195H1.262a.7.7,0,0,1-.7-.7V1.9a.7.7,0,0,1,1.195-.5l2.16,2.16A10.849,10.849,0,0,1,22.26,11.389Z" transform="translate(3695.238 819)" fill="#fff"/>
+    <g id="Icon_feather-dollar-sign" data-name="Icon feather-dollar-sign" transform="translate(3704.545 824.771)">
+      <path id="Path_4573" data-name="Path 4573" d="M18,1.5V12.78" transform="translate(-14.924 -1.5)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_4574" data-name="Path 4574" d="M14.64,7.5H10.8a1.8,1.8,0,1,0,0,3.589h2.564a1.8,1.8,0,0,1,0,3.589H9" transform="translate(-9 -5.449)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

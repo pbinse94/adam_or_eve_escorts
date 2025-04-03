@@ -1,0 +1,56 @@
+﻿
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="~/assets/images/whiteLogo.svg" class="img-fluid ft-logo">
+                <p class="mb-4 pe-xl-5 leftFtText">Discover and indulge in passionate moments of intimacy. Unveil your deepest desires in a private, immersive experience. </p>
+              @*   <p class="contact-info-p">
+                    <img src="~/assets/images/call.svg" class="contact-info-icon"><span>Support:</span> 1300 683 688
+                </p> *@
+                <p class="contact-info-p">
+                    <img src="~/assets/images/sms.svg" class="contact-info-icon"><span>Email:</span>
+                    <a href="mailto:info@adamoreveescorts.com">
+                        info@adamoreveescorts.com
+                    </a>
+                    
+                </p>
+
+            </div>
+            <div class="col-md-5">
+                <h4>Quick Links</h4>
+                <div class="row">
+                    <div class="col-6">
+                        <ul class="ft-menu">
+                            <li><a href="@Url.Action("Index","Home")">Home</a></li>
+                            @* <li><a href="@Url.Action("AboutUs","Home")" target="_blank"> About Us</a></li> *@
+                            <li><a href="@Url.Action("Index","ContactUs")"> Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul class="ft-menu">
+                           
+                            <li><a href="@Url.Action("privacy","home")" target="_blank">Privacy Policy</a></li>
+                            <li><a href="@Url.Action("terms","home")" target="_blank">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-3">
+                <h4>Social Links</h4>
+                <ul class="socialist">
+                    <li><a href="javascript:void(0)"><img src="@Url.Content("~/assets/images/facebbook.png")"></a></li>
+                    <li><a href="javascript:void(0)"><img src="@Url.Content("~/assets/images/twitter.png")"></a></li>
+                    <li><a href="javascript:void(0)"><img src="@Url.Content("~/assets/images/youtube.png")"></a></li>
+                    <li><a href="javascript:void(0)"><img src="@Url.Content("~/assets/images/linkedin.png")"></a></li>
+                    <li><a href="javascript:void(0)"><img src="@Url.Content("~/assets/images/instagram.png")"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        © @(System.DateTime.UtcNow.Year.ToString()) Adam or Eve. All Rights Reserved.
+    </div>
+</footer>

@@ -1,0 +1,266 @@
+﻿@using Shared.Common; 
+@using Shared.Common.Enums;
+@using Shared.Model.Escort;
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
+    var liveCams = (List<LiveStreamInfo>)ViewBag.combinedDetails;
+
+    var bodyHomePage = string.Empty;
+    if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.IndependentEscort || LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Establishment)
+    {
+        bodyHomePage = "bodyHomePage";
+    }
+}
+<link href="@Url.Content("~/lib/owl-carousel/owl.carousel.min.css")" rel="stylesheet" />
+
+<style>
+    /* #featuredEscorts{
+        scrollbar-color: transparent transparent;
+    }
+     */
+</style>
+
+<!--Country -->
+<section class="browse-history">
+    <div class="container">
+        <div class="multiple-items" id="countries" style="white-space:nowrap;display:none">
+        </div>
+    </div>
+</section>
+<!--Country-->
+<!--mainImage-->
+<Section class="page-content-container homePage">
+
+
+    @* <Section class="mainImage">
+        <img src="@Url.Content("~/assets/images/main-img.png")" class="mainSlideImg img-fluid">
+        <div class="escortsBlogMain">
+            <div class="headingBlog">
+                Search <span>Escorts service</span> & Babes by Suburb
+            </div>
+        </div>
+    </Section> *@
+
+
+    <!--mainImage-->
+    <!--Filter-->
+
+
+    <Section class="filterBg">
+       
+        <div class="container">
+            <div class="filter-mb-btn">
+                <a href="javascript:void(0)"  class="btn btn-primary clickme" onclick="toggleFilter(this)">
+                    <img src="~/assets/images/filter-search.svg" /> Advance Filter 
+                      <span class="upFilter"> <img src="~/assets/images/down_fiter.svg" /></span>
+                      <span class="downFilter"> <img src="~/assets/images/up_filter.svg" /></span>
+                </a>
+            </div>
+            <div class="filter-cont">
+                 <div class="row">
+                <div class="col-lg-12">
+                    <div class="searcFilterBar mb-3">
+                       
+                        <input type="text" class="searchBox form-control me-3 search-input-home" id="searchText" placeholder="Enter name or location">
+                        <a href="javascript:void(0)" class="clear_icons" style="display:none">
+                            <i><img src="~/assets/images/clear_icon.svg" width="20"/></i>
+                        </a>
+
+                        <a href="javascript:void(0)" onclick="pageNo=1;getFilteredEscort(1)" class="btn btn-primary searchByName">Search</a>
+                       
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-2 col-12">
+                    <div class="mb-2">
+                        <select id="ageSelect" onchange="pageNo=1;getFilteredEscort(1)" class="form-control form-select ">
+                            <option value="" class="aabc">Age</option>
+                        </select>
+                    </div>
+                </div>
+
+              
+
+                 <div class="col-lg-4 col-12">
+                    <div class="mb-3">
+                        <select id="EscortCategories" asp-items="@ViewBag.Categories" onchange="pageNo=1;getFilteredEscort(1)" class="form-control form-select" placeholder="Choose your sex partner" multiple="multiple">
+                            
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-6">
+                    <div class="mb-2">
+                        <select id="gender" onchange="pageNo=1;getFilteredEscort(1)" class="form-control form-select">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Transgender">Transgender</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <div class="mb-2">
+                        <select id="VerifiedProfile" onchange="pageNo=1;getFilteredEscort(1)" class="form-control form-select">
+                            <option value="-1">Select Profile Type</option>
+                            <option value="1">Verified</option>
+                            <option value="0">Unverified</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <div class="mb-2">
+                        <select id="CallType" onchange="pageNo=1;getFilteredEscort(1)" class="form-control form-select">
+                            <option value="0">Select Call Type</option>
+                            <option value="1">In call</option>
+                            <option value="2">Out call</option>
+                        </select>
+                    </div>
+                </div>              
+
+
+                <div class="col-lg-2 col-6">
+                    <div class="mb-2">
+                        <select id="rateSelect" onchange="pageNo=1;getFilteredEscort(1)" class="form-control form-select">
+                            <option value="">Rates</option>
+                        </select>
+                    </div>
+                </div>
+
+                  <div class="col-lg-3 col-12">
+                    <div class="mb-3">
+                        <select id="escortType" onchange="pageNo=1;getFilteredEscort(1)" class="form-control form-select">
+                            <option value="">Select Escort Type</option>
+                            <option value="3">Independent</option>
+                            <option value="5">Establishment</option>
+
+                        </select>
+                    </div>
+                </div>
+
+                  <div class="col-lg-7 col-12">
+                    <div class="mb-3">
+                        <select id="SexualPreferences" asp-items="@ViewBag.SexualPreferences" onchange="pageNo=1;getFilteredEscort(1)" class="form-control form-select" placeholder="Select things" multiple="multiple">
+                            
+                        </select>
+                    </div>
+                </div>
+               
+            </div>
+            </div>
+           
+
+           
+
+    </Section>
+
+    <!--Filter-->
+
+    <section class="vipEscorts">
+
+    </Section>
+
+    
+   
+    <!--Featured Escorts-->
+
+    <Section class="featuredEscorts">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2><span>Featured</span> Escorts</h2>
+                </div>
+                <div class="col-lg-12">
+                   <div class="row" id="featuredEscorts" ></div>
+                    <div class="text-center" id="loadMoreBtn" style="display:none">
+                        <button type="button" class="btn btn-primary mt-5">Load More</button>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </Section>
+
+    <section class="popularEscorts">
+
+    </Section>
+
+</Section>
+<!--Featured Escorts-->
+@section Scripts {
+    <script src="~/assets/js/jquery.cookie.min.js"></script>
+    <script src="~/sitejs/allow-location.js"></script>
+
+    <script src="@Url.Content("~/assets/js/owl.carousel.min.js")"></script>
+    <script> 
+        if (typeof setTimezoneCookie === "function") {
+            setTimezoneCookie();        
+        }
+
+        $(function () {
+            $('body').addClass('@bodyHomePage');
+        });
+
+        function toggleFilter(element){
+            
+            if (!$('.filter-cont').hasClass('show')){
+                $('.filter-cont').addClass('show');
+                $('.filter-cont').removeClass('hide');
+                $('.clickme').addClass('filterIcons');
+
+            }
+            else{
+                $('.filter-cont').removeClass('show');
+                $('.filter-cont').addClass('hide');
+                 $('.clickme').removeClass('filterIcons');
+
+            }
+        }
+    </script>
+    @* @if (LoginMemberSession.UserDetailSession == null || LoginMemberSession.UserDetailSession.UserTypeId == (short)UserTypes.Client){
+        <script>
+            getLiveCams();
+       function getLiveCams()
+        {
+            $.ajax({
+                url: '/streaming/GetHomeLiveStreams',
+                type: 'GET',
+                dataType:'html',
+                success: function (htmlResponse)
+                {
+                    $.when($('.featuredEscorts').before(htmlResponse)).then(function ()
+                    {
+                        $('.owl-carousel').owlCarousel({
+                            loop: false,
+                            margin: 10,
+                            nav: true,
+                            responsive: {
+                                0: {
+                                    items: 1
+                                },
+                                600: {
+                                    items: 3
+                                },
+                                1000: {
+                                    items: 7
+                                }
+                            }
+                        });
+
+                        getEscortImages();
+                    });
+                }
+            });
+        }
+        </script>
+    } *@
+    
+    <environment include="Development">
+        <script src="~/sitejs/home.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/home.min.js"></script>
+    </environment>
+}

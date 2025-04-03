@@ -1,0 +1,167 @@
+﻿@model Shared.Model.DTO.GetEscortDashboardStatisticsDto
+@{
+    ViewData["Title"] = "Escort Dashboard";
+}
+<style>
+    .dataTables_length, .dataTables_filter {
+        display: none;
+    }
+
+</style>
+<Section class="page-content-container">
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col-md-12">
+               
+                <div class="row dashboardBlog">
+                    <div class="col-md-12">
+                    <div class="pageTitles mb-3">
+                        <h2><span style="color:#EC881D">My</span> Dashboard</h2>
+                        <a href="javascript:history.back();" class="btn btn-light backBtn">
+                            <img src="../assets/images/backarrow.svg"> Back to Home
+                        </a>
+                    </div>
+                    </div>
+
+
+                    <div class="col mb-4">
+                        <div class="card-body p-0">
+                            <div class="cardBox">
+                                <div class="text-center">
+                                    <i class="IconBody">
+                                        <img src="assets/images/ico05.svg" alt="">
+                                    </i>
+                                </div>
+                                <div>
+                                    <h2>Total Live Cams</h2>
+                                    <h3>@(Model.TotalLiveCam == 0 ? "-" : Model.TotalLiveCam)</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col mb-4">
+                        <div class="card-body p-0">
+                             <div class="cardBox">
+                                <div class="text-center">
+                                    <i class="IconBody">
+                                        <img src="assets/images/livecam-duration.svg" alt="">
+                                    </i>
+                                </div>
+                                <div>
+                                    <h2>Total Live Cams Duration</h2>
+                                    @{
+                                        var totalHours = Model.TotalLiveCamsDuration / 60;
+                                        var minutes = Model.TotalLiveCamsDuration % 60;
+                                    }
+                                    <h3>@(Model.TotalLiveCamsDuration == 0 ? "-" : $"{totalHours} h {minutes} m")</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col mb-4">
+                        <div class="card-body p-0">
+                                <div class="cardBox">
+                                <div class="text-center">
+                                    <i class="IconBody">
+                                        <img src="assets/images/ico03.svg" alt="">
+                                    </i>
+                                </div>
+                                <div>
+                                    <h2>Total Credits</h2>
+                                    <h3>@(Model.TotalCreditsReceived == 0 ? "-" : Model.TotalCreditsReceived)</h3>
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="col mb-4">
+                        <div class="card-body p-0">
+                                    <div class="cardBox">
+                                <div class="text-center">
+                                    <i class="IconBody">
+                                        <img src="assets/images/subscription-icon.svg" width="25px" alt="">
+                                    </i>
+                                </div>
+                                <div>
+                                    <h2>Total Revenue</h2>
+                                    <h3>@(Model.TotalRevenueFromGifts == 0 ? "-" : $"${Model.TotalRevenueFromGifts}")</h3>
+                                </div>
+                                    </div>
+                        </div>
+                    </div>
+
+                    <div class="col mb-4">
+                        <div class="card-body p-0">
+                                        <div class="cardBox">
+                                <div class="text-center">
+                                    <i class="IconBody">
+                                        <img src="assets/images/ico05.svg" alt="">
+                                    </i>
+                                </div>
+                                <div>
+                                    <h2>Audience on Live Cams</h2>
+                                    <h3>@(Model.TotalRegisteredUsersOnCams == 0 ? "-" : Model.TotalRegisteredUsersOnCams)</h3>
+                                </div>
+                        </div>
+                                    </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</Section>
+
+<Section class="page-content-container">
+    <div class="container">
+        <div class="bgBlogPayment">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="calendarOuter align-items-center mb-2 ">
+                        <div class="row">
+                            <div class="col-auto pt-2">Filter :</div>
+                            <div class="col-auto">
+                                <div class="date-input-gp">
+                                    <i><img src="~/assets/images/calendar.svg"> </i>
+                                    <input type="text" id="txtFromDate" class="form-control calendarIconCss" placeholder="From" autocomplete="off" readonly="readonly">
+                                </div>
+                            </div>
+
+                            <div class="col-auto">
+                                <div class="date-input-gp">
+                                    <i><img src="~/assets/images/calendar.svg"> </i>
+                                    <input type="text" id="txtToDate" class="form-control calendarIconCss" placeholder="To" autocomplete="off" readonly="readonly">
+                                </div>
+                            </div>
+                            <div class="col-auto resetBtns">
+                                <a href="javascript:void(0)" onclick="Reset();" class="btn btn-outline-primary me-3">Reset All</a>
+                                <a href="javascript:void(0)" onclick="getEscortGiftSummary();" class="btn btn-primary">Search</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="giftSummary">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</Section>
+
+@section scripts {
+    <script src="~/lib/data-table/jquery.dataTables.min.js"></script>
+    <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+    <script src="~/sitejs/escortDashboard.js"></script>
+
+    @*   <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/establishment.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/establishment.min.js" asp-append-version="true"></script>
+    </environment> *@
+}
+

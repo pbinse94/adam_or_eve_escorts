@@ -1,0 +1,48 @@
+﻿@model Shared.Model.DTO.EscortDetailDto
+@{
+    Layout = null;
+}
+<div class="col-md-12">
+    <h6 class="color-heading">Upload Video</h6>
+    <div class="mb-3">
+        <div class="d-flex flex-wrap" id="parentEscortsVideo">
+            <div class="postfiles">
+                <label class="uploadPostButton" for="Videos">
+                    <figure class="upload-theme-btn mb-0">
+                        <img src="~/assets/images/addicon-circle.svg" width="26" class="img-fluid">
+                    </figure>
+                </label>
+                <input asp-for="Videos" class="inputFile" type="file" accept=".mov, .mp4, .webm" />
+            </div>
+            <div class="uploadViewImg escortsVideosCloneDiv" style="display:none;">
+                <video width="130" height="110px" controls>
+                    <source src="" data-src="" class="video_here">
+                </video>
+                <span><img class="remove-file" src="~/assets/images/circle-_red_close.svg"></span>
+                <span class="video-play-btn">
+                    <img src="" class="video">
+                </span>
+            </div>
+            @if (Model != null && Model.EscortGallery.Count > 0)
+            {
+                foreach (var escort in Model.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Video))
+                {
+
+                    
+                    <div class="uploadViewImg escortsVideos">
+                        <video width="130" height="110px" controls="" id="videoPlayer1" style="cursor:pointer">
+                            <source src="movie.mp4" data-src="@escort.FileName" class="video_here" type="">
+                        </video>
+                        <span><img class="remove-file" src="~/assets/images/circle-_red_close.svg"></span>
+                        <span class="video-play-btn">
+                            <source src="movie.ogg" type="video/ogg">
+                        </span>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+<div class="text-end ">
+    <button class="btn btn-primary" type="button" onclick="uploadVideos(this)">Upload video</button>
+</div>

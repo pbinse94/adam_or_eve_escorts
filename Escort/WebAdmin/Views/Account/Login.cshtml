@@ -1,0 +1,175 @@
+﻿@using Shared.Common;
+@using Shared.Model.Request.Account;
+@model LoginRequest
+@{
+    Layout = null;
+    var isEmailNotVerified = ViewBag.ShowEmailVerificationPopUp;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @if (!SiteKeys.IsLive)
+    {
+        <meta name="robots" content="noindex">
+    }
+    @await Html.PartialAsync("_AccountPagesCSSPartial")
+    <title>Login</title>
+    <style>
+        .backdrop-modal {
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0px;
+            bottom: 0;
+            background: rgba(0,0,0,.5);
+            display: none;
+        }
+    </style>
+</head>
+<body class="outer">
+    <!-- sidebar-login -->
+    <aside class="sidebar-login">
+      <div class="m-auto"><img src="~/assets/images/whiteLogo.svg" alt="logo-large" /></div>
+    </aside>
+    <!-- main-body -->
+    <main class="main-body">
+        <div class="content loginOuter">
+            @Html.HiddenFor(m => isEmailNotVerified)
+            <!-- content -->
+            <div class="row flex-fill g-4">
+              <div class="col-md-12 d-flex align-items-center justify-content-center">
+                <div class="outer-box loginBox">
+                  <div class="outer-box-header">
+                    <h1> Sign in</h1>
+                  </div>
+                        <form asp-controller="Account" asp-action="Login" asp-area="" asp-ReturnUrl="@ViewBag.ReturnUrl" method="post" asp-antiforgery="true" class="form-horizontal" role="form" id="loginFrm">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" asp-for="ReturnUrl" />
+                            <div class="row g-2">
+                                <div class="col-md-12">
+                                    <label>Email</label>
+                                    <div class="position-relative">
+                                        <input type="text" asp-for=Email class="form-control input-email" placeholder="Email" maxlength="100" />
+                                    </div>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-12">
+                                    <label>Password</label>
+                                    <div class="position-relative">
+                                        <input type="password" asp-for=Password class="form-control input-password" placeholder="Password" maxlength="20" />
+                                        <span class="iconInputRight">
+                                            <img id="togglePassword" class="eye-icon" src="~/assets/images/eye.svg" />
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                    <div class="text-danger">@ViewBag.message</div>
+                                </div>
+                                @Html.ValidationMessage("Userror", "", new { @class = "text-danger" })
+                                <div class="col-md-12">
+                                    <div class="text-end w-100 m-0 mb-2">
+                                        <b><a class="m-0" href="@Url.Action("ForgetPassword","Account")">Forgot Password?</a></b>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary w-100 text-center m-0" type="submit">Log In</button>
+                                </div>
+                               
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal" id="loginmodel" tabindex="-1" aria-labelledby="loginmodel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="ClosePopup()"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="loginmodelbody">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="backdrop-modal"></div>
+
+    <!-- Js -->
+    @await Html.PartialAsync("_JsScriptsPartial")
+    <script src="~/assets/js/jquery.cookie.min.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    @await Html.PartialAsync("_CommonScriptsPartial")
+    <environment include="Development">
+        <script src="~/sitejs/loginsignup.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/loginsignup.min.js"></script>
+    </environment>
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            setTimezoneCookie();
+
+            if ($("#isEmailNotVerified").val().toString().toLowerCase() == 'true')
+            {
+                ShowVerifyEmailPopup();
+            }
+
+            $('#togglePassword').on('click', function ()
+            {
+                var passwordField = $('#Password');
+                var type = passwordField.attr('type');
+                if (type === 'password')
+                {
+                    passwordField.attr('type', 'text');
+                    $(this).attr('src', '/assets/images/eye-slash.svg');
+                } else
+                {
+                    passwordField.attr('type', 'password');
+                    $(this).attr('src', '/assets/images/eye.svg');
+                }
+            });
+        });
+        function ShowVerifyEmailPopup()
+        {
+
+            $.ajax({
+                type: "Get",
+                url: '/Account/VerifyEmail',
+                success: function (data)
+                {
+                    $('#loginmodelbody').html(data);
+                }, complete: function (data)
+                {
+                    $('#loginmodel').show();
+                    $('.backdrop-modal').show();
+
+                },
+                error: function (data)
+                {
+                }
+            });
+        }
+
+        function ClosePopup()
+        {
+            $('#loginmodel').hide();
+            $('.backdrop-modal').hide();
+        }
+
+        if ('@TempData["AccountDecative"]' != '') {
+            toastr.error('@TempData["AccountDecative"]')
+        }
+    </script>
+</body>
+</html>
+
+

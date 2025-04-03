@@ -399,4 +399,9 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 
-node_modules/
+Escort/Web/node_modules/
+
+Escort/Web/appsettings.Development.json
+Escort/Web/appsettings.json
+Escort/WebAdmin/appsettings.Development.json
+Escort/WebAdmin/appsettings.json

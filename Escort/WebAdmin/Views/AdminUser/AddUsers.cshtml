@@ -1,0 +1,272 @@
+﻿@using Shared.Common.Enums
+@using Shared.Model.Request.AdminUser
+@model AdminUserRequestModel
+@{
+    ViewData["Title"] = "Add User";
+}
+
+<style>
+    .table tbody tr td:first-child, .table thead tr th:first-child {
+        width: 15%
+    }
+</style>
+
+<div class="row flex-fill g-4">
+    <div class="col-md-12">
+        <div class="box-header mt-3 border-0 mb-3">
+            <h1>@(Model.Id > 0 ? "Update" : "Add") Subordinate</h1>
+        </div>
+
+        <div class="white-box">
+            <form id="addUserFrm" method="post" asp-action="AddUser" enctype="multipart/form-data">
+
+                @Html.HiddenFor(x => x.Id)
+
+                <div class="row mb-3">
+
+                    <div class="col-md-3">
+                        <label for="UserType" class="form-label">User Type<span class="text-danger">*</span></label>
+                        <select asp-for="UserType" name="UserType" class="form-control form-select">
+                            <option value="">Select</option>
+                            <option value="6">Admin</option>
+                            <option value="7">Editor</option>
+                            <option value="8">Viewer</option>
+                            <option value="9">Management</option>
+                            <option value="10">Accounting</option>
+                        </select>
+                        <span asp-validation-for="UserType" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="FirstName" class="form-label">First Name<span class="text-danger">*</span></label>
+                        <input type="text" asp-for="FirstName" name="FirstName" class="form-control" placeholder="Enter First Name" maxlength="50">
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="LastName" class="form-label">Last Name<span class="text-danger">*</span></label>
+                        <input type="text" asp-for="LastName" name="LastName" class="form-control" placeholder="Enter Last Name" maxlength="50" autocomplete="off">
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="DisplayName" class="form-label">User Name<span class="text-danger">*</span></label>
+                        <input type="text" asp-for="DisplayName" name="DisplayName" class="form-control" placeholder="Enter User Name" maxlength="100">
+                        <span asp-validation-for="DisplayName" class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Email" class="form-label">Email<span class="text-danger">*</span></label>
+                        @if (Model.Id > 0)
+                        {
+                            <input type="email" asp-for="Email" name="Email" class="form-control" readonly="readonly">
+                        }
+                        else
+                        {
+                            <input type="email" asp-for="Email" name="Email" class="form-control" placeholder="Enter Email" maxlength="100" autocomplete="off">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        }
+                    </div>
+
+                    <div class="col-md-3" style="margin-top:32px;">
+                        <label for="active" class="form-check-label">Active</label>
+                        <input type="checkbox" id="isActive" name="active" class="form-check-input me-2">
+                    </div>
+                </div>
+
+
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <h5>Permissions</h5>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:30%">Module Name</th>
+
+                                    @if (Model.ModulePermissions.Any() && Model.ModulePermissions.FirstOrDefault().PermissionModel.Any())
+                                    {
+                                        var modulePermissions = Model.ModulePermissions;
+
+                                        @foreach (var item in Model.ModulePermissions.FirstOrDefault().PermissionModel)
+                                        {
+
+
+                                            // Skip rendering columns named "Add" or "Delete"
+                                            if (item.PermissionName.ToLower() == "add" || item.PermissionName.ToLower() == "delete")
+                                            { 
+                                                continue;
+                                            }
+
+                                            bool canAdd = modulePermissions.Where(x => x.ModuleId == item.ModuleId).FirstOrDefault().CanAdd;
+                                            bool canEdit = modulePermissions.Where(x => x.ModuleId == item.ModuleId).FirstOrDefault().CanEdit;
+                                            bool canView = modulePermissions.Where(x => x.ModuleId == item.ModuleId).FirstOrDefault().CanView;
+                                            bool canDelete = modulePermissions.Where(x => x.ModuleId == item.ModuleId).FirstOrDefault().CanDelete;
+                                            int permissionId = item.PermissionId;
+                                            bool isEnabled = false;
+
+                                            if (
+                                            (permissionId == (int)PermissionTypes.Add && canAdd) ||
+                                            (permissionId == (int)PermissionTypes.Update && canEdit) ||
+                                            (permissionId == (int)PermissionTypes.View && canView) ||
+                                            (permissionId == (int)PermissionTypes.Delete && canDelete) )
+                                            { isEnabled = true; }
+
+                                            <th>
+                                                <div class="col-md-3">
+                                                    @if (isEnabled)
+                                                    {
+                                                        <input type="checkbox" name="@item.PermissionName" class="form-check-input me-2 select-all">
+                                                    }
+                                                    <label for="@item.PermissionName" class="form-check-label">@item.PermissionName</label>
+                                                </div>
+                                            </th>
+                                        }
+                                    }
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.ModulePermissions.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Model.ModulePermissions[i].ModuleName
+                                            @Html.HiddenFor(x => x.ModulePermissions[i].ModuleId)
+                                            @Html.HiddenFor(x => x.ModulePermissions[i].UserId)
+                                        </td>
+                                        @for (int j = 0; j < Model.ModulePermissions[i].PermissionModel.Count; j++)
+                                        {
+
+                                            var permissionName = Model.ModulePermissions[i].PermissionModel[j].PermissionName;
+                                            bool hideCell = permissionName.ToLower() == "add" || permissionName.ToLower() == "delete";
+                                            // Skip rendering cells for "Add" or "Delete" permissions
+                                           @*  if (permissionName.ToLower() == "add" || permissionName.ToLower() == "delete")
+                                            {
+                                               <td style="display:none;">  <input type="hidden" id="checkbox1"
+                                                       data-name="@Model.ModulePermissions[i].PermissionModel[j].PermissionName"
+                                                       asp-for="ModulePermissions[i].PermissionModel[j].IsOn"
+                                                        />
+
+                                                    @Html.HiddenFor(x => x.ModulePermissions[i].PermissionModel[j].PermissionId)
+                                                </td>
+                                                continue;
+                                            } *@
+
+                                            <td style="@(hideCell ? "display:none;" : "")">
+                                                <div class="form-check ansCheckInput">
+
+                                                    @{
+                                                        bool canAdd = Model.ModulePermissions[i].CanAdd;
+                                                        bool canEdit = Model.ModulePermissions[i].CanEdit;
+                                                        bool canView = Model.ModulePermissions[i].CanView;
+                                                        bool canDelete = Model.ModulePermissions[i].CanDelete;
+                                                        int permissionId = Model.ModulePermissions[i].PermissionModel[j].PermissionId;
+                                                        bool isEnabled = false;
+                                                        if (
+                                                        (permissionId == (int)PermissionTypes.Add && canAdd) ||
+                                                        (permissionId == (int)PermissionTypes.Update && canEdit) ||
+                                                        (permissionId == (int)PermissionTypes.View && canView) ||
+                                                        (permissionId == (int)PermissionTypes.Delete && canDelete))
+                                                        { isEnabled = true; }
+                                                    }
+
+                                                    @if (isEnabled)
+                                                    {
+                                                        <input type="checkbox" id="checkbox1"
+                                                               data-name="@Model.ModulePermissions[i].PermissionModel[j].PermissionName"
+                                                               asp-for="ModulePermissions[i].PermissionModel[j].IsOn"
+                                                               class="form-check-input me-2 permission_@Model.ModulePermissions[i].PermissionModel[j].PermissionName" />
+                                                    }
+
+                                                    <label class="form-check-label" for="checkbox1"></label>
+                                                </div>
+
+                                                @Html.HiddenFor(x => x.ModulePermissions[i].PermissionModel[j].PermissionId)
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 text-end">
+                        <a href="@Url.Action("Index","AdminUser")" class="btn btn-secondary">Cancel</a>
+                        <button type="button" id="addUserBtn" onclick="addUpdateUser(this);" class="btn btn-primary">@(Model.Id > 0 ? "Update" : "Add") Subordinate</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Js -->
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#adminUser").addClass('active');
+            $('#isActive').prop('checked', '@Model.IsActive' == 'True' ? true : false);
+
+            checkParentCheckbox();
+        });
+
+        const addUpdateUser = (e) => {
+
+            if (!$('#addUserFrm').valid()) { return false; }
+
+            $('#addUserBtn').prop('disabled', true);
+
+            let formData = new FormData($('#addUserFrm')[0]);
+
+            formData.append('IsActive', $('#isActive').prop('checked'))
+
+            $.ajax({
+                type: 'POST',
+                url: '/AdminUser/AddUpdateUser',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.data) {
+                        toastr.success(response.message);
+                        setTimeout(function () { location.href = '/AdminUser/Index' }, 1000)
+                    } else {
+                        $('#addUserBtn').prop('disabled', false);
+                        toastr.error(response.message);
+                    }
+                },
+                error: function (e) {
+                    console.log(e.responseText);
+                    $('#addUserBtn').prop('disabled', false);
+                    toastr.error('Something went wrong');
+                },
+            })
+        }
+
+        const checkParentCheckbox = () => {
+            $('.select-all').each(function () {
+                let checkboxName = $(this).attr('name');
+                let allChecked = $(`.permission_${checkboxName}`).length === $(`.permission_${checkboxName}:checked`).length;
+                $(this).prop('checked', allChecked);
+            });
+        }
+
+
+        $('input[type="checkbox"]').not('#isActive').change(function () {
+            if ($(this).hasClass('select-all')) {
+                let checkboxName = $(this).attr('name');
+                let isChecked = $(this).is(':checked');
+                $(`.permission_${checkboxName}`).prop('checked', isChecked);
+            }
+            else {
+                let checkboxName = $(this).attr('data-name');
+                let parentCheckbox = $(`input[name='${checkboxName}'].select-all`);
+                let allChecked = $(`.permission_${checkboxName}`).length === $(`.permission_${checkboxName}:checked`).length;
+                parentCheckbox.prop('checked', allChecked);
+            }
+        })
+    </script>
+}

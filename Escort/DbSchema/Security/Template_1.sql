@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [Template]
+    WITH PASSWORD = N'y}bAt0blxqgKge<ckbh#pixmmsFT7_&#$!~<k:wXxsjdwvhq', SID = 0x96E6A70ED94271459DD8ABBB1208F793, DEFAULT_DATABASE = [Template], DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
+

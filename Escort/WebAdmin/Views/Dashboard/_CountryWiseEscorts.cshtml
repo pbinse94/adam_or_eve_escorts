@@ -1,0 +1,35 @@
+﻿@using Shared.Model.DTO
+@model List<CountryWiseEscortDto>
+
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Flag</th>
+                    <th>Country Name</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+            @if (Model.Any())
+            {
+                @foreach(var item in Model){
+                    <tr>
+                        <td><img width="20px" class="img-fluid" src="~/assets/images/flags/@(item.CountryAbbreviation.ToLower()).svg" alt="" /></td>
+                        <td>@item.CountryName</td>
+                        <td>@item.CountryEscortCount</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3">No record found.</td>
+                </tr>
+            }
+                
+            </tbody>
+        </table>
+    </div>
+

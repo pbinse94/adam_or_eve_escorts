@@ -1,0 +1,269 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\Admin\**" />
+    <Compile Remove="wwwroot\lib\bootstrap\**" />
+    <Compile Remove="wwwroot\lib\jquery-validation-unobtrusive\**" />
+    <Compile Remove="wwwroot\lib\jquery-validation\**" />
+    <Compile Remove="wwwroot\lib\jquery\**" />
+    <Content Remove="wwwroot\Admin\**" />
+    <Content Remove="wwwroot\lib\bootstrap\**" />
+    <Content Remove="wwwroot\lib\jquery-validation-unobtrusive\**" />
+    <Content Remove="wwwroot\lib\jquery-validation\**" />
+    <Content Remove="wwwroot\lib\jquery\**" />
+    <EmbeddedResource Remove="wwwroot\Admin\**" />
+    <EmbeddedResource Remove="wwwroot\lib\bootstrap\**" />
+    <EmbeddedResource Remove="wwwroot\lib\jquery-validation-unobtrusive\**" />
+    <EmbeddedResource Remove="wwwroot\lib\jquery-validation\**" />
+    <EmbeddedResource Remove="wwwroot\lib\jquery\**" />
+    <None Remove="wwwroot\Admin\**" />
+    <None Remove="wwwroot\lib\bootstrap\**" />
+    <None Remove="wwwroot\lib\jquery-validation-unobtrusive\**" />
+    <None Remove="wwwroot\lib\jquery-validation\**" />
+    <None Remove="wwwroot\lib\jquery\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\bundle.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="node_modules\.package-lock.json" />
+    <Content Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\package.json" />
+    <Content Include="node_modules\amazon-ivs-chat-messaging\dist\esm\package.json" />
+    <Content Include="node_modules\amazon-ivs-chat-messaging\package.json" />
+    <Content Include="node_modules\uuid\package.json" />
+  </ItemGroup>
+
+ 
+
+  <ItemGroup>
+    <Folder Include="Areas\Escort\Controllers\" />
+    <Folder Include="Scripts\" />
+    <Folder Include="wwwroot\Firebase\" />
+    <Folder Include="wwwroot\lib\select2\" />
+    <Folder Include="wwwroot\lib\owl-carousel\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="node_modules\.bin\uuid" />
+    <None Include="node_modules\.bin\uuid.cmd" />
+    <None Include="node_modules\.bin\uuid.ps1" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\ChatConnection.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\ChatConnection.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\ChatRoom.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\ChatRoom.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\errors.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\errors.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\EventEmitter.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\EventEmitter.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\events.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\events.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\index.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\index.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\logging.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\logging.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\requests\DeleteMessageRequest.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\requests\DeleteMessageRequest.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\requests\DisconnectUserRequest.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\requests\DisconnectUserRequest.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\requests\SendMessageRequest.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\requests\SendMessageRequest.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\types.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\types.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\utils\deserialize.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\utils\deserialize.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\utils\serialize.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\utils\serialize.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\utils\url.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\utils\url.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\utils\validate.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\cjs\utils\validate.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\ChatConnection.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\ChatConnection.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\ChatRoom.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\ChatRoom.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\errors.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\errors.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\EventEmitter.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\EventEmitter.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\events.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\events.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\index.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\index.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\logging.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\logging.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\requests\DeleteMessageRequest.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\requests\DeleteMessageRequest.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\requests\DisconnectUserRequest.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\requests\DisconnectUserRequest.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\requests\SendMessageRequest.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\requests\SendMessageRequest.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\types.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\types.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\utils\deserialize.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\utils\deserialize.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\utils\serialize.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\utils\serialize.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\utils\url.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\utils\url.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\utils\validate.js" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\esm\utils\validate.js.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\ChatConnection.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\ChatRoom.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\errors.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\EventEmitter.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\events.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\index.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\logging.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\requests\DeleteMessageRequest.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\requests\DisconnectUserRequest.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\requests\SendMessageRequest.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\types.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\utils\deserialize.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\utils\serialize.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\utils\url.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\dist\types\utils\validate.d.ts.map" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\LICENSE" />
+    <None Include="node_modules\amazon-ivs-chat-messaging\README.md" />
+    <None Include="node_modules\uuid\CHANGELOG.md" />
+    <None Include="node_modules\uuid\CONTRIBUTING.md" />
+    <None Include="node_modules\uuid\dist\bin\uuid" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\index.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\md5.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\native.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\nil.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\parse.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\regex.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\rng.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\sha1.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\stringify.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\v1.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\v3.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\v35.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\v4.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\v5.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\validate.js" />
+    <None Include="node_modules\uuid\dist\commonjs-browser\version.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\index.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\md5.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\native.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\nil.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\parse.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\regex.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\rng.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\sha1.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\stringify.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\v1.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\v3.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\v35.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\v4.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\v5.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\validate.js" />
+    <None Include="node_modules\uuid\dist\esm-browser\version.js" />
+    <None Include="node_modules\uuid\dist\esm-node\index.js" />
+    <None Include="node_modules\uuid\dist\esm-node\md5.js" />
+    <None Include="node_modules\uuid\dist\esm-node\native.js" />
+    <None Include="node_modules\uuid\dist\esm-node\nil.js" />
+    <None Include="node_modules\uuid\dist\esm-node\parse.js" />
+    <None Include="node_modules\uuid\dist\esm-node\regex.js" />
+    <None Include="node_modules\uuid\dist\esm-node\rng.js" />
+    <None Include="node_modules\uuid\dist\esm-node\sha1.js" />
+    <None Include="node_modules\uuid\dist\esm-node\stringify.js" />
+    <None Include="node_modules\uuid\dist\esm-node\v1.js" />
+    <None Include="node_modules\uuid\dist\esm-node\v3.js" />
+    <None Include="node_modules\uuid\dist\esm-node\v35.js" />
+    <None Include="node_modules\uuid\dist\esm-node\v4.js" />
+    <None Include="node_modules\uuid\dist\esm-node\v5.js" />
+    <None Include="node_modules\uuid\dist\esm-node\validate.js" />
+    <None Include="node_modules\uuid\dist\esm-node\version.js" />
+    <None Include="node_modules\uuid\dist\index.js" />
+    <None Include="node_modules\uuid\dist\md5-browser.js" />
+    <None Include="node_modules\uuid\dist\md5.js" />
+    <None Include="node_modules\uuid\dist\native-browser.js" />
+    <None Include="node_modules\uuid\dist\native.js" />
+    <None Include="node_modules\uuid\dist\nil.js" />
+    <None Include="node_modules\uuid\dist\parse.js" />
+    <None Include="node_modules\uuid\dist\regex.js" />
+    <None Include="node_modules\uuid\dist\rng-browser.js" />
+    <None Include="node_modules\uuid\dist\rng.js" />
+    <None Include="node_modules\uuid\dist\sha1-browser.js" />
+    <None Include="node_modules\uuid\dist\sha1.js" />
+    <None Include="node_modules\uuid\dist\stringify.js" />
+    <None Include="node_modules\uuid\dist\uuid-bin.js" />
+    <None Include="node_modules\uuid\dist\v1.js" />
+    <None Include="node_modules\uuid\dist\v3.js" />
+    <None Include="node_modules\uuid\dist\v35.js" />
+    <None Include="node_modules\uuid\dist\v4.js" />
+    <None Include="node_modules\uuid\dist\v5.js" />
+    <None Include="node_modules\uuid\dist\validate.js" />
+    <None Include="node_modules\uuid\dist\version.js" />
+    <None Include="node_modules\uuid\LICENSE.md" />
+    <None Include="node_modules\uuid\README.md" />
+    <None Include="node_modules\uuid\wrapper.mjs" />
+    <None Include="Views\Home\AboutUs.cshtml" />
+    <None Include="wwwroot\bundle.js" />
+    <None Include="wwwroot\dist\bundle.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.301" />
+    <PackageReference Include="AWSSDK.IVS" Version="3.7.304.23" />
+    <PackageReference Include="AWSSDK.Ivschat" Version="3.7.301.100" />
+    <PackageReference Include="AWSSDK.Rekognition" Version="3.7.400.23" />
+    <PackageReference Include="BuildBundlerMinifier2022" Version="2.9.9" />
+    <PackageReference Include="CliWrap" Version="3.6.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid.EntityFrameworkAdapter" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+    <PackageReference Include="UAParser" Version="3.1.47" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IOC\IOC.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\ChatConnection.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\ChatRoom.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\errors.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\EventEmitter.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\events.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\index.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\logging.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\requests\DeleteMessageRequest.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\requests\DisconnectUserRequest.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\requests\SendMessageRequest.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\types.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\utils\deserialize.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\utils\serialize.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\utils\url.d.ts" />
+    <TypeScriptCompile Include="node_modules\amazon-ivs-chat-messaging\dist\types\utils\validate.d.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Home\_PopularEscorts.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
+
+
+</Project>

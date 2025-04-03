@@ -1,0 +1,105 @@
+﻿@using Shared.Resources;
+@using  Shared.Common;
+@model Shared.Model.Escort.EscortModel
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "Escorts";
+    string isActivePermission = (bool)ViewBag.CanUpdate ? "" : "IsActive";
+    var frontSiteUrl = SiteKeys.FrontSiteUrl;
+}
+ <style>
+
+
+
+    .table tr td a:focus {
+        color: #EC881D;
+        text-decoration: none !important;
+    }
+
+    .table tr td a:hover {
+        color: #000 !important;
+    }
+
+       
+     
+</style>
+@Html.HiddenFor(x => pageSize)
+@Html.HiddenFor(x => pageIndex)
+@Html.HiddenFor(x => ResourceString.ActivateEscort, new { @id = "activateEscortMsg" })
+@Html.HiddenFor(x => ResourceString.DeactivateEscort, new { @id = "deactivateEscortMsg" })
+@Html.HiddenFor(x => ResourceString.DeleteEscort, new { @id = "deleteEscortMsg" })
+@Html.HiddenFor(x => ResourceString.RecoverEscort, new { @id = "recoverEscortMsg" })
+ 
+
+    <div class="row flex-fill g-4">
+        <div class="col-md-12">
+            <div class="box-header mt-3 border-0 mb-3">
+                <h1>Escorts</h1>
+            </div>
+            <div class="white-box">
+              
+                <div class="d-flex row mt-2 g-sm-2">
+                    <div class="col-6 col-sm-auto mb-2 mt-0">
+                        <div class="Searchbar">
+                        <input id="seachinput" type="text" class="form-control seachinput search-input" placeholder="Search here">
+                        </div>
+                    </div>
+
+                <div class="col-6 col-sm-auto mb-2 mt-0">
+                    <select class="form-control form-select" asp-for="Country" onchange="Escorts.filterRecord()" asp-items="@ViewBag.SelectListItems" placeholder="select County">
+                        <option value="">Select  Country</option>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-auto mb-2 mt-0 " style=" width:210px !important">
+                    <select id="ddlGender" class="form-control form-select" asp-for="Gender" onchange="Escorts.filterRecord()">
+                        <option value="">Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Transgender">Transgender</option>
+                    </select>
+                </div>
+
+                </div>
+
+
+                <div class="table-responsive">
+                <table class="table table-sm table-default align-middle nowrap" id="data-table_Escort" style="width:100% !important">
+                        <thead>
+                            <tr>
+                            @foreach (var p in new Shared.Model.Escort.EscortModel().GetType().GetProperties().Where(p => !new List<string>() { "TotalRecord", "AccessToken", "AddedOnUTC", "UpdatedOnUTC", "IsDeleted", "Action", "UserType", isActivePermission,"IsPaused" }.Contains(p.Name)))
+                                {
+                                    <th data-name="@p.Name">@(p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name)</th>
+                                }
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+ 
+
+
+
+@section scripts {
+
+    <script>
+        var frontSiteUrl = '@frontSiteUrl' // Inject frontSiteUrl into global scope
+    </script>
+    <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/escort.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/escort.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        $(document).ready(function () { 
+            $("#Escort").addClass('active');
+        });
+    </script>
+}
+

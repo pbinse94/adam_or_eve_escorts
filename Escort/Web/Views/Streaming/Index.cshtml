@@ -1,0 +1,323 @@
+﻿@using Shared.Common;
+@using Shared.Common.Enums;
+@model Shared.Model.Entities.ClientStreamingViewModel;
+@{
+    ViewData["Title"] = "Video Player";
+    var iconHtml = ViewBag.IconHtml as string;
+    var colClass = (LoginMemberSession.UserDetailSession != null) ? "col-lg-8 pRightSide" : "col-lg-12";
+}
+
+<link rel="stylesheet" href="~/assets/css/video-player.css">
+<style>
+    [data-popup] {
+        position: relative;
+        &:before, &:after
+
+    {
+        opacity: 0;
+        transform: translate(-50%, 0);
+        transition: .15s ease opacity, .15s ease transform;
+        will-change: opacity transform;
+        content: "";
+    }
+
+    &:hover {
+        &:before, &:after
+
+    {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -10px);
+        opacity: 1;
+    }
+
+    &:before {
+        bottom: 100%;
+        padding: 5px 10px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 5px;
+        color: white;
+        font-size: 12px;
+        line-height: 12px;
+        text-align: center;
+        content: attr(data-popup);
+        white-space: nowrap;
+    }
+
+    &:after {
+        top: 0;
+        height: 0;
+        width: 0;
+        border: solid transparent;
+        border-top-color: rgba(0, 0, 0, 0.8);
+        border-width: 5px;
+        content: "";
+    }
+
+    }
+    }
+
+    .liveChatView video {
+        width: 100%;
+        height: 500px
+    }
+
+    .warning {
+        background-color: #ffd966;
+        color: #cc3300;
+        padding: 10px;
+        border: 1px solid #ffcc80;
+        border-radius: 5px;
+        text-align: center;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+</style>
+<Section class="page-content-container liveCamsView">
+    <div class="container">
+        <a href="javascript:history.back();" class="btn btn-light backBtn mb-2"><img src="~/assets/images/backarrow.svg"> Back </a>
+        <div class="warning">
+            Please do not refresh the page. you will lost chat messages of streaming session.
+        </div>
+        <div class="row mt-2">
+            <div class="col-lg-12">
+                <div class="liveCamsDetails">
+                    <div class="row">
+                        <div class="@colClass">
+                            <div class="fullLiveView">
+                                <div class="liveChatView">
+                                    <video id="video-player" class="video-elem pos-absolute " playsinline muted></video>
+                                    <span class="zoomIcons"><img src="~/assets/images/zoom-icon.svg" onclick="FullScreen();" style="cursor:pointer"></span>
+                                </div>
+                                <div class="liveBootomBar ">
+                                    <div class="shareLiveIcon">
+                                        @if (LoginMemberSession.UserDetailSession == null || LoginMemberSession.UserDetailSession.UserTypeId == (short)UserTypes.Client)
+                                        {
+                                            @Html.Raw(iconHtml)
+                                        }
+                                        
+                                    </div>
+                                    
+                                    <div class="buttons d-flex align-items-center">
+                                        @if (LoginMemberSession.UserDetailSession != null)
+                                        {
+                                            if (LoginMemberSession.UserDetailSession.UserTypeId == (short)UserTypes.Client)
+                                            {
+                                                <h6 class="me-3 m-0">Your Credits : <b class="colorOrg" id="creditBalance">@Model.CreditBalance</b></h6>
+                                                <a class="btn btn-light liveBuyBtn me-1" href="@Url.Action("Index","Credit")">Buy Credits</a>
+
+                                            }
+                                        }                                        
+                                        else
+                                        {
+                                            <a class="btn btn-light liveBuyBtn me-1" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#login">Buy Credits</a>
+                                        }
+
+                                        @*   <a class="btn btn-light liveBuyBtn" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#PersonalChat">Personal Chat</a> *@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (LoginMemberSession.UserDetailSession != null && LoginMemberSession.UserDetailSession.UserTypeId == (short)UserTypes.Client)
+                        {
+                            <partial name="_ChatBox" />
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+</Section>
+
+
+@section Scripts {
+    <script src="https://player.live-video.net/1.0.0/amazon-ivs-player.min.js"></script>
+    <script>
+        roomId = '@Model.RoomId';
+        currentuser = '@LoginMemberSession.UserDetailSession?.DisplayName';
+        escortId = '@Model.Id';
+        
+    </script>
+    <environment include="Development">
+        <script src="~/sitejs/chatbox.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/chatbox.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function ()
+        {
+            
+            var isIpAddressFound = @Model.IpAddress.ToString().ToLower();
+            var video = document.getElementById('video-player');
+            if ('@LoginMemberSession.UserDetailSession?.DisplayName' == '' && (isIpAddressFound == -1 || isIpAddressFound == -2))
+            {
+                errorMessage = "Sign-in is required to continue. Please sign in to resume access.";
+                lableMessage = "Sign-in";
+                redirecto = "#login";
+            }
+            else
+            {
+                errorMessage = 'Access to streaming content requires credits. Please purchase credits to continue viewing.';
+                lableMessage = 'Buy credits';
+                redirecto = "#plan";
+            }
+            if (isIpAddressFound <= 0) {
+
+                if (isIpAddressFound == -2)
+                {
+                    video.addEventListener('timeupdate', function ()
+                    {
+                        
+                        if (video.currentTime >= 30)
+                        {
+                            video.pause();
+                            restrictions()
+                        }
+                    });
+                } else {
+                    setTimeout(() => {
+                        video.pause();
+                    }, 5000)
+                    restrictions()
+                }
+            } else {
+                $('.clientChat').removeAttr('readonly');
+            }
+
+        });
+
+        function restrictions()
+        {
+
+            swal({
+                title: 'Don\'t have streaming Access',
+                text: errorMessage,
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonColor: '#EC881D',
+                confirmButtonText: lableMessage
+
+            }).then(function ()
+            {
+                if (lableMessage == "Buy credits") {
+                    window.location.href = "/Credit";
+                }else{
+                    $(redirecto).modal("show"); // Change the URL to your home page URL
+                }
+            });
+        }
+
+        $(document).ready(function ()
+        {
+            var playbackUrl = '@Model.PlaybackUrl';
+
+
+            // Use the stream key with your broadcasting software
+
+            // Set your playback URL here
+            var showRaiseHandPopup = true; // Set this based on your requirements
+            var usernameRaisedHand = 'Username'; // Set this based on your requirements
+
+            var MediaPlayerPackage = window.IVSPlayer;
+
+            // Check if the browser supports the Amazon IVS player
+            if (!MediaPlayerPackage.isPlayerSupported)
+            {
+                console.warn('The current browser does not support the Amazon IVS player.');
+                return;
+            }
+
+            var PlayerState = MediaPlayerPackage.PlayerState;
+            var PlayerEventType = MediaPlayerPackage.PlayerEventType;
+
+            // Initialize player
+            var player = MediaPlayerPackage.create();
+            player.attachHTMLVideoElement(document.getElementById('video-player'));
+
+            // Attach event listeners
+            player.addEventListener(PlayerState.PLAYING, function ()
+            {
+
+                console.info('Player State - PLAYING');
+            });
+            player.addEventListener(PlayerState.ENDED, function ()
+            {
+
+                console.info('Player State - ENDED');
+                StreamingEndedOrError();
+            });
+            player.addEventListener(PlayerState.READY, function ()
+            {
+
+                console.info('Player State - READY');
+            });
+            player.addEventListener(PlayerEventType.ERROR, function (err)
+            {
+                StreamingEndedOrError();
+                console.warn('Player Event - ERROR:', err);
+            });
+
+            // Setup stream and play
+            player.setAutoplay(true);
+            player.load(playbackUrl);
+            player.setVolume(0.5);
+
+            // Handle raise hand popup
+            if (showRaiseHandPopup)
+            {
+                $('#raise-hand-popup').show();
+                $('#raised-hand-username').text(usernameRaisedHand);
+            } else
+            {
+                $('#raise-hand-popup').hide();
+            }
+        });
+
+
+        function StreamingEndedOrError(){
+            swal({
+                title: 'This live stream has ended',
+                text: 'Thank you for watching!',
+                type: 'error',
+                showCancelButton: false,
+                confirmButtonColor: '#EC881D',
+                confirmButtonText: 'Go to Home'
+            }).then(function () {
+                window.location.href = '/home/index'; // Change the URL to your home page URL
+            });
+        }
+
+        function FullScreen()
+        {
+
+            const videoPlayer = document.getElementById('video-player');
+            if (videoPlayer.requestFullscreen)
+            {
+                videoPlayer.requestFullscreen();
+            } else if (videoPlayer.mozRequestFullScreen)
+            { // Firefox
+                videoPlayer.mozRequestFullScreen();
+            } else if (videoPlayer.webkitRequestFullscreen)
+            { // Chrome, Safari and Opera
+                videoPlayer.webkitRequestFullscreen();
+            } else if (videoPlayer.msRequestFullscreen)
+            { // IE/Edge
+                videoPlayer.msRequestFullscreen();
+            }
+        }
+    </script>
+}
+

@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>##AppName##</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;0,600;0,800;0,900;1,700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @media (min-width: 320px) and (max-width: 700px) {
+            .mainBody {
+                width: 100% !important;
+                margin: auto;
+            }
+        }
+
+        .mainBody {
+            width: 700px;
+            margin: auto;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f1f1f1;
+        }
+
+        .content {
+            background-color: #ffffff;
+            margin-top: 15px;
+            font-family: 'Roboto', sans-serif;
+            color: #000;
+            line-height: 26px;
+            padding-bottom: 15px;
+        }
+
+            .content p {
+                margin: 30px 0 15px 0;
+                font-size: 15px;
+                padding-bottom: 8px;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="mainBody">
+        <div class="content">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+
+                    <td colspan="2" style="background:#000; text-align:center;padding:20px; "><img src="##Logo##" width="400" /></td>
+
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding: 0 15px;">
+                        <p>Hello <b>##Name##</b>,</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding: 0 15px;">
+                        <p>Welcome to <b>##AppName##</b>!</p>
+                        <p>You have been added to <b>##EstablishmentCompanyName##</b> (Establishment).</p>
+                        <p>Your password is <b>##Password##</b></p>
+                        <p>To log into your account, please verify your email first.</p>
+                        <p><a href="##EmailVerificationLink##" style="color: blue;">Click here</a> or paste the following URL into your browser to confirm your email:</p>
+                        <p>##EmailVerificationLink##</p>
+                        <p style="line-height: 28px; margin: 0 0 20px 0;">
+                            Thanks,
+                            <br>
+                            <b>##AppName##</b>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

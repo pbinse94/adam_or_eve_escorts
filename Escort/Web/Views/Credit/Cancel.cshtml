@@ -1,0 +1,104 @@
+﻿@using Shared.Common;
+@{
+    ViewData["Title"] = "Payment";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Cancel</title>
+    <link rel="icon" href="~/assets/images/favicon.ico" type="image/ico" sizes="26x26">
+    @if (!SiteKeys.IsLive)
+    {
+        <meta name="robots" content="noindex">
+    }
+</head>
+
+<body>
+    <style>
+        body {
+            background: #F0F7FC;
+            font-family: arial;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        .outerDiv {
+            -moz-box-align: center;
+            -moz-box-pack: center;
+            align-items: center;
+            display: flex;
+            height: 100%;
+            justify-content: center;
+            overflow: auto;
+            position: fixed;
+            width: 100%;
+        }
+
+        .paymentPage {
+            width: 800px;
+            max-width: 100%;
+            margin: auto;
+            text-align: center;
+            display: inline-block;
+            background: none;
+            padding: 40px 20px;
+            border-radius: 10px;
+        }
+
+            .paymentPage h1 {
+                font-size: 36px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                color: #F24949;
+            }
+
+            .paymentPage p {
+                font-size: 20px;
+                color: #000;
+                margin-top: 0px;
+                margin-bottom: 30px;
+                line-height: 26px;
+            }
+
+
+
+            .paymentPage .Gotohome {
+                color: #fff;
+                font-weight: bold;
+                background: #EC881D;
+                border-radius: 30px;
+                padding: 15px 40px;
+                text-transform: uppercase;
+                display: inline-block;
+                text-decoration: none;
+                font-size: 18px;
+            }
+
+                .paymentPage .Gotohome:hover {
+                    background: #B5651D;
+                    opacity: 0.8;
+                }
+    </style>
+    <div class="outerDiv">
+        <div class="paymentPage" style="margin:30px;">
+
+            <svg width="130" height="130" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M65 119.167C94.7917 119.167 119.167 94.7918 119.167 65.0002C119.167 35.2085 94.7917 10.8335 65 10.8335C35.2084 10.8335 10.8334 35.2085 10.8334 65.0002C10.8334 94.7918 35.2084 119.167 65 119.167Z" stroke="#F24949" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M49.6704 80.3287L80.3287 49.6704" stroke="#F24949" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M80.3287 80.3287L49.6704 49.6704" stroke="#F24949" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
+
+            <h1>Payment Failed </h1>
+            <p>
+                Your payment for the credit is Failed.
+            </p>
+            <a href="@Url.Action("Index", "Credit")" class="Gotohome">Go To Home</a>
+        </div>
+    </div>
+</body>
+</html>

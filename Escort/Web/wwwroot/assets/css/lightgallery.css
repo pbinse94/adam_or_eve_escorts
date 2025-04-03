@@ -1,0 +1,46 @@
+ 
+
+.header .lead {
+    max-width: 620px;
+}
+
+/** Below CSS is completely optional **/
+
+.gallery-item {
+    width: 200px;
+    padding: 5px;
+}
+
+
+
+.lg-prev:after {
+    background-image: url('../images/arrow-left.svg');
+    width: 24px;
+    height: 24px;
+    float: left;
+    content: '' !important;
+}
+
+.lg-next:before {
+    background-image: url('../images/arrow-right.svg');
+    width: 24px;
+    height: 24px;
+    float: left;
+    content: '' !important;
+}
+
+.lg-next:hover:not(.disabled), .lg-prev:hover:not(.disabled) {
+    color: #808080 !important;
+}
+
+.lg-toolbar .lg-close:after {
+    background-image: url('../images/close-black.svg');
+    width: 23px;
+    height: 23px;
+    float: left;
+    content: '' !important;
+}
+.lg-toolbar .lg-icon:hover {
+    color: #808080 !important;
+}
+ 

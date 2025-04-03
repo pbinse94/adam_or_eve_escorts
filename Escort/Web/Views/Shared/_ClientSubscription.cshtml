@@ -1,0 +1,31 @@
+﻿<fieldset>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            @* <div class="mb-4 text-center mt-2">
+                <label class="w-100 mb-2">Plan Type</label>
+                <div class="form-check-inline">
+                    <input class="form-check-input" type="radio" id="plan-type" name="plan-type" value="@((short)Shared.Common.Enums.SubscriptionPlanDurationType.Weekly)" checked>
+                    <label class="form-check-label" for="plan-type">Weekly</label>
+                </div>
+                <div class="form-check-inline">
+                    <input class="form-check-input" type="radio" id="plan-type" name="plan-type" value="@((short)Shared.Common.Enums.SubscriptionPlanDurationType.Monthly)">
+                    <label class="form-check-label" for="plan-type">Monthly</label>
+                </div>
+                <div class="form-check-inline">
+                    <input class="form-check-input" type="radio" id="plan-type" name="plan-type" value="@((short)Shared.Common.Enums.SubscriptionPlanDurationType.Yearly)">
+                    <label class="form-check-label" for="plan-type">Yearly</label>
+                </div>
+
+            </div> *@
+        </div>
+
+
+     @*    <input type="hidden" asp-for="Plan" /> *@
+        <div class="row" id="subscriptionPlans">
+        </div>
+    </div>
+    <button type="button" name="buyCreditsSubmit" class="next action-button" value="Next" onclick="BuyCredits(this)">
+        Buy Credits
+    </button>
+
+</fieldset>

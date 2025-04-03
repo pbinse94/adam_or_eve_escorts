@@ -1,0 +1,73 @@
+﻿@using Shared.Resources;
+@using System.ComponentModel.DataAnnotations
+@model Shared.Model.Escort.EscortModel
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "List";
+}
+@Html.HiddenFor(x => pageSize)
+@Html.HiddenFor(x => pageIndex)
+@Html.HiddenFor(x => ResourceString.ActivateEscort, new { @id = "activateEscortMsg" })
+@Html.HiddenFor(x => ResourceString.DeactivateEscort, new { @id = "deactivateEscortMsg" })
+@Html.HiddenFor(x => ResourceString.DeleteEscort, new { @id = "deleteEscortMsg" })
+@Html.HiddenFor(x => ResourceString.RecoverEscort, new { @id = "recoverEscortMsg" })
+
+
+<!--page content-->   
+<Section class="page-content-container borderSec-top">
+    <div class="container">
+        <div class="d-flex justify-content-between">
+            <a href="javascript:void(0)" class="btn btn-light backBtn"><img src="~/assets/images/backarrow.svg" /> Back to Profile</a>
+        </div>
+        <div class="card border-0 mt-3">
+            <div class="row mt-2 row justify-content-md-center">
+                <div class="col-md-12">
+                    <div class="table-searchbar d-flex ">
+                        <div class="serachbar">
+                            <input id="seachinput" type="text" class="form-control search-input" placeholder="Search by user">
+                        </div>
+                    </div>
+
+
+
+
+                    @* <div class="row flex-fill g-4">
+                    <div class="col-md-12">
+                    <div class="d-flex row mt-2 g-sm-2">
+                    <div class="col-6 col-sm-auto mb-2 mt-0">
+                    <div class="Searchbar">
+                    <input id="seachinput" type="text" class="form-control seachinput" placeholder="Search here">
+                    </div>
+                    </div>
+                    </div> *@
+
+                    <div class="table-responsive mt-3">
+                        <table class="table table-striped manageList" id="data-table_EscortList">
+                            <thead>
+                                <tr>
+                                    @foreach (var p in new Shared.Model.Escort.EscortModel().GetType().GetProperties().Where(p => !new List<string>() { "TotalRecord", "AccessToken", "AddedOnUTC", "UpdatedOnUTC", "IsDeleted" }.Contains(p.Name)))
+                                    {
+                                        <th data-name="@p.Name">@(p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name)</th>
+                                    }
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</Section>
+@section scripts {
+    <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/List.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/List.min.js" asp-append-version="true"></script>
+    </environment>
+}
+

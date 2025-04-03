@@ -1,0 +1,66 @@
+﻿@using Shared.Common
+@using Shared.Common.Enums
+@model List<Shared.Model.DTO.EscortSearchDto>
+@{
+    Layout = null;
+
+    int pageIndex = (int)ViewBag.PageIndex;
+}
+
+@if (pageIndex == 1 && (Model == null || !Model.Any()))
+{
+
+}
+else
+{
+    foreach (var escort in Model)
+    {
+        <div class="col-lg-3 col-md-6">
+            <div style="position:relative">
+                <a href="/profile/fullProfile?id=@(escort.UserId)" class="escortsBlog">
+                    <img class="escortImg" src="@Url.Content("~/assets/images/est-vt-default-profile.png")" data-dimension="vertical" data-src="@escort.ProfileImage">
+                    @if (escort.IsPhotoVerified)
+                    {
+                        <i class="verifiedIcon"><img src="~/assets/images/verified.svg" /></i>
+                    }
+                    <div class="abBlog">@(escort.UserType == (int)UserTypes.IndependentEscort ? "Independent" : "Establishment")</div>
+                    <div class="escortsDetails">
+                        <h4>@escort.DisplayName</h4>
+                        @{
+                            var location = escort.CityName;
+                            if (!string.IsNullOrEmpty(escort.StateName))
+                            {
+                                location += !string.IsNullOrEmpty(location) ? $", {escort.StateName}" : escort.StateName;
+                            }
+                            if (!string.IsNullOrEmpty(escort.Country))
+                            {
+                                location += !string.IsNullOrEmpty(location) ? $", {escort.Country}" : escort.Country;
+                            }
+
+                        }
+                        <h6>@location</h6>
+                        <ul class="allDetailsEscort">
+                            <li>Age: <span>@escort.Age</span> </li>
+                            <li>Dress Size: <span>@(escort.Dress ?? "N/A")</span> </li>
+                            <li>Price: <span>Visit Profile for Rates</span> </li>
+                            <li>Place of Service: <span>Incall, Outcall</span> </li>
+                        </ul>
+                    </div>
+                </a>
+                <div class="rating-row">
+                    <div class="viewCountNo"><img src="~/assets/images/viewcount.svg"> <span>@escort.TotalViews</span></div>
+                    @if (escort.IsFavorite)
+                    {
+                        <div class="favoriteIcon" data-bool="true" onClick="common.favoriteIcon(this)" data-id="@escort.EscortId" style="cursor:pointer"><img src="@Url.Content("~/assets/images/favorite_fi.svg")"></div>
+                    }
+                    else
+                    {
+                        <div class="favoriteIcon" data-bool="false" onClick="common.favoriteIcon(this)" data-id="@escort.EscortId" style="cursor:pointer"><img src="@Url.Content("~/assets/images/favorite.svg")"></div>
+                    }
+
+                </div>
+                
+            </div>
+        </div>
+    }
+}

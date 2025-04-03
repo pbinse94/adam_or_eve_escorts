@@ -1,0 +1,120 @@
+﻿@using Business.Services
+@using Shared.Common;
+@using Shared.Common.Enums
+@using Shared.Extensions
+@using Shared.Model.Request.AdminUser
+@inject AdminPermissionService memoryCache
+
+@{
+    var permissionsCache = memoryCache.GetUserPermissions(LoginMemberSession.UserDetailSession?.UserId ?? 0);
+    var SessionUserName = LoginMemberSession.UserDetailSession?.DisplayName;
+    var userRoleName = EnumExtensions.GetDescription((UserTypes)LoginMemberSession.UserDetailSession?.UserTypeId);
+    int userRoleId = LoginMemberSession.UserDetailSession?.UserTypeId ?? (int)UserTypes.SuperAdmin;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @if (!SiteKeys.IsLive)
+    {
+        <meta name="robots" content="noindex">
+    }
+    @await Html.PartialAsync("_CSSPartial")
+    <title>@ViewData["Title"] - Admin</title>
+</head>
+<body class="inner">
+    <div class="Loading" style="display: none">
+    </div>
+
+    <header class="header">
+        <div class="w-100 d-flex align-items-center">
+            <div class="menu-btn"><img src="~/assets/images/menu.svg" alt="menu" /></div>
+
+            <div class="ms-auto d-flex align-items-center">
+                <div class="me-2">
+                    @userRoleName
+                </div>
+                <a href="@Url.Action("Logout","Account")" class="btn login-btn">Logout <img class="ms-1" src="~/assets/images/logout.svg"></a>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- sidebar -->
+    <aside class="sidebar">
+        <button type="button" class="btn-close text-reset menu-btn" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <div class="text-center w-100">
+            <a href="javascript:void(0);" class="logo"><img class="img-fluid" src="~/assets/images/whiteLogo.svg" alt="logo"/></a>
+        </div>
+        <ul>
+            <li id="Dashboard"><a href="@Url.Action("Index","Dashboard")"><img src="~/assets/images/dashboardicon.svg" alt="dashboard" /> Dashboard</a></li>
+
+            @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.Clients, permissionsCache))
+            {
+                <li id="User"><a href="@Url.Action("Index","User")"><img src="~/assets/images/total_clients.svg" alt="clients" />Clients</a></li>
+            }
+            @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.Escorts, permissionsCache))
+            {
+                <li id="Escort"><a href="@Url.Action("Index","Escort")"><img src="~/assets/images/escorts-list.svg" alt="escorts" />Escorts</a></li>
+            }
+            @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.Establishments, permissionsCache))
+            {
+                <li id="Establishment"><a href="@Url.Action("Index","Establishment")"><img src="~/assets/images/clients-list.svg" alt="establishments" />Establishments</a></li>
+            }
+            @if (userRoleId == (short)UserTypes.SuperAdmin)
+            {
+                <li id="adminUser"><a href="@Url.Action("Index","AdminUser")"><img src="~/assets/images/staff.svg" alt="establishments" />Subordinates</a></li>
+            }
+
+
+            <li id="ChangePassword"><a href="@Url.Action("ChangePassword","User")"><img src="~/assets/images/change-password.svg" alt="change password" />Change Password</a></li>
+            @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.RevenueReport, permissionsCache))
+            {
+                <li class="nav-item dropdown" id="revenuereport">
+                    <a class="dropdown-toggle" href="#" role="" data-bs-toggle="dropdown" aria-expanded="false"><img src="~/assets/images/revenue-report.svg" alt="refund-icon" />Report</a>
+                    <ul class="dropdown-menu leftMenuDrop">
+                        @* <li id="ClientSpendingReport"><a class="dropdown-item" href="@Url.Action("Index","UserTokenTransaction")">Client Spending Report </a></li>
+                        <li id="PaymentReport"><a class="dropdown-item" href="@Url.Action("PaymentReport","UserTokenTransaction")">Payment Report</a></li> *@
+                        @if (userRoleId == (short)UserTypes.SuperAdmin || userRoleId == (short)UserTypes.Admin)
+                        {
+                            <li id="SubscriptionTransactionReport"><a class="dropdown-item" href="@Url.Action("Index","SubscriptionTransactions")">Transaction Report</a></li>
+                        }
+                        
+                        @if (userRoleId == (short)UserTypes.SuperAdmin)
+                        {
+                            <li id="LoginHistoryReport"><a class="dropdown-item" href="@Url.Action("LoginHistory","AdminUser")">Login History</a></li>
+                            <li id="ActivityLogHistoryReport"><a class="dropdown-item" href="@Url.Action("ActivityLogHistory","AdminUser")">Activity Logs</a></li>
+                        }
+                        
+                    </ul>
+                </li>
+            }
+        </ul>
+    </aside>
+
+
+    <!-- main-body -->
+    <main class="main-body">
+        <div class="content">
+            <!-- content -->
+            @RenderBody()
+        </div>
+    </main>
+
+
+    <div class="copy">
+        © Copyright @DateTime.Now.Year.ToString() Adam or Eve. | All Rights Reserved.
+    </div>
+
+    @await Html.PartialAsync("_JsScriptsPartial")
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/sitejs/common/ajax.js" asp-append-version="true"></script>
+    @await Html.PartialAsync("_CommonScriptsPartial")
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

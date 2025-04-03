@@ -1,0 +1,84 @@
+﻿@using Shared.Common;
+
+<style>
+    .chatLeftBlog {
+        display: flex;
+        margin-bottom: 10px
+    }
+
+    .chatProfilePic {
+        float: left;
+        margin-right: 5px;
+        width: 50px
+    }
+
+        .chatProfilePic span {
+            background: #f8cef9;
+            width: 32px;
+            height: 32px;
+            float: left;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+            color: #000;
+            font-size: 16px;
+        }
+
+    .chatUserName h6 {
+        font-size: 14px;
+        font-weight: bold;
+        color: #bbb;
+        margin: 0
+    }
+
+    .chatUserName p {
+        font-size: 12px;
+        font-weight: normal;
+        color: #bbb;
+        margin: 0;
+        padding: 0
+    }
+
+    .chatUserName img {
+        width: 25px;
+        border-radius: 5px
+    }
+
+</style>
+
+
+<script src="~/bundle.js"></script>
+<div class="col-lg-4 pLeftSide">
+    <div class="rightChatBlog">
+        <div class="chatHeaderBar">
+            <div class="profileChatBlog">
+                <div>
+                    <a class="chatProfilePic escortsBlog1" href="javascript:void(0)"><img class="escortImg1" src="~/assets/images/no-image.png" data-src="@Model.ProfileImage"></a>
+                    <span>@Model.Name</span>
+                </div>
+                @* <div>
+                    <a href="javascript:void(0)"><img src="~/assets/images/chat-close.svg"></a>
+                </div> *@
+            </div>
+        </div>
+
+
+        <div class="chatBlog userLiveShow">
+
+            <div class="chatLeftBlog">
+            </div>
+
+        </div>
+
+        <div class="chatFooterBar">
+            <div class="liveBlogChatBox">
+                <input class="chatInput clientChat" id="chatInput" type="text" placeholder="Type comment here" maxlength="500" readonly>
+                @*  <a class="galleryIcon" href="javascript:void(0)"><img src="~/assets/images/gallery-add.svg"></a>
+                <a class="EmojiIcon" href="javascript:void(0)"><img src="~/assets/images/emoji.svg"></a> *@
+                <button class="sendIcon" onclick="SendTrigger();"><img src="~/assets/images/send.svg"></button>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,600 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessTokenRequired" xml:space="preserve">
+    <value>Access token is required.</value>
+  </data>
+  <data name="AnotherDeviceLogin" xml:space="preserve">
+    <value>You have logged into another device.</value>
+  </data>
+  <data name="AppVersion" xml:space="preserve">
+    <value>App Version is required.</value>
+  </data>
+  <data name="ConfirmPasswordRequired" xml:space="preserve">
+    <value>Confirm Password is required.</value>
+  </data>
+  <data name="ConfirmPasswordValid" xml:space="preserve">
+    <value>Password and Confirm Password must be same.</value>
+  </data>
+  <data name="ContactUsMailSuccess" xml:space="preserve">
+    <value>Your query has been sent to support. Our support team will contact you soon.</value>
+  </data>
+  <data name="ContactUsSubject" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="UserDetailUpdated" xml:space="preserve">
+    <value>User details updated successfully.</value>
+  </data>
+  <data name="UserDetailUpdateFail" xml:space="preserve">
+    <value>User details update failed.</value>
+  </data>
+  <data name="UserListFetchedSucessfully" xml:space="preserve">
+    <value>User list fected successfully.</value>
+  </data>
+  <data name="EmailExists" xml:space="preserve">
+    <value>This email address already exists.</value>
+  </data>
+  <data name="EmailLength" xml:space="preserve">
+    <value>Email length should be maximum 100 characters.</value>
+  </data>
+  <data name="EmailNotVerified" xml:space="preserve">
+    <value>Email is not verified.</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Email is required.</value>
+  </data>
+  <data name="EmailValid" xml:space="preserve">
+    <value>Please enter valid email.</value>
+  </data>
+  <data name="EmailVerified" xml:space="preserve">
+    <value>Verification successful. Please proceed with your login.</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Something went wrong. Please try again later.</value>
+  </data>
+  <data name="Fail" xml:space="preserve">
+    <value>Fail</value>
+  </data>
+  <data name="FailedToSetNewPassword" xml:space="preserve">
+    <value>Change password failed.</value>
+  </data>
+  <data name="ForgetPassword" xml:space="preserve">
+    <value>Reset password mail has been sent to your registered email address.</value>
+  </data>
+  <data name="ForgetPasswordSubject" xml:space="preserve">
+    <value>Forget Password</value>
+  </data>
+  <data name="ForgotEmailAlreadySent" xml:space="preserve">
+    <value>A reset password request has already been submitted, and an email has been sent to your registered email address within the last 30 minutes.</value>
+  </data>
+  <data name="GetUserDetails" xml:space="preserve">
+    <value>User details get successfully.</value>
+  </data>
+  <data name="InvalidConfirmationToken" xml:space="preserve">
+    <value>Token is invalid.</value>
+  </data>
+  <data name="InvalidOrResetTokenExpired" xml:space="preserve">
+    <value>Invalid request or reset password token has been expired.</value>
+  </data>
+  <data name="InvalidPassword" xml:space="preserve">
+    <value>Invalid credentials.</value>
+  </data>
+  <data name="InvalidRequest" xml:space="preserve">
+    <value>Invalid request.</value>
+  </data>
+  <data name="JWTtokenRequired" xml:space="preserve">
+    <value>JWT authorization token is required.</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>You have login successfully.</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>You have logout successfully.</value>
+  </data>
+  <data name="NameLength" xml:space="preserve">
+    <value>Name legth must be between 3 and 100 characters.</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Name is required.</value>
+  </data>
+  <data name="NewPasswordRequired" xml:space="preserve">
+    <value>New Password is required.</value>
+  </data>
+  <data name="NotAuthorized" xml:space="preserve">
+    <value>You are not authourize to access.</value>
+  </data>
+  <data name="OldAppVersion" xml:space="preserve">
+    <value>App Version you are using is older, please update with new one.</value>
+  </data>
+  <data name="OldNewPasswordNotSame" xml:space="preserve">
+    <value>Old and New Password can not be same.</value>
+  </data>
+  <data name="OldPasswordRequired" xml:space="preserve">
+    <value>Old Password is required.</value>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Password is required.</value>
+  </data>
+  <data name="PasswordUpdated" xml:space="preserve">
+    <value>Password Updated Successfully, Please login again.</value>
+  </data>
+  <data name="PasswordValid" xml:space="preserve">
+    <value>Password should be minimum of 6 characters and maximum of 16 characters, including uppercase, lowercase, number and special character(@$!%*?&amp;#).</value>
+  </data>
+  <data name="ProfileUpdateFailed" xml:space="preserve">
+    <value>Profile update failed.</value>
+  </data>
+  <data name="ProfileUpdateSuccess" xml:space="preserve">
+    <value>Profile updated successfully.</value>
+  </data>
+  <data name="QueryLength" xml:space="preserve">
+    <value>Query length must be between 15 and 500 characters.</value>
+  </data>
+  <data name="QueryRequired" xml:space="preserve">
+    <value>Query is required.</value>
+  </data>
+  <data name="SignUp" xml:space="preserve">
+    <value>An email has been sent to your email address. Please verify your email address.</value>
+  </data>
+  <data name="SignUpFailed" xml:space="preserve">
+    <value>User signup failed.</value>
+  </data>
+  <data name="SomethingWrong" xml:space="preserve">
+    <value>Something went wrong.</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Success</value>
+  </data>
+  <data name="Unauthorized" xml:space="preserve">
+    <value>Your account has been deactivated. Please contact admin.</value>
+  </data>
+  <data name="UnauthorizedMessage" xml:space="preserve">
+    <value>You are not authorized to access this API.</value>
+  </data>
+  <data name="UpdateNotProfile" xml:space="preserve">
+    <value>Profile updates failed.</value>
+  </data>
+  <data name="MarkFavoritesSuccess" xml:space="preserve">
+    <value>Mark favorites Successfully.</value>
+  </data>
+  <data name="UnMarkFavoritesSuccess" xml:space="preserve">
+    <value>undo favorites Successfully.</value>
+  </data>
+  <data name="UpdateProfile" xml:space="preserve">
+    <value>Profile has been updated successfully.</value>
+  </data>
+  <data name="UserAccountDeleted" xml:space="preserve">
+    <value>Your account has been deleted. Please contact to admin.</value>
+  </data>
+  <data name="UserDetailsNotFound" xml:space="preserve">
+    <value>User details not found.</value>
+  </data>
+  <data name="UserIsNotActive" xml:space="preserve">
+    <value>Your account is currently inactive. If you need assistance, please reach out to the support team.</value>
+  </data>
+  <data name="UserNotExist" xml:space="preserve">
+    <value>User does not exist.</value>
+  </data>
+  <data name="UtcOffsetInSecond" xml:space="preserve">
+    <value>UtcOffset In Second is required.</value>
+  </data>
+  <data name="WrongOldPassword" xml:space="preserve">
+    <value>Old Password is wrong.</value>
+  </data>
+  <data name="RegistrationSubject" xml:space="preserve">
+    <value>Registration</value>
+  </data>
+  <data name="PhoneNumberRequired" xml:space="preserve">
+    <value>Phone Number is required.</value>
+  </data>
+  <data name="UserActivated" xml:space="preserve">
+    <value>User account activated successfully.</value>
+  </data>
+  <data name="UserDeactivate" xml:space="preserve">
+    <value>User account deactivated successfully.</value>
+  </data>
+  <data name="UserActivateFailed" xml:space="preserve">
+    <value>User account activation failed.</value>
+  </data>
+  <data name="UserDeactivateFailed" xml:space="preserve">
+    <value>User account deactivation failed.</value>
+  </data>
+  <data name="ActivateUser" xml:space="preserve">
+    <value>You want to activate this user account.</value>
+  </data>
+  <data name="DeactivateUser" xml:space="preserve">
+    <value>You want to deactivate this user account.</value>
+  </data>
+  <data name="DeleteUser" xml:space="preserve">
+    <value>You want to delete this user account.</value>
+  </data>
+  <data name="RecoverUser" xml:space="preserve">
+    <value>You want to recover this user account.</value>
+  </data>
+  <data name="UserAccountRecovered" xml:space="preserve">
+    <value>User account recovered successfully.</value>
+  </data>
+  <data name="UserAccountRecoverFailed" xml:space="preserve">
+    <value>User account recover failed.</value>
+  </data>
+  <data name="UserDeleteFailed" xml:space="preserve">
+    <value>User account delete failed.</value>
+  </data>
+  <data name="VerificationLinkSent" xml:space="preserve">
+    <value>Email verification link sent to your registered mail Id, please click on the link and verify you email.</value>
+  </data>
+  <data name="VerificationLinkSentFailed" xml:space="preserve">
+    <value>Email verification link sent failed, please try again.</value>
+  </data>
+  <data name="VerifyEmailSubject" xml:space="preserve">
+    <value>Verify Email</value>
+  </data>
+  <data name="EmailAlreadyVerified" xml:space="preserve">
+    <value>Email already verified.</value>
+  </data>
+  <data name="PhoneNumberLength" xml:space="preserve">
+    <value>Phone Number length should be minimum 7 and maximum 15.</value>
+  </data>
+  <data name="AcceptTermAndConditons" xml:space="preserve">
+    <value>Please accept Terms &amp; Conditions.</value>
+  </data>
+  <data name="ProfileDeleted" xml:space="preserve">
+    <value>Profile deleted successfully. </value>
+  </data>
+  <data name="ProfileNotDeleted" xml:space="preserve">
+    <value>Failed to delete profile.</value>
+  </data>
+  <data name="TokenFetched" xml:space="preserve">
+    <value>Token fetched successfully.</value>
+  </data>
+  <data name="ResendVerificationLink" xml:space="preserve">
+    <value>Verification link sent successfully</value>
+  </data>
+  <data name="ResendVerificationLinkSubject" xml:space="preserve">
+    <value>Verification link sent successfully</value>
+  </data>
+  <data name="UserDeleteSuccess" xml:space="preserve">
+    <value>User deleted successfully</value>
+  </data>
+  <data name="LogoutSuccess" xml:space="preserve">
+    <value>Logout successfully</value>
+  </data>
+  <data name="FirstNameRequired" xml:space="preserve">
+    <value>First Name is required.</value>
+  </data>
+  <data name="LastNameRequired" xml:space="preserve">
+    <value>Last Name is required.</value>
+  </data>
+  <data name="AccountTypeRequired" xml:space="preserve">
+    <value>Account type is required.</value>
+  </data>
+  <data name="FailedSubscription" xml:space="preserve">
+    <value>Subscription failed.</value>
+  </data>
+  <data name="PlanChanged" xml:space="preserve">
+    <value>Subscription Changed</value>
+  </data>
+  <data name="PlanPurchased" xml:space="preserve">
+    <value>Subscription Purchased</value>
+  </data>
+  <data name="PurchaseSubscription" xml:space="preserve">
+    <value>Subscription purchased.</value>
+  </data>
+  <data name="SubscriptionSuccess" xml:space="preserve">
+    <value>Your payment for the subscription to the plan is successfull.</value>
+  </data>
+  <data name="SubscriptionFailed" xml:space="preserve">
+    <value>Your payment for the subscription to the plan is  failed.</value>
+  </data>
+  <data name="DisplayNameRequired" xml:space="preserve">
+    <value>Field is required.</value>
+  </data>
+  <data name="GenderRequired" xml:space="preserve">
+    <value>Gender is required.</value>
+  </data>
+  <data name="ActivateEscort" xml:space="preserve">
+    <value>You want to activate this escort account.</value>
+  </data>
+  <data name="DeactivateEscort" xml:space="preserve">
+    <value>You want to deactivate this escort account.</value>
+  </data>
+  <data name="DeleteEscort" xml:space="preserve">
+    <value>You want to delete this escort account.</value>
+  </data>
+  <data name="RecoverEscort" xml:space="preserve">
+    <value>You want to recover this escort account.</value>
+  </data>
+  <data name="EscortAccountRecoverFailed" xml:space="preserve">
+    <value>Escort account recover failed.</value>
+  </data>
+  <data name="EscortActivated" xml:space="preserve">
+    <value>Escort account activated successfully.</value>
+  </data>
+  <data name="EscortActivateFailed" xml:space="preserve">
+    <value>Escort account activation failed.</value>
+  </data>
+  <data name="EscortDeactivate" xml:space="preserve">
+    <value>Escort account deactivated successfully.</value>
+  </data>
+  <data name="EscortDeactivateFailed" xml:space="preserve">
+    <value>Escort account deactivation failed.</value>
+  </data>
+  <data name="EscortDeleteFailed" xml:space="preserve">
+    <value>Escort account delete failed.</value>
+  </data>
+  <data name="EscortDeleteSuccess" xml:space="preserve">
+    <value>Escort deleted successfully.</value>
+  </data>
+  <data name="BankAccountHolderNameRequired" xml:space="preserve">
+    <value>Bank account holder name is required.</value>
+  </data>
+  <data name="BankAccountNumberRequired" xml:space="preserve">
+    <value>Bank account number is required.</value>
+  </data>
+  <data name="BankNameRequired" xml:space="preserve">
+    <value>Bank name is required.</value>
+  </data>
+  <data name="BSBNumberRequired" xml:space="preserve">
+    <value>BSB code is required.</value>
+  </data>
+  <data name="ActivateEstablishment" xml:space="preserve">
+    <value>You want to activate this establishment account.</value>
+  </data>
+  <data name="DeactivateEstablishment" xml:space="preserve">
+    <value>You want to deactivate this establishment account.</value>
+  </data>
+  <data name="DeleteEstablishment" xml:space="preserve">
+    <value>You want to delete this establishment account.</value>
+  </data>
+  <data name="RecoverEstablishment" xml:space="preserve">
+    <value>You want to recover this establishment account.</value>
+  </data>
+  <data name="EstablishmentActivated" xml:space="preserve">
+    <value>Establishment account activated successfully.</value>
+  </data>
+  <data name="EstablishmentActivationFailed" xml:space="preserve">
+    <value>Establishment account activation failed.</value>
+  </data>
+  <data name="EstablishmentDeActivated" xml:space="preserve">
+    <value>Establishment account and it's realated escort account's deactivated successfully.</value>
+  </data>
+  <data name="EstablishmentDeActivationFailed" xml:space="preserve">
+    <value>Establishment account deactivation failed.</value>
+  </data>
+  <data name="StaffAdded" xml:space="preserve">
+    <value>Subordinate details added successfully.</value>
+  </data>
+  <data name="StaffUpdated" xml:space="preserve">
+    <value>Subordinate details updated successfully.</value>
+  </data>
+  <data name="UserExists" xml:space="preserve">
+    <value>User already exists.</value>
+  </data>
+  <data name="CreditPaymentSuccess" xml:space="preserve">
+    <value>Credit payment successfull</value>
+  </data>
+  <data name="CreditPaymentFailed" xml:space="preserve">
+    <value>Credit payment failed</value>
+  </data>
+  <data name="PaymentStatusFailed" xml:space="preserve">
+    <value>Payment status update failed</value>
+  </data>
+  <data name="PaymentStatusUpdated" xml:space="preserve">
+    <value>Payment status updated successfully</value>
+  </data>
+  <data name="EstablishmentEscortLimitExceeded" xml:space="preserve">
+    <value>To add more escorts, please upgrade your subscription.</value>
+  </data>
+  <data name="EstablishmentSubscriptionNotExists" xml:space="preserve">
+    <value>You have to purchase subscription for this service.</value>
+  </data>
+  <data name="SubscriptionCancelledError" xml:space="preserve">
+    <value>Subscription cancel failed.</value>
+  </data>
+  <data name="SubscriptionCancelledSuccess" xml:space="preserve">
+    <value>Subscription cancelled successfully.</value>
+  </data>
+  <data name="ProfileCanNotDeleteDueToActiveSubscription" xml:space="preserve">
+    <value>You have an active subscription. To delete your profile, you must cancel your subscription first.</value>
+  </data>
+  <data name="AdminUserActivateProfile" xml:space="preserve">
+    <value>##AdminUserName## (##AdminUserRole##) activated ##TargetUserName## (##TargetUserRole##) profile</value>
+  </data>
+  <data name="AdminUserCreateProfile" xml:space="preserve">
+    <value>##AdminUserName## (##AdminUserRole##) created ##TargetUserName## (##TargetUserRole##) profile</value>
+  </data>
+  <data name="AdminUserDeActivateProfile" xml:space="preserve">
+    <value>##AdminUserName## (##AdminUserRole##) deactivated ##TargetUserName## (##TargetUserRole##) profile</value>
+  </data>
+  <data name="AdminUserMarkPaymentDone" xml:space="preserve">
+    <value>##AdminUserName## (##AdminUserRole##) mark payment done for ##TargetUserName## (##TargetUserRole##)</value>
+  </data>
+  <data name="AdminUserUpdateProfile" xml:space="preserve">
+    <value>##AdminUserName## (##AdminUserRole##) updated ##TargetUserName## (##TargetUserRole##) profile</value>
+  </data>
+  <data name="AdminUserExportClientBalanceReport" xml:space="preserve">
+    <value>##AdminUserName## (##AdminUserRole##) export ##TargetUserName## (##TargetUserRole##) balance report</value>
+  </data>
+  <data name="AdminUserExportPaymentReport" xml:space="preserve">
+    <value>##AdminUserName## (##AdminUserRole##) export payment report</value>
+  </data>
+  <data name="PauseProfile" xml:space="preserve">
+    <value>Profile paused successfully.</value>
+  </data>
+  <data name="PublishProfile" xml:space="preserve">
+    <value>Profile published successfully.</value>
+  </data>
+  <data name="ApproveProfile" xml:space="preserve">
+    <value>Profile approved successfully.</value>
+  </data>
+  <data name="DeniedProfile" xml:space="preserve">
+    <value>Profile denied successfully.</value>
+  </data>
+  <data name="UserIsNotApprove" xml:space="preserve">
+    <value>Your account is currently not approved by admin. If you need assistance, please reach out to the support team.</value>
+  </data>
+  <data name="AdminUserApproveProfile" xml:space="preserve">
+    <value>##AdminUserName## (##AdminUserRole##) approved ##TargetUserName## (##TargetUserRole##) profile</value>
+  </data>
+  <data name="AdminUserDeniedProfile" xml:space="preserve">
+    <value>##AdminUserName## (##AdminUserRole##) denied ##TargetUserName## (##TargetUserRole##) profile</value>
+  </data>
+  <data name="FailedToCancelSubscription" xml:space="preserve">
+    <value>Failed to cancel the current subscription.</value>
+  </data>
+  <data name="UpdateSubscription" xml:space="preserve">
+    <value>If you confirm, your current plan will be cancelled first, and new plan will be activated after payment is confirmed. No refund will be given for the remaining days in the active plan.</value>
+  </data>
+  <data name="AjaxErrorUpdateSubscription" xml:space="preserve">
+    <value>Failed to update subscription.</value>
+  </data>
+  <data name="cameraDenied" xml:space="preserve">
+    <value>Camera permission denied. You cannot open the camera.</value>
+  </data>
+  <data name="cameraGranted" xml:space="preserve">
+    <value>Camera permission granted.</value>
+  </data>
+  <data name="cameraNotDetected" xml:space="preserve">
+    <value>Please attach a camera device and refresh the page to access the camera.</value>
+  </data>
+  <data name="SentVerifyCode" xml:space="preserve">
+    <value>An email verification code has been sent to your email address. Please verify your email address.</value>
+  </data>
+  <data name="InvalidVerificationCode" xml:space="preserve">
+    <value>Invalid verification code</value>
+  </data>
+  <data name="SignUpSuccess" xml:space="preserve">
+    <value>Registration successfully.</value>
+  </data>
+  <data name="EmailCodeVerified" xml:space="preserve">
+    <value>Verification successful.</value>
+  </data>
+  <data name="EnableCamera" xml:space="preserve">
+    <value>Click on enable button to give the camera permission</value>
+  </data>
+  <data name="BankDetailUpdateFailed" xml:space="preserve">
+    <value>Bank details update failed.</value>
+  </data>
+  <data name="BankDetailUpdateSuccess" xml:space="preserve">
+    <value>Bank details updated successfully.</value>
+  </data>
+  <data name="WelcomeEmailMessage" xml:space="preserve">
+    <value>If you haven’t already, kindly subscribe to any of our packages to unlock full access. If you’ve already subscribed, please disregard this message.</value>
+  </data>
+</root>

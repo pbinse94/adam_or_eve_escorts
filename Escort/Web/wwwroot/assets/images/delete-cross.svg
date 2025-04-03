@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="83" height="83" viewBox="0 0 83 83">
+  <g id="delete-cross" transform="translate(-2 -2)">
+    <g id="Group_26" data-name="Group 26" transform="translate(2 2)">
+      <g id="Group_25" data-name="Group 25" transform="translate(0 0)">
+        <g id="Group_24" data-name="Group 24" transform="translate(0 0)">
+          <g id="Group_20" data-name="Group 20" transform="translate(0 0)">
+            <g id="Group_19" data-name="Group 19">
+              <g id="Group_18" data-name="Group 18">
+                <path id="Path_12" data-name="Path 12" d="M38.5,81A41.5,41.5,0,1,1,80,39.5,41.511,41.511,0,0,1,38.5,81Zm0-78.418A36.918,36.918,0,1,0,75.418,39.5,37.009,37.009,0,0,0,38.5,2.582Z" transform="translate(3 2)" fill="#c94545"/>
+              </g>
+            </g>
+          </g>
+          <g id="Group_14322" data-name="Group 14322" transform="translate(29.396 29.396)">
+            <rect id="Rectangle_42" data-name="Rectangle 42" width="4.323" height="30.26" rx="2.161" transform="translate(0.001 3.057) rotate(-45)" fill="#c94545"/>
+            <rect id="Rectangle_43" data-name="Rectangle 43" width="4.323" height="30.26" rx="2.161" transform="translate(21.397 0) rotate(45)" fill="#c94545"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

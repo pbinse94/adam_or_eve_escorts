@@ -1,0 +1,194 @@
+[
+  {
+    "outputFileName": "wwwroot/js/common.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/common/constant.js",
+      "wwwroot/sitejs/common/common.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/header.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/common/header.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/table.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/common/table.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/admin.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/admin.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/user.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/user.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/loginsignup.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/loginsignup.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/escort.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/escort.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/usertokentransaction.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/usertokentransaction.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/pointPurchaseSummary.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/pointPurchaseSummary.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/dashboard.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/dashboard.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/establishment.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/establishment.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/paymentReport.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/paymentReport.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/estPaymentReport.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/estPaymentReport.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/adminUser.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/adminUser.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/loginHistory.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/loginHistory.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/activityLog.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/activityLog.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/clientBalance.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/clientBalance.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/establishmentProfile.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/establishmentProfile.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/subscriptionTransaction.min.js",
+    "inputFiles": [
+      "wwwroot/sitejs/subscriptionTransaction.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  }
+
+] 

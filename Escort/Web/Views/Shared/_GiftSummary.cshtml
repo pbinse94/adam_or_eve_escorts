@@ -1,0 +1,71 @@
+﻿@using Shared.Model.DTO
+@model List<EscortLiveCamGiftSummeryDto>
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "Payment Report";
+    var list = new List<string>();
+    list = new List<string>() { "TotalRecord", "IsPaid" };
+}
+
+
+
+<div class="white-box">
+
+    <div class="table-responsive paymentTable">
+
+        <table class="table" id="data-table_estGiftReport" style="width:100% !important">
+            <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Date</th>
+                    <th class="text-end">Clients</th>
+                    <th class="text-end">Credits</th>
+                    <th class="text-end">Gifts</th>
+                    <th class="text-end">Revenue</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @{
+                    int k = 1;
+                }
+                @if(Model.Any())
+                {
+                    @foreach (var i in Model)
+                    {
+                        <tr class="giftRow">
+                            <td>@(k++)</td>
+                            <td>@i.LiveCamDate.ToString("dd/MM/yyy")</td>
+                            <td class="text-end">@i.LiveCamClients</td>
+                            <td class="text-end">@i.TotalRecievedCredits</td>
+                            <td class="text-end">@i.TotalGiftCredits</td>
+                            <td class="text-end">$@Math.Round(i.TotalRevenue, 2)</td>
+                        </tr>
+                    }
+                }
+                else{
+                    <tr>
+                        <td colspan="6" style="text-align:center">No record found</td>
+                    </tr>
+                }
+                
+            </tbody>
+            @if (Model.Any())
+            { 
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td><b>Total</b></td>
+                        <td class="text-end" id="total_clients"></td>
+                        <td class="text-end" id="total_receivedcredits"></td>
+                        <td class="text-end" id="total_giftcredits"></td>
+                        <td class="text-end" id="total_amount"></td>
+
+                    </tr>
+                </tfoot>
+            }
+            
+        </table>
+    </div>
+</div>

@@ -1,0 +1,130 @@
+﻿@using Shared.Resources;
+@model Shared.Model.DTO.UserDetailsDto 
+
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "Client Profile Detail";
+    var clientId = ViewBag.ClientId;
+    var list = new List<string>();
+    list = new List<string>() { "TotalRecord"};
+}
+
+<style>
+    label {
+        font-weight: bold;
+    }
+</style>
+
+<div class="row flex-fill g-4">
+    <div class="col-md-12">
+        <div class="box-header mt-3 border-0 mb-3">
+            <div class="d-flex">
+                <h1>Client Profile Detail</h1>
+                <a href="javascript:history.back();" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 m-0">
+
+        <div class="white-box mb-3">        
+                <div class="row">
+                    <div class="col-auto">
+                        <img class="img-fluid" id="ProfileImage" asp-for="ProfileImage" data-src="@Model.ProfileImage" src="@Url.Content("~/assets/images/no-image.png")">
+
+                    </div>
+                    <div class="col-md-8 ps-lg-4 mt-4 mt-md-0">
+                        <div class="profile-content-innner detailsPage">
+                            <label>
+                                <h2> @Model.FirstName @Model.LastName </h2>
+
+                            </label>
+                            <ul class="w-100">
+                                <li>
+
+                                    <label>Email :</label>
+                                    <span>@Model.Email</span>
+
+                                </li>
+                                <li>
+                                    <label>Phone Number :</label>
+                                    <span>@Model.CountryCode</span>
+                                    <span>@Model.PhoneNumber</span>
+
+                                </li>
+                                <li>
+                                    <label>Display Name :</label>
+                                    <span>@Model.DisplayName</span>
+                                </li>
+                                <li class="mb-4">
+                                    <label>Country :</label>
+                                    <span>@Model.Country</span>
+
+                                </li>
+
+                            </ul>
+
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+
+            <div class="white-box">
+            <div class="d-flex row mt-2 g-sm-2">
+                <div class="col-6 col-sm-auto mb-2 mt-0">
+                    <div class="Searchbar">
+                        <input id="seachinput" type="text" class="form-control seachinput search-input" placeholder="Search here">
+                    </div>
+                </div> 
+            </div>
+
+
+            <div class="table-responsive">
+                <table class="table table-sm table-default align-middle nowrap" id="data-table_userTransaction" style="width:100% !important">
+                    <thead>
+                        <tr>
+                            @foreach (var p in new Shared.Model.DTO.UserTokenTransactionClientDto().GetType().GetProperties().Where(p => !list.Contains(p.Name)))
+                            {
+                                <th data-name="@p.Name">@(p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name)</th>
+                            }
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section scripts {
+
+    <script>
+        var clientId = '@clientId';
+    </script>
+
+    <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/clientBalance.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/clientBalance.min.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        $(document).ready(function () {
+            $("#User").addClass('active');
+            const userImageElement = $("#ProfileImage");
+
+            if ($("#ProfileImage").data('src') != "")
+            {
+                common.getFile(`user/thumbnail_profile/${$(userImageElement).data('src')}`, $(userImageElement), 'images')
+            }
+        });
+
+        
+    </script>
+}

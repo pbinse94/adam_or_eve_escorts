@@ -1,0 +1,1077 @@
+﻿@using Shared.Common;
+@using Shared.Common.Enums;
+@model Shared.Model.DTO.EscortDetailDto
+@{
+    ViewData["Title"] = "Full Profile";
+    var defaultImageUrl = SiteKeys.SiteUrl + Constants.DefaultUserImage;
+}
+
+<style>
+
+    #carouselExampleFade .escortsImages img {
+    height: calc(100vh - 180px);
+    width: auto !important;
+    display: inline-block !important;
+    max-width: 100% !important;
+}
+
+    #carouselExampleFade .escortsImages {
+        text-align: center;
+    }
+    .carousel-control-next-icon, .carousel-control-prev-icon {
+    filter: brightness(0.5);
+}
+
+    .modal-content.detailPageImagesOuter {
+        background-color: #FFECFD;
+        border: 1px solid #FFECFD;
+        max-width: 800px;
+        margin: auto;
+    }
+
+    .boxChildSection {
+        background: #fff;
+        padding: 8px;
+        border-radius: 10px;
+        margin-bottom: 0;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+        .boxChildSection .colBox {
+            width: 20%;
+            float: left;
+            margin-right: 2%;
+        }
+
+        .boxChildSection .colBoxCity {
+            width: 30%;
+            float: left;
+            margin-right: 2%;
+        }
+
+    .card {
+        border-radius: 8px;
+        color: #000;
+        font-weight: 300;
+        padding: 25px;
+    }
+
+        .card.info-card {
+          
+            padding: 0;
+            border-radius: 8px;
+        }
+
+    .fullImageView {
+        position: relative;
+        margin-bottom: 15px;
+    }
+
+    .mainViewImg {
+        height: 380px;
+        border-radius: 10px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .fullImageDetails h2 {
+        color: #fff;
+        font-size: 34px;
+        font-weight: bold;
+        margin: 0 0 10px 5px;
+    }
+
+    .fullImageDetails p.locations {
+        color: #fff;
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .fullImageDetails p {
+        color: #000;
+        font-size: 14px;
+        font-weight: 300;
+        margin: 0 0 10px 0;
+    }
+
+    .showImgSlider {
+        margin-bottom: 15px;
+    }
+
+    .showImgSlider {
+        position: relative;
+    }
+
+        .showImgSlider img.gal-img {
+            width: 100%;
+            height: 183px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+    .fullImageDetails {
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
+        position: absolute;
+        width: 100%;
+        bottom: 0px;
+        border-radius: 10px;
+        padding: 16px;
+        left: 0;
+    }
+
+    .accountInfoDetail {
+        display: flex;
+        align-items: center;
+    }
+
+    .quickFactsList {
+        margin: 5px 0 8px 0;
+        padding: 0;
+        float: left;
+        width: 100%; font-size:14px
+    }
+    .quickFactsList span {
+        font-weight: bold;
+        min-width: 100px;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .aRightBlog span {
+        margin: 0 15px 0 0;
+        font-weight: 400;
+    }
+
+    .borderBlog {
+        border: 1px solid #BFBFBF;
+        width: 100%;
+        margin: 15px 0;
+    }
+
+    .detailsInfo h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+    }
+
+
+    .detailsInfo h2 {
+        font-size: 17px;
+    }
+
+    .table tbody tr td:first-child, .table thead tr th:first-child {
+        padding: 10px;
+    }
+
+    .videoPlayerBlog {
+        width: 100%;
+        height: 140px;
+    }
+
+    .btn-slider {
+        background: rgba(0,0,0,0.8);
+        color: #fff;
+        border-color: #ec881d;
+        color: #ec881d;
+        position: absolute;
+        top: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: navajowhite;
+        font-weight: bold;
+        font-size: 26px;
+    }
+
+    .profile-page .info-card .card-header{
+    background:#000;
+    color:#fff
+    } 
+
+    .table-striped > thead > tr:nth-of-type(odd) > * {
+        background: #333
+    }
+    .table-striped > tbody > tr:nth-of-type(odd) > *{
+        background: #f9f9f9
+    }
+
+    .profile-page .form-label {
+        font-size: 13px;
+    }
+
+</style>
+
+<Section class="page-content-container">
+
+
+    <div class="box-header mt-3 border-0 mb-3">
+        <div class="d-flex">
+            <h1>Profile Details</h1>
+            <a href="javascript:history.back();" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+
+
+
+
+        <div class="card border-0 mt-3 profile-page">
+                @if (Model.EscortGallery.Where(item => item.MediaType == 1).Count() > 5)
+                {
+                    <div class="img-vid-gallery-row row">
+                        <div class="col-lg-8 col-md-8">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="fullImageView escortsImages">
+                                        <img src="../assets/images/Uploading.gif" class="mainViewImg img-fluid image" data-src="@(Model.EscortGallery.Where(item => item.MediaType == 1).Count() > 0 ? @Model.EscortGallery[0].MediaType == 1 ? (@Model.EscortGallery[0].FileName) : "" : "")">
+                                        <span class="fullImageDetails">
+                                            <h2>@Model.DisplayName</h2>
+
+                                            <p class="locations">
+                                                <i>
+                                                    <img src="../assets/images/location_white.svg" width="24"
+                                                         class="me-1 img-fluid">
+                                                </i> @Model.Country
+                                            </p>
+                                        </span>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-md-6 ">
+                                    <div class="showImgSlider escortsImages">
+                                        <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.EscortGallery.Where(item => item.MediaType == 1).Count() > 1 ? @Model.EscortGallery[1].MediaType == 1 ? (@Model.EscortGallery[1].FileName) : "" : "")">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 escortsImages">
+                                    <div class="showImgSlider">
+                                        <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.EscortGallery.Where(item => item.MediaType == 1).Count() > 2 ? @Model.EscortGallery[2].MediaType == 1 ? (@Model.EscortGallery[2].FileName) : "" : "")">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="row">
+                                <div class="col-md-12 escortsImages">
+                                    <div class="showImgSlider">
+                                        <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.EscortGallery.Where(item => item.MediaType == 1).Count() > 3 ? @Model.EscortGallery[3].MediaType == 1 ? (@Model.EscortGallery[3].FileName) : "" : "")">
+                                    </div>
+                                </div>
+                                <div class="col-md-12 escortsImages">
+                                    <div class="showImgSlider">
+                                        <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.EscortGallery.Where(item => item.MediaType == 1).Count() > 4 ? @Model.EscortGallery[4].MediaType == 1 ? (@Model.EscortGallery[4].FileName) : "" : "")">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="showImgSlider escortsImages">
+                                        <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.EscortGallery.Where(item => item.MediaType == 1).Count() > 5 ? @Model.EscortGallery[0].MediaType == 1 ? (@Model.EscortGallery[5].FileName) : "" : "")">
+
+                                        @{
+                                            var count = Model.EscortGallery.Where(item => item.MediaType == 1).Count() - 6;
+                                        }
+                                        @if (count > 0)
+                                        {
+                                            <a href="javascript:void(0)" class="btn btn-slider w-100 btn-lg" data-bs-toggle="modal" data-bs-target="#profile-pic-slider">+ @count</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+                else if (Model.EscortGallery.Where(item => item.MediaType == 1).Count() > 0)
+                {
+                    <div class="img-vid-gallery-row row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="fullImageView escortsImages">
+                                        <img src="../assets/images/Uploading.gif" class="mainViewImg img-fluid image" data-src="@(Model.EscortGallery.Where(item => item.MediaType == 1).Count() > 0 ? @Model.EscortGallery[0].MediaType == 1 ? (@Model.EscortGallery[0].FileName) : "" : "")">
+                                        <span class="fullImageDetails">
+                                            <h2>@Model.DisplayName</h2>
+
+                                            <p class="locations">
+                                                <i>
+                                                    <img src="../assets/images/location_white.svg" width="24"
+                                                         class="me-1 img-fluid">
+                                                </i> @Model.Country
+                                            </p>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4">
+                                    <div class="row">
+
+                                        <div class="col-md-12 ">
+                                            <div class="showImgSlider escortsImages">
+                                                <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.EscortGallery.Count > 1 ? @Model.EscortGallery[1].MediaType == 1 ? (@Model.EscortGallery[1].FileName) : "" : "")">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 escortsImages">
+                                            <div class="showImgSlider">
+                                                <img src="../assets/images/Uploading.gif" class="gal-img img-fluid image" data-src="@(Model.EscortGallery.Count > 2 ? @Model.EscortGallery[2].MediaType == 1 ? (@Model.EscortGallery[2].FileName) : "" : "")">
+                                                @{
+                                                    var count = Model.EscortGallery.Where(item => item.MediaType == 1).Count() - 3;
+                                                }
+                                                @if (count > 0)
+                                                {
+                                                    <a href="javascript:void(0)" class="btn btn-slider w-100 btn-lg" data-bs-toggle="modal" data-bs-target="#profile-pic-slider">+ @count</a>
+                                                }
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                }
+
+
+                <div class="row mt-2">
+                    <div class="col-lg-8 col-md-12">
+                        <div class="detailsInfo">
+                            <div class="accountInfoDetail">
+                                <div class="aRightBlog">
+                                    <span><b>Account:</b> @(Model.UserType == (int)UserTypes.IndependentEscort ? "Escort" : "Establishment")</span>
+                                    <span><b>Updated:</b> @(Model.UpdatedOnUTC?.ToString("dd/MMM/yyyy") ?? "N/A")</span>
+                                    @if (Model.IsPhotoVerified)
+                                    {
+                                        <i><img src="~/assets/images/verified.svg" width="80px" /></i>
+                                    }
+                                    <span><b>Favorite By:</b> @Model.TotalFavoriteMarkByUsers</span>
+                                    <span><b>Views By:</b> @Model.TotalViews</span>
+                                </div>
+                            </div>
+                            @if ((Model.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Video).Count()) > 0)
+                            {
+                                <div class="col-md-12">
+                                    <div class="borderBlog"></div>
+                                    <h3>Video</h3>
+                                    <div class="row">
+
+                                        @foreach (var escort in Model.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Video))
+                                        {
+                                            <div class="col-lg-3 col-sm-6">
+                                                <div class="videosBox escortsVideos">
+                                                    <video class="videoPlayerBlog" controls id="videoPlayer" style="cursor: pointer;">
+                                                        <source data-src="@escort.FileName" src="movie.mp4" type="video/mp4" class="video_here">
+                                                        <source src="movie.ogg" type="video/ogg">
+                                                    </video>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
+                                </div>
+
+                            }
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="borderBlog"></div>
+                                    <h3>Quick Facts</h3>
+
+                                    <div class="row">
+                                        <div class="col-md-3 col">
+                                            <div class="quickFactsList">
+                                                Gender <span> @(string.IsNullOrEmpty(Model.Gender) ? "-" : Model.Gender)</span>
+                                            </div>
+                                        </div>
+
+                                        @*   <div class="col-md-3 col">
+                                    <div class="quickFactsList">
+                                    Body <span> @Model.BodyType</span>
+                                    </div>
+                                    </div> *@
+
+                                        <div class="col-md-3 col">
+                                            <div class="quickFactsList">
+                                                Age <span> @(Model.Age == null ? "-" : Model.Age)</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col">
+                                            <div class="quickFactsList">
+                                                Height <span> @(Model.Height == null ? "-" : Model.Height)</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-3 col">
+                                            <div class="quickFactsList">
+                                                Language <span>
+                                                    @{
+                                                        if (Model.Language != null)
+                                                        {
+                                                            var language = "";
+                                                            LanguageTypes parsedPreference;
+
+                                                            foreach (var lang in Model.Language)
+                                                            {
+                                                                bool isValid = Enum.TryParse(lang, out parsedPreference);
+                                                                language = language + " " + parsedPreference;
+                                                            }
+                                                            @language
+                                                            ;
+                                                        }
+                                                        else
+                                                        {
+                                                            <span> - </span>
+
+                                                        }
+                                                    }
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        @*    <div class="col-md-3 col">
+                                    <div class="quickFactsList">
+                                    Bust <span> C cup</span>
+                                    </div>
+                                    </div>
+
+                                    <div class="col-md-3 col">
+                                    <div class="quickFactsList">
+                                    Dress <span> Size 6</span>
+                                    </div>
+                                    </div> *@
+
+                                        <div class="col-md-3 col">
+                                            <div class="quickFactsList">
+                                                Eyes <span> @(string.IsNullOrEmpty(Model.Eyes) ? "-" : Model.Eyes)</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-3 col">
+                                            <div class="quickFactsList">
+                                                Body Type <span> @(string.IsNullOrEmpty(Model.BodyType) ? "-" : Model.BodyType)</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col">
+                                            <div class="quickFactsList">
+                                                Weight <span> @(string.IsNullOrEmpty(Model.Weight) ? "-" : Model.Weight)</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col">
+                                            <div class="quickFactsList">
+                                                Ethnicity <span>@(string.IsNullOrEmpty(Model.Ethnicity) ? "-" : Model.Ethnicity)  </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col">
+                                            <div class="quickFactsList">
+                                                Hair Color <span> @(string.IsNullOrEmpty(Model.HairColor) ? "-" : Model.HairColor) </span>
+                                            </div>
+                                        </div>
+                                        @if (Model.Gender == "Female")
+                                        {
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Bust<span> @(string.IsNullOrEmpty(Model.Bust) ? "-" : Model.Bust)</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col">
+                                                <div class="quickFactsList">
+                                                    Dress<span> @(string.IsNullOrEmpty(Model.Dress) ? "-" : Model.Dress)</span>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+
+                                @if (Model.SexualPreferences != null)
+                                {
+                                    <div class="col-md-12">
+                                        <div class="borderBlog"></div>
+                                        <h3>Services</h3>
+
+                                        <div class="servicesList">
+                                            <ul>
+                                                @foreach (var prefer in Model.SexualPreferences)
+                                                {
+                                                    SexualPreferencesTypes parsedPreference;
+                                                    bool isValid = Enum.TryParse(prefer, out parsedPreference);
+                                                    if (isValid)
+                                                    {
+                                                        <li>@parsedPreference</li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.CategoriesNames))
+                                {
+                                    <div class="col-md-12">
+                                        <div class="borderBlog"></div>
+                                        <h3>Prefer Sex Partner</h3>
+
+                                        <div class="servicesList">
+                                            <ul>
+                                                @foreach (var prefer in Model.CategoriesNames.Split(","))
+                                                {
+                                                    <li>@prefer</li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+
+                                @if (Model.TourLocation.Any())
+                                {
+                                    <div class="col-md-12">
+                                        <div class="borderBlog"></div>
+                                        <h3>Tour Location</h3>
+
+                                        <div class="servicesList">
+                                            @foreach (var tourLocation in Model.TourLocation)
+                                            {
+                                                <div class="boxChildSection">
+                                                    <div class="colBoxCity">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">City</label>
+                                                            <label class="form-control">@tourLocation.City</label>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="colBox">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">State</label>
+                                                            <label class="form-control">@tourLocation.State</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="colBox">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Country</label>
+                                                            <label class="form-control">@tourLocation.Country</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="colBox">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Postal Code</label>
+                                                            <label class="form-control">@tourLocation.PostalCode</label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            }
+
+                                        </div>
+                                    </div>
+                                }
+
+
+                                @if (Model.BaseLocation.Any())
+                                {
+                                    <div class="col-md-12">
+                                        <div class="borderBlog"></div>
+                                        <h3>Base Location</h3>
+
+                                        <div class="servicesList">
+                                            @foreach (var baseLocation in Model.BaseLocation)
+                                            {
+                                                <div class="boxChildSection">
+                                                    <div class="colBoxCity">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">City</label>
+                                                            <label class="form-control">@baseLocation.City</label>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="colBox">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">State</label>
+                                                            <label class="form-control">@baseLocation.State</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="colBox">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Country</label>
+                                                            <label class="form-control">@baseLocation.Country</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="colBox">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Postal Code</label>
+                                                            <label class="form-control">@baseLocation.PostalCode</label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            }
+
+                                        </div>
+                                    </div>
+                                }
+
+
+
+
+
+                                @if (!string.IsNullOrEmpty(Model.Proffered))
+                                {
+                                    <div class="col-md-12">
+                                        <div class="borderBlog"></div>
+                                        <h3>Preferred Contact Details</h3>
+
+                                        <p>
+                                            @Model.Proffered
+                                        </p>
+                                    </div>
+                                }
+
+                                @if (!string.IsNullOrEmpty(Model.Bio))
+                                {
+                                    <div class="col-md-12">
+                                        <div class="borderBlog"></div>
+                                        <h3 class="mb-3">About Me</h3>
+
+                                        @Html.Raw(Model.Bio)
+                                    </div>
+                                }
+
+
+
+                                <div class="col-md-12">
+                                    <div class="borderBlog"></div>
+                                    <h3>Testimonial </h3>
+                                    
+                                </div>
+
+
+                                <div id="testimonial-container">
+                                    <!-- Testimonial partial view will be loaded here -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-lg-4 col-md-12">
+                        
+                            <div class="card info-card mb-4">
+                                <div class="card-header"><img src="../assets/images/call-icon.svg"> Contact</div>
+                                <div class="card-body">
+                                    <button class="btn btn-primary me-1 w-auto mb-2" data-bs-toggle="modal" data-bs-target="#smsPopup"><img src="../assets/images/sms-icon.svg"> SMS</button>
+                                    
+                                    <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#sendCallPopup"><img src="../assets/images/call-icon.svg"> Call</button>
+                                </div>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(Model.FaceBookUrl)
+                            || !string.IsNullOrEmpty(Model.TwitterUrl)
+                            || !string.IsNullOrEmpty(Model.YouTubeUrl)
+                            || !string.IsNullOrEmpty(Model.LinkedinUrl)
+                            || !string.IsNullOrEmpty(Model.InstagramUrl)
+                            || !string.IsNullOrEmpty(Model.SnapChatUrl)
+                            || !string.IsNullOrEmpty(Model.TikTokUrl))
+                            {
+                                <div class="card info-card mb-4">
+                                    <div class="card-header"><img src="../assets/images/social-media-icon.svg"> Social Media </div>
+                                    <div class="card-body py-2">
+                                        <ul class="socialist mt-1 mb-2">
+                                            @if (Model.FaceBookUrl != null)
+                                            {
+                                                <li><a href="@Model.FaceBookUrl"><img class="img-fluid" src="../assets/images/facebbook.png"></a></li>
+                                            }
+
+                                            @if (Model.TwitterUrl != null)
+                                            {
+                                                <li><a href="@Model.TwitterUrl"><img class="img-fluid" src="../assets/images/twitter.png"></a></li>
+                                            }
+
+                                            @if (Model.YouTubeUrl != null)
+                                            {
+                                                <li><a href="@Model.YouTubeUrl"><img class="img-fluid" src="../assets/images/youtube.png"></a></li>
+                                            }
+
+                                            @if (Model.LinkedinUrl != null)
+                                            {
+                                                <li><a href="@Model.LinkedinUrl"><img class="img-fluid" src="../assets/images/linkedin.png"></a></li>
+                                            }
+
+                                            @if (Model.InstagramUrl != null)
+                                            {
+                                                <li><a href="@Model.InstagramUrl"><img class="img-fluid" src="../assets/images/instagram.png"></a></li>
+                                            }
+                                            @if (Model.SnapChatUrl != null)
+                                            {
+                                                <li><a href="@Model.SnapChatUrl"><img class="img-fluid" src="../assets/images/snapchat.svg"></a></li>
+                                            }
+                                            @if (Model.TikTokUrl != null)
+                                            {
+                                                <li><a href="@Model.TikTokUrl"><img class="img-fluid" src="../assets/images/tiktok.svg"></a></li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        
+
+                        @if (Model != null && Model.AvailabilityCalendar != null && Model.AvailabilityCalendar.Where(p => p.IsAvailable24X7 == true || p.FromTime != null).Count() > 0)
+                        {
+                            <div class="card info-card mb-4">
+                                <div class="card-header"><img src="../assets/images/availability-icon.svg"> Availability</div>
+                                <div class="card-body py-2">
+                            <table class="table table-borderless mb-0 cardtable table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Days</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                    </tr>
+                                </thead>
+                                        
+
+                                        @foreach (var item in Model.AvailabilityCalendar)
+                                        {
+                                            @if (!item.IsNotAvailable)
+                                            {
+                                                <tr>
+                                                    <td class="fw-bold">@(((Shared.Common.Enums.DayOfWeekType)item.DayNumber).ToString())               </td>
+                                                    <td>@(item.IsAvailable24X7 == true ? "00:00" : item.FromTime)</td>
+                                                    <td>@(item.IsAvailable24X7 == true ? "23:59" : item.ToTime)</td>
+                                                </tr>
+                                            }
+                                        }
+
+
+                                    </table>
+                                </div>
+                                @if (!string.IsNullOrEmpty(Model.AvailablityNotes))
+                                {
+                                    <div class="card-footer text-body-secondary">
+                                        <h6>Notes</h6>
+                                        <p style="color:#fff"> @Model.AvailablityNotes</p>
+
+                                    </div>
+                                }
+
+                            </div>
+                        }
+
+                        @if (Model != null && Model.Rates != null && Model.Rates.Count > 0)
+                        {
+                            <div class="card info-card mb-4">
+                                <div class="card-header"><img src="../assets/images/availability-icon.svg"> Rates From</div>
+                                <div class="card-body py-2">
+                                    <table class="table table-borderless mb-0 cardtable">
+
+
+                                        <tr>
+                                            <th>Duration</th>
+                                            <th>Incalls</th>
+                                            <th>Outcalls</th>
+                                        </tr>
+                                        @foreach (var item in Model.Rates)
+                                        {
+                                            <tr>
+                                                @if (@item.Duration != null)
+                                                {
+                                                    <td class="fw-bold">@item.Duration Min</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="fw-bold">@item.Duration</td>
+                                                }
+
+                                                <td>@(item.InCallRate > 0 ? $"${item.InCallRate.ToString()}" : "-")</td>
+                                                <td>@(item.OutCallRate > 0 ? $"${item.OutCallRate.ToString()}" : "-")</td>
+
+
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                                @if (!string.IsNullOrEmpty(Model.RatesNotes))
+                                {
+                                    <div class="card-footer text-body-secondary">
+                                        <h6>Rates Extras</h6>
+                                        <p style="color:#fff"> @Model.RatesNotes</p>
+
+                                    </div>
+                                }
+
+
+                            </div>
+                        }
+                    </div>
+
+
+                </div>
+
+
+            </div>
+        
+  
+</Section>
+
+<div class="modal fade" id="profile-pic-slider">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content px-3 detailPageImagesOuter">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="carouselExampleFade" class="carousel slide carousel-fade ">
+                    <div class="carousel-inner">
+
+                        @if (Model.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Image) != null)
+                        {
+                            int count = 0;
+                            foreach (var escort in Model.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Image))
+                            {
+                                <div class="carousel-item @(count==0?"active":"") escortsImages">
+                                    <img src="assets/images/sliderimg1.png"
+                                         data-src="@escort.FileName" class="d-block w-100 image" alt="...">
+                                </div>
+                                count++;
+                            }
+                        }
+
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Call  Modal -->
+<div class="modal fade" id="sendCallPopup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content popupPadding">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pt-0">
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <h5>SMS</h5>
+                        <p>No blocked/private numbers will be answered.</p>
+
+                        <h6 class="mb-4">I accept SMS Messages</h6>
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Mobile 1</label>
+                                    <div class="mobileNumber">
+                                        <a href="javascript:void(0)"> @Model.CountryCode  @Model.PhoneNumber</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="colorPink">Please let BRISBANE MILF Honey B 0480406210 know you found them on Escorts and Babes!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+
+        loadTestimonial();
+
+
+        // Call the function with the desired testimonial ID
+
+        $($('.escortsImages')).each(function (index, element)
+        {
+
+            const escortImageElement = $(element).find('.image');
+            if ($(escortImageElement).data('src') != "")
+            {
+                common.getFile(`user/detail/${$(escortImageElement).data('src')}`, $(escortImageElement), 'images')
+            }
+        });
+
+        $($('.escortsVideos')).each(function (index, element)
+        {
+
+            const escortImageElement = $(element).find('.video_here');
+            if ($(escortImageElement).data('src') != "")
+            {
+                common.getFile(`${$(escortImageElement).data('src')}`, $(escortImageElement), 'videos')
+            }
+
+        });
+        setTimeout(function ()
+        {
+            $($('.escortsVideos')).each(function (index, element)
+            {
+                const video = $(element).find('video');
+                if (video)
+                {
+                    video[0].load();
+                }
+            });
+        }, 3000);
+
+        // function addTestimonial()
+        // {
+        //     var modelId = '@Model.EscortID'; // Replace with your actual model ID
+        //     var testimonialDetails = document.getElementById('TestimonialDetails').value;
+        //     if (!testimonialDetails)
+        //     {
+        //         // Set an error message in the textarea
+        //         toastr.error("Testimonial cannot be empty.");
+        //     } else
+        //     {
+        //         $.ajax({
+        //             url: '/testimonial/addTestimonial',
+        //             type: 'POST',
+        //             data: {
+        //                 escortId: modelId,
+        //                 testimonialDetails: testimonialDetails
+        //             },
+        //             success: function (response)
+        //             {
+        //                 if (response.success)
+        //                 {
+        //                     toastr.success('Testimonial added successfully!');
+        //                     document.getElementById('TestimonialDetails').value = ""
+        //                     loadTestimonial('@Model.EscortID');
+        //                 } else
+        //                 {
+        //                     toastr.error('Oops! You cannot give a testimonial on your own profile.');
+        //                 }
+
+        //             },
+        //             error: function (xhr, status, error)
+        //             {
+        //                 // Handle error scenario
+        //                 toastr.error('Error adding testimonial: ' + error);
+        //             }
+        //         });
+        //     }
+
+        // }
+
+        // $('#emailForm').submit(function (event)
+        // {
+        //     event.preventDefault(); // Prevent the form from submitting via the browser
+
+        //     if ($('#emailForm').valid())
+        //     {
+        //         var formData = $(this).serialize(); // Serialize the form data
+
+
+        //         var model = {
+
+        //             Name: $('#name').val(),
+        //             EscortMail: '@Model.Email',
+        //             DisplayName: "@Model.DisplayName",
+        //             Email: $('#email').val(),
+        //             PhoneNumber: $('#phoneNumber').val(),
+        //             Day: $('#day').val(),
+        //             Time: $('#time').val(),
+        //             Duration: parseInt($('#duration').val()),
+        //             Service: $('#service').val(),
+        //             MeetLocation: $('#meetLocation').val(),
+        //             IsFirstTime: $('input[name="EmailRequestModel.IsFirstTime"]:checked').val() === 'true',
+        //             ContactMethod: $('input[name="EmailRequestModel.ContactMethod"]:checked').val(),
+        //         };
+        //         $.ajax({
+        //             url: '/Home/SendEmail',
+        //             type: 'POST',
+        //             data: model,
+        //             dataType: 'json',
+        //             success: function (response)
+        //             {
+        //                 if (response.success)
+        //                 {
+        //                     toastr.success(response.message);
+        //                     $('#SendMeAnEmail').modal('hide');
+        //                     $('#emailForm')[0].reset();
+
+        //                 } else
+        //                 {
+        //                     // Display validation errors
+        //                     var errors = response.errors;
+        //                     var errorMessages = '';
+        //                     for (var key in errors)
+        //                     {
+        //                         if (errors.hasOwnProperty(key))
+        //                         {
+        //                             errorMessages += errors[key] + '\n';
+        //                         }
+        //                     }
+        //                     toastr.errors(errorMessages);
+        //                 }
+        //             },
+        //             error: function (error)
+        //             {
+        //                 toastr.errors('An error occurred while sending the email.');
+        //             }
+        //         });
+        //     }
+
+        // });
+
+        function loadTestimonial()
+        {
+            var modelId = '@Model.EscortID';
+            $.ajax({
+                url: '/testimonial/getTestimonial',
+                type: 'POST',
+                data: {
+                    id: modelId
+                },
+                dataType: 'html',
+                success: function (response)
+                {
+
+                    $('#testimonial-container').html(response);
+
+
+                },
+                error: function (xhr, status, error)
+                {
+                    // Handle error scenario
+                    toastr.error('Error adding testimonial: ' + error);
+                }
+            });
+
+
+
+        }
+
+    </script>
+}

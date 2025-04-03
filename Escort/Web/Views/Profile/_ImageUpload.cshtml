@@ -1,0 +1,64 @@
+﻿@model Shared.Model.DTO.EscortDetailDto
+@{
+    Layout = null;
+}
+
+<style>
+
+    .customforbulk {
+      cursor:pointer;
+        float: left;
+        position: absolute;
+        top:3px;
+        left:5px;
+    }
+
+</style>
+
+
+
+<div class="col-md-12">
+    <h6 class="color-heading">Upload Image</h6>
+    <div class="mb-2">
+        <div class="d-flex flex-wrap" id="parentEscortsImg">
+            <div class="postfiles">
+                <label class="uploadPostButton" for="Images">
+                    <figure class="upload-theme-btn mb-0">
+                        <img src="~/assets/images/addicon-circle.svg" class="img-fluid">
+                    </figure>
+                </label>
+                <input asp-for="Images" class="inputFile" type="file" accept=".jpg, .jpeg .png" multiple />
+
+            </div>
+            <div class="uploadViewImg escortsImageCloneDiv" style="display:none;">
+                <img src="@Url.Content("~/assets/images/est-ht-default-profile.png")" data-src="" class="img-fluid viewImgUpload image">
+                <span><img class="remove-file" src="~/assets/images/circle-_red_close.svg"></span>
+
+                <div class="pixelatedBox customforbulk" title="Blurry" onclick="PixlateShow('#ProfileImage')" style="display:none;">
+                    <img width="18px" src="@Url.Content("~/assets/images/pixelated-icon.png")" alt="Pixelated Icon" />
+                </div>
+            </div>
+            @if (Model != null && Model.EscortGallery.Count > 0)
+            {
+                foreach (var escort in Model.EscortGallery.Where(x => x.MediaType == (byte)Shared.Common.Enums.MediaTypes.Image))
+                {
+                    <div class="uploadViewImg escortsImages">
+                        <img src="@Url.Content("~/assets/images/est-vt-default-profile.png")" data-src="@escort.FileName" class="img-fluid viewImgUpload image">
+                        <span><img class="remove-file" src="~/assets/images/circle-_red_close.svg"></span>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+</div>
+<div class="text-end">
+    <button class="btn btn-primary" type="button" onclick="uploadImages(this)">Upload Images</button>
+</div>
+<div class="col-md-12">
+    <hr>
+</div>
+
+
+
+      
