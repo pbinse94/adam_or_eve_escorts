@@ -27,6 +27,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @await Html.PartialAsync("_CSSPartial")
     <title>@ViewData["Title"] - Adam or Eve</title>
+    <link rel="manifest" href="/manifest.webmanifest">
     <script>
         var mapsApiKey = '@SiteKeys.GeoLocationApiKey';
     </script>
@@ -339,7 +340,13 @@
 
 
 
-
+    <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(reg => console.log('Service Worker registered:', reg))
+            .catch(err => console.error('Service Worker registration failed:', err));
+        }
+    </script>
     @await Html.PartialAsync("_JsScriptsPartial")
     @await Html.PartialAsync("_ValidationScriptsPartial")
     @await Html.PartialAsync("_CommonScriptsPartial")
@@ -354,6 +361,7 @@
             <script src="~/js/loginsignup.min.js"></script>
         </environment>
     }
+
     <script>
         $(document).ready(function () {
 

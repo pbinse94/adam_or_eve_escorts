@@ -144,6 +144,7 @@ namespace Web.Controllers
             string returnUrl = SiteKeys.SiteUrl + "Subscription/Success";
             string cancelUrl = SiteKeys.SiteUrl + "Subscription/Cancel";
 
+            //saving subscription
             var userSubscription = await _subscriptionPlanService.InitiateUserSubscription(LoginMemberSession.UserDetailSession?.UserId, planId == (byte)SubscriptionPlanDurationType.IndependentEscortBasic ? TransactionPaymentStatus.Success : TransactionPaymentStatus.Pending, planId);
 
             if (userSubscription == null || userSubscription.Data == null || string.IsNullOrEmpty(userSubscription.Data.SubscriptionPlanPaypalId))
@@ -198,6 +199,8 @@ namespace Web.Controllers
             else
             {
                 approvalUrl = await _payPalService.CreateSubscriptionAsync(userSubscription.Data.SubscriptionPlanPaypalId, returnUrl, cancelUrl, LoginMemberSession.UserDetailSession?.EmailId, LoginMemberSession.UserDetailSession?.UserId.ToString()?.ToEncrypt() ?? "", userSubscription.Data.UserSubscriptionId.ToString().ToEncrypt());
+
+                //save here after payment is success
             }
 
 
