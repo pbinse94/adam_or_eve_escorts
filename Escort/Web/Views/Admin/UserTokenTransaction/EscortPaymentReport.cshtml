@@ -1,0 +1,84 @@
+﻿@using Shared.Model.DTO
+@model List<EscortPaymentAmountFromClientDto>
+@{
+    var pageSize = ViewBag.PageSize;
+    var pageIndex = ViewBag.PageIndex;
+    ViewData["Title"] = "Payment Report";
+    var list = new List<string>();
+    list = new List<string>() {  "TotalRecord", "IsPaid" };
+}
+<style>
+    .dataTables_length{
+        display:none;
+    }
+
+    #data-table_estPaymentReport_filter{
+        margin-bottom:10px;
+    }
+</style>
+
+@Html.HiddenFor(x => pageSize)
+@Html.HiddenFor(x => pageIndex)
+
+<input id="hiddenFieldId" type="hidden" value="" />
+
+<div class="d-flex">
+    <h4 class="mb-3" style="text-transform:capitalize"><a href="javascript:history.back();" class="backBtn"><img src="~/assets/images/arrow-left.svg"> </a>@(string.IsNullOrEmpty(ViewBag.EscortName) ? "Payment Report" : ViewBag.EscortName)</h4>
+
+    @*     <div class="ms-auto d-flex align-items-center mb-2">
+    <a href="@Url.Action("ExportPaymentReport","UserTokenTransaction", new { @paidFilter = 1 })" class="btn login-btn">Export Excel</a>
+
+    </div> *@
+</div>
+
+
+<div class="white-box">
+    
+    <div class="table-responsive">
+
+        <table class="table table-sm table-default align-middle nowrap" id="data-table_estPaymentReport" style="width:100% !important">
+            <thead>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Client Name</th>
+                    <th class="text-end">Amount</th>
+                    <th class="text-end">Spent Date</th>
+                </tr>
+
+            </thead>
+            <tbody>@{
+                    int k = 1;
+                }
+                @foreach (var i in Model)
+                {
+                    <tr>
+                        <td>@(k++)</td>
+                        <td>@i.ClientName</td>
+                        <td class="text-end  rpad-26">$@Math.Round(i.Amount, 2)</td>
+                        <td class="text-end">@i.SpentDate.ToString("dd/MM/yyy")</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+@section scripts {
+    @*     <environment include="Development">
+        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/sitejs/estPaymentReport.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/js/estPaymentReport.min.js" asp-append-version="true"></script>
+    </environment> *@
+    <script>
+        $(function () {
+            $('#data-table_estPaymentReport').dataTable();
+        })
+    </script>
+
+
+}
