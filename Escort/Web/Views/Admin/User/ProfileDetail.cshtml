@@ -32,7 +32,7 @@
         <div class="white-box mb-3">        
                 <div class="row">
                     <div class="col-auto">
-                        <img class="img-fluid" id="ProfileImage" asp-for="ProfileImage" data-src="@Model.ProfileImage" src="@Url.Content("~/assets/images/no-image.png")">
+                    <img class="img-fluid" id="ProfileImage" asp-for="ProfileImage" data-src="@Model.ProfileImage" src="@Url.Content("~/admin/assets/images/no-image.png")">
 
                     </div>
                     <div class="col-md-8 ps-lg-4 mt-4 mt-md-0">
@@ -108,12 +108,12 @@
     </script>
 
     <environment include="Development">
-        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
-        <script src="~/sitejs/clientBalance.js" asp-append-version="true"></script>
+        <script src="~/admin/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/admin/sitejs/clientBalance.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="~/js/table.min.js" asp-append-version="true"></script>
-        <script src="~/js/clientBalance.min.js" asp-append-version="true"></script>
+        <script src="~/admin/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/admin/js/clientBalance.min.js" asp-append-version="true"></script>
     </environment>
     <script>
         $(document).ready(function () {

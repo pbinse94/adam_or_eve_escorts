@@ -81,14 +81,14 @@
         <div class="col-auto ps-0">Filter :</div>
         <div class="col-auto ">
             <div class="date-input-gp">
-                <i><img src="~/assets/images/calendar.svg"> </i>
+                <i><img src="~/admin/assets/images/calendar.svg"> </i>
                 <input type="text" id="txtFromDate" class="form-control calendarIconCss mb-2" placeholder="From" autocomplete="off" readonly="readonly">
             </div>
         </div>
 
         <div class="col-auto">
             <div class="date-input-gp">
-                <i><img src="~/assets/images/calendar.svg"> </i>
+                <i><img src="~/admin/assets/images/calendar.svg"> </i>
                 <input type="text" id="txtToDate" class="form-control calendarIconCss mb-2" placeholder="To" autocomplete="off" readonly="readonly">
             </div>
         </div>
@@ -155,12 +155,12 @@
 
 @section scripts {
     <environment include="Development">
-        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
-        <script src="~/sitejs/pointPurchaseSummary.js" asp-append-version="true"></script>
+        <script src="~/admin/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/admin/sitejs/pointPurchaseSummary.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="~/js/table.min.js" asp-append-version="true"></script>
-        <script src="~/js/pointPurchaseSummary.min.js" asp-append-version="true"></script>
+        <script src="~/admin/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/admin/js/pointPurchaseSummary.min.js" asp-append-version="true"></script>
     </environment>
     <script>
         $(document).ready(function () {

@@ -19,7 +19,7 @@
                     <a href="@Url.Action("Index","Escort")" class="text-center" style="cursor:@(canViewEscorts ? "pointer":"default")">
                         <div class="text-center">
                             <i class="IconBody">
-                                <img src="~/assets/images/ico01.svg" alt="" />
+                                <img src="~/admin/assets/images/ico01.svg" alt="" />
                             </i>
                         </div>
                         <div>
@@ -36,7 +36,7 @@
                     <a href="@Url.Action("Index","User")" class="text-center" style="cursor:@(canViewClients ? "pointer":"default")">
                         <div class="text-center">
                             <i class="IconBody">
-                                <img src="~/assets/images/total_clients.svg" alt="" />
+                                <img src="~/admin/assets/images/total_clients.svg" alt="" />
                             </i>
                         </div>
                         <div>
@@ -52,7 +52,7 @@
                     <a href="@Url.Action("Index","Establishment")" class="text-center" style="cursor:@(canViewEstablishment ? "pointer":"default")">
                         <div class="text-center">
                             <i class="IconBody">
-                                <img src="~/assets/images/ico04.svg" alt="" />
+                                <img src="~/admin/assets/images/ico04.svg" alt="" />
                             </i>
                         </div>
                         <div>
@@ -69,7 +69,7 @@
                         <a href="@Url.Action("PaymentReport","UserTokenTransaction")" class="text-center">
                             <div class="text-center">
                                 <i class="IconBody">
-                                    <img src="~/assets/images/ico03.svg" alt="" />
+                                    <img src="~/admin/assets/images/ico03.svg" alt="" />
                                 </i>
                             </div>
                             <div>
@@ -87,7 +87,7 @@
                     <a href="javascript:void(0)" class="text-center" style="cursor:default">
                         <div class="text-center">
                             <i class="IconBody">
-                                <img src="~/assets/images/ico05.svg" alt="" />
+                                <img src="~/admin/assets/images/ico05.svg" alt="" />
                             </i>
                         </div>
                         <div>
@@ -103,7 +103,7 @@
                     <a href="javascript:void(0)" class="text-center" style="cursor:default">
                         <div class="text-center">
                             <i class="IconBody">
-                                <img src="~/assets/images/ico05.svg" alt="" />
+                                <img src="~/admin/assets/images/ico05.svg" alt="" />
                             </i>
                         </div>
                         <div>
@@ -164,10 +164,10 @@
 @section scripts {
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <environment include="Development">
-        <script src="~/sitejs/dashboard.js"></script>
+        <script src="~/admin/sitejs/dashboard.js"></script>
     </environment>
     <environment exclude="Development">
-        <script src="~/js/dashboard.min.js"></script>
+        <script src="~/admin/js/dashboard.min.js"></script>
     </environment>
     <script>
         var isRevenueReportAvailable = '@Model.Item2';

@@ -67,12 +67,12 @@
 
 @section scripts {
     <environment include="Development">
-        <script src="~/sitejs/common/table.js" asp-append-version="true"></script>
-        <script src="~/sitejs/admin.js" asp-append-version="true"></script>
+        <script src="~/admin/sitejs/common/table.js" asp-append-version="true"></script>
+        <script src="~/admin/sitejs/admin.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="~/js/table.min.js" asp-append-version="true"></script>
-        <script src="~/js/admin.min.js" asp-append-version="true"></script>
+        <script src="~/admin/js/table.min.js" asp-append-version="true"></script>
+        <script src="~/admin/js/admin.min.js" asp-append-version="true"></script>
     </environment>
     <script>
         $(document).ready(function ()

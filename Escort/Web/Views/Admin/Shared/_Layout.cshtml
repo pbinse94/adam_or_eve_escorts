@@ -22,7 +22,7 @@
     {
         <meta name="robots" content="noindex">
     }
-    @await Html.PartialAsync("_CSSPartial")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_CSSPartial")
     <title>@ViewData["Title"] - Admin</title>
 </head>
 <body class="inner">
@@ -31,13 +31,13 @@
 
     <header class="header">
         <div class="w-100 d-flex align-items-center">
-            <div class="menu-btn"><img src="~/assets/images/menu.svg" alt="menu" /></div>
+            <div class="menu-btn"><img src="~/admin/assets/images/menu.svg" alt="menu" /></div>
 
             <div class="ms-auto d-flex align-items-center">
                 <div class="me-2">
                     @userRoleName
                 </div>
-                <a href="@Url.Action("Logout","Account")" class="btn login-btn">Logout <img class="ms-1" src="~/assets/images/logout.svg"></a>
+                <a href="@Url.Action("Logout","Account")" class="btn login-btn">Logout <img class="ms-1" src="~/admin/assets/images/logout.svg"></a>
             </div>
 
         </div>
@@ -47,34 +47,34 @@
     <aside class="sidebar">
         <button type="button" class="btn-close text-reset menu-btn" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         <div class="text-center w-100">
-            <a href="javascript:void(0);" class="logo"><img class="img-fluid" src="~/assets/images/whiteLogo.svg" alt="logo"/></a>
+            <a href="javascript:void(0);" class="logo"><img class="img-fluid" src="~/admin/assets/images/whiteLogo.svg" alt="logo" /></a>
         </div>
         <ul>
-            <li id="Dashboard"><a href="@Url.Action("Index","Dashboard")"><img src="~/assets/images/dashboardicon.svg" alt="dashboard" /> Dashboard</a></li>
+            <li id="Dashboard"><a href="@Url.Action("Index","Dashboard")"><img src="~/admin/assets/images/dashboardicon.svg" alt="dashboard" /> Dashboard</a></li>
 
             @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.Clients, permissionsCache))
             {
-                <li id="User"><a href="@Url.Action("Index","User")"><img src="~/assets/images/total_clients.svg" alt="clients" />Clients</a></li>
+                <li id="User"><a href="@Url.Action("Index","User")"><img src="~/admin/assets/images/total_clients.svg" alt="clients" />Clients</a></li>
             }
             @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.Escorts, permissionsCache))
             {
-                <li id="Escort"><a href="@Url.Action("Index","Escort")"><img src="~/assets/images/escorts-list.svg" alt="escorts" />Escorts</a></li>
+                <li id="Escort"><a href="@Url.Action("Index","Escort")"><img src="~/admin/assets/images/escorts-list.svg" alt="escorts" />Escorts</a></li>
             }
             @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.Establishments, permissionsCache))
             {
-                <li id="Establishment"><a href="@Url.Action("Index","Establishment")"><img src="~/assets/images/clients-list.svg" alt="establishments" />Establishments</a></li>
+                <li id="Establishment"><a href="@Url.Action("Index","Establishment")"><img src="~/admin/assets/images/clients-list.svg" alt="establishments" />Establishments</a></li>
             }
             @if (userRoleId == (short)UserTypes.SuperAdmin)
             {
-                <li id="adminUser"><a href="@Url.Action("Index","AdminUser")"><img src="~/assets/images/staff.svg" alt="establishments" />Subordinates</a></li>
+                <li id="adminUser"><a href="@Url.Action("Index","AdminUser")"><img src="~/admin/assets/images/staff.svg" alt="establishments" />Subordinates</a></li>
             }
 
 
-            <li id="ChangePassword"><a href="@Url.Action("ChangePassword","User")"><img src="~/assets/images/change-password.svg" alt="change password" />Change Password</a></li>
+            <li id="ChangePassword"><a href="@Url.Action("ChangePassword","User")"><img src="~/admin/assets/images/change-password.svg" alt="change password" />Change Password</a></li>
             @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.RevenueReport, permissionsCache))
             {
                 <li class="nav-item dropdown" id="revenuereport">
-                    <a class="dropdown-toggle" href="#" role="" data-bs-toggle="dropdown" aria-expanded="false"><img src="~/assets/images/revenue-report.svg" alt="refund-icon" />Report</a>
+                    <a class="dropdown-toggle" href="#" role="" data-bs-toggle="dropdown" aria-expanded="false"><img src="~/admin/assets/images/revenue-report.svg" alt="refund-icon" />Report</a>
                     <ul class="dropdown-menu leftMenuDrop">
                         @* <li id="ClientSpendingReport"><a class="dropdown-item" href="@Url.Action("Index","UserTokenTransaction")">Client Spending Report </a></li>
                         <li id="PaymentReport"><a class="dropdown-item" href="@Url.Action("PaymentReport","UserTokenTransaction")">Payment Report</a></li> *@
@@ -109,10 +109,10 @@
         © Copyright @DateTime.Now.Year.ToString() Adam or Eve. | All Rights Reserved.
     </div>
 
-    @await Html.PartialAsync("_JsScriptsPartial")
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-    <script src="~/sitejs/common/ajax.js" asp-append-version="true"></script>
-    @await Html.PartialAsync("_CommonScriptsPartial")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_JsScriptsPartial")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_ValidationScriptsPartial")
+    <script src="~/admin/sitejs/common/ajax.js" asp-append-version="true"></script>
+    @await Html.PartialAsync("~/Views/Admin/Shared/_CommonScriptsPartial")
 
     @RenderSection("scripts", required: false)
 

@@ -10,8 +10,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    @await Html.PartialAsync("_AccountPagesCSSPartial")
-    @await Html.PartialAsync("_CSSPartial")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_AccountPagesCSSPartial")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_CSSPartial")
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -159,9 +159,9 @@
     }
 
     @section scripts {
-        @await Html.PartialAsync("_JsScriptsPartial")
-        @await Html.PartialAsync("_ValidationScriptsPartial")
-        @await Html.PartialAsync("_CommonScriptsPartial")
+        @await Html.PartialAsync("~/Views/Admin/Shared/_JsScriptsPartial")
+        @await Html.PartialAsync("~/Views/Admin/Shared/_ValidationScriptsPartial")
+        @await Html.PartialAsync("~/Views/Admin/Shared/_CommonScriptsPartial")
     }
 </body>
 </html>

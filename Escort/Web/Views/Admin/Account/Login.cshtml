@@ -15,7 +15,7 @@
     {
         <meta name="robots" content="noindex">
     }
-    @await Html.PartialAsync("_AccountPagesCSSPartial")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_AccountPagesCSSPartial.cshtml")
     <title>Login</title>
     <style>
         .backdrop-modal {
@@ -32,7 +32,7 @@
 <body class="outer">
     <!-- sidebar-login -->
     <aside class="sidebar-login">
-      <div class="m-auto"><img src="~/assets/images/whiteLogo.svg" alt="logo-large" /></div>
+      <div class="m-auto"><img src="~/admin/assets/images/whiteLogo.svg" alt="logo-large" /></div>
     </aside>
     <!-- main-body -->
     <main class="main-body">
@@ -61,7 +61,7 @@
                                     <div class="position-relative">
                                         <input type="password" asp-for=Password class="form-control input-password" placeholder="Password" maxlength="20" />
                                         <span class="iconInputRight">
-                                            <img id="togglePassword" class="eye-icon" src="~/assets/images/eye.svg" />
+                                            <img id="togglePassword" class="eye-icon" src="~/admin/assets/images/eye.svg" />
                                         </span>
                                     </div>
                                     <span asp-validation-for="Password" class="text-danger"></span>
@@ -103,10 +103,10 @@
     <div class="backdrop-modal"></div>
 
     <!-- Js -->
-    @await Html.PartialAsync("_JsScriptsPartial")
-    <script src="~/assets/js/jquery.cookie.min.js"></script>
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-    @await Html.PartialAsync("_CommonScriptsPartial")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_JsScriptsPartial.cshtml")
+    <script src="~/admin/assets/js/jquery.cookie.min.js"></script>
+    @await Html.PartialAsync("~/Views/Admin/Shared/_ValidationScriptsPartial.cshtml")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_CommonScriptsPartial.cshtml")
     <environment include="Development">
         <script src="~/admin/sitejs/loginsignup.js"></script>
     </environment>
