@@ -23,40 +23,70 @@
 
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <img style="border-radius: 10px;" class="img-fluid" src="assets/images/contactimg.jpg">
+                                   <h1>Contact Information</h1>
+                                </div>
+                                <div class="mb-3">
+                                    <h3 style="color: #ec881d8f;">We're open for any suggestion or inquiries</h3>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" style="display:flex; gap: 10px;align-items:center; margin: 10px 20px;">
+                                        <div style="background-color: #ec881d8f;height: 35px;width: 35px;display: flex;align-items: center;justify-content: center;border-radius: 50%;">
+                                            <i class="fa-solid fa-mobile-screen"></i>
+                                        </div>
+                                        <div style="font-size: 18px;">Phone: +61 411 828 184</div>
+                                    </div>
+                                    <div class="col-md-12" style="display:flex; gap: 10px;align-items:center; margin: 10px 20px;">
+                                        <div style="background-color: #ec881d8f;height: 35px;width: 35px;display: flex;align-items: center;justify-content: center;border-radius: 50%;">
+                                            <i class="fa-solid fa-envelope"></i>
+                                        </div>
+                                        <div style="font-size: 18px;">Email: info@adamoreveescorts.com</div>
+                                    </div>
+                                    <div class="col-md-12" style="display:flex; gap: 10px;align-items:center; margin: 10px 20px;">
+                                        <div style="background-color: #ec881d8f;height: 35px;width: 35px;display: flex;align-items: center;justify-content: center;border-radius: 50%;">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                        </div>
+                                        <div style="font-size: 18px;">Address: PO Box 55 Liverpool NSW 1871</div>
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label for="" class="form-label">First Name</label>
-                                    <input asp-for="FirstName" type="text" class="form-control" maxlength="50" placeholder="First Name" autocomplete="off">
-                                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                                </div>
+                                <div class="row" style="margin: 10px 0;">
+                                    <div class="col-md-6">
+                                        <label for="" class="form-label">First Name</label>
+                                        <input asp-for="FirstName" type="text" class="form-control" maxlength="50" placeholder="First Name" autocomplete="off">
+                                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label for="" class="form-label">Last Name</label>
-                                    <input asp-for="LastName" type="text" class="form-control" maxlength="50" placeholder="Last Name" autocomplete="off">
-                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                    <div class="col-md-6">
+                                        <label for="" class="form-label">Last Name</label>
+                                        <input asp-for="LastName" type="text" class="form-control" maxlength="50" placeholder="Last Name" autocomplete="off">
+                                        <span asp-validation-for="LastName" class="text-danger"></span>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="" class="form-label">Email</label>
-                                    <input asp-for="Email" maxlength="50" type="text" class="form-control" placeholder="Email" autocomplete="off">
-                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                <div class="row" style="margin: 10px 0;">
+                                    <div class="col-md-6">
+                                        <label for="" class="form-label">Email</label>
+                                        <input asp-for="Email" maxlength="50" type="text" class="form-control" placeholder="Email" autocomplete="off">
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="PhoneNumber" class="form-label">Phone Number</label>
+                                        <div class="ddlcountrycodes2 contactUsPhone">
+                                            <input class="form-control" asp-for="CountryCode" />
+                                            <input type="text" asp-for="PhoneNumber" maxlength="15" class="form-control numbersOnly" placeholder="Phone Number" autocomplete="off">
+                                        </div>
+                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="PhoneNumber" class="form-label">Phone Number</label>
-                                    <div class="ddlcountrycodes2 contactUsPhone">
-                                    <input class="form-control" asp-for="CountryCode" />
-                                    <input type="text" asp-for="PhoneNumber" maxlength="15" class="form-control numbersOnly" placeholder="Phone Number" autocomplete="off">
-                                    </div>                                    
-                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                <div class="row" style="margin: 10px 0;">
+                                    <div class="col-md-12" >
+                                        <label for="" class="form-label">Query</label>
+                                        <textarea asp-for="Query" maxlength="500" class="form-control textAreaHeight" style="resize:none; height:200px;"></textarea>
+                                        <span asp-validation-for="Query" class="text-danger"></span>
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="" class="form-label">Query</label>
-                                    <textarea asp-for="Query" maxlength="500" class="form-control textAreaHeight" ></textarea>
-                                    <span asp-validation-for="Query" class="text-danger"></span>
-                                </div>
+                                
                             </div>
 
 
