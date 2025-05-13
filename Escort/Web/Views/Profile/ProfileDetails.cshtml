@@ -61,7 +61,7 @@
 
                             </li>
                         </ul>
-                        <button class="btn btn-primary mb-2" onclick="showDetails(this)">Bank Details</button>
+                       @*  <button class="btn btn-primary mb-2" onclick="showDetails(this)">Bank Details</button> *@
                         @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.IndependentEscort)
                         {
                             <a href="~/Profile/FullProfile" class="btn btn-primary mb-2">Detailed Profile</a>
@@ -70,7 +70,7 @@
                             
                             
 
-                            <a href="javascript:void(0)" onclick="DeleteAccount()" class="btn btn-primary mb-2">  Delete Profile</a>
+                            <a href="javascript:void(0)" onclick="DeleteAccount()" class="btn btn-primary mb-2">  Deactivate Profile</a>
                         }
                         <div id="BankDetails" style="display:none">
                             <form id="frmAddUpdateBankDetails" enctype="multipart/form-data" autocomplete="off">
@@ -201,7 +201,7 @@
         {
             swal({
                 title: 'Are you sure?',
-                text: "Do you want to delete your account?",
+                text: "Do you want to Deactivate your account?",
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#EC881D',

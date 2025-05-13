@@ -335,12 +335,9 @@ namespace Business.Services
                 new UserDetail()
                 {
                     Id = userId,
-                    //FirstName = "deleted",
-                    //LastName = "deleted",
-                    PhoneNumber = "deleted",
-                    Email = "deleted",
+                    IsActive = false,
                     IsDeleted = true,
-                    AccessToken = "deleted"
+                    
                 });
 
             if (updateUser <= 0)
