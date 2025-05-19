@@ -1,7 +1,9 @@
 ﻿@using Shared.Resources;
 @using System.ComponentModel.DataAnnotations
 @model Shared.Model.DTO.UserDetailsDto 
-
+@{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
 @{
     var pageSize = ViewBag.PageSize;
     var pageIndex = ViewBag.PageIndex;

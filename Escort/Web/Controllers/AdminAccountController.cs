@@ -134,7 +134,7 @@ namespace Web.Controllers
             }
         }
 
-        [HttpPost("Logout")]
+        [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
             if (LoginMemberSession.UserDetailSession != null)
@@ -144,7 +144,8 @@ namespace Web.Controllers
 
             await HttpContext.SignOutAsync();
             HttpContext.Session.Clear();
-            return RedirectToAction("Login", "AdminAccount");
+            return View("~/Views/AdminAccount/Login.cshtml");
+            //return RedirectToAction("Login", "AdminAccount");
         }
         
         [HttpPost("LogoutFromAllDevices")]

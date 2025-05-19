@@ -117,7 +117,7 @@ let phonenumber = window.intlTelInput(input, {
 });
 function signUp(_this) {
     $("#toast-container").remove();
-
+    
     let phoneNumber = phonenumber.getSelectedCountryData().dialCode;
 
     $("#CountryCode").val('+' + phoneNumber);
@@ -132,7 +132,7 @@ function signUp(_this) {
             data: $("#frmSignup").serialize(),
             success: function (response) {
 
-                toastr.success(response.message);
+                toastr.success("Please Verify your Email to Complete the Registration.");
                 setTimeout(function () {
                     if (response.data.userTypeId == 3) {
                         window.location.href = '/subscription/index';
