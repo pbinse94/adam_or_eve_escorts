@@ -14,9 +14,9 @@ using Shared.Model.Request.Account;
 using Shared.Model.Request.Admin;
 using Shared.Model.Request.AdminUser;
 using Shared.Resources;
-using WebAdmin.Controllers.Base;
+using Web.Controllers.Base;
 
-namespace WebAdmin.Controllers
+namespace Web.Controllers
 {
     [ValidateModel]
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -56,10 +56,10 @@ namespace WebAdmin.Controllers
         {
             var model = new AdminUserRequestModel();
 
-            if (id > 0)
+            if (id.HasValue && id > 0) // Ensure id is not null and greater than 0
             {
-                var userDetails = (await _manageService.GetUserDetails(id.Value)).Data;
-                if (userDetails?.UserId <= 0)
+                var userDetails = (await _manageService.GetUserDetails(id.Value))?.Data; // Add null-conditional operator
+                if (userDetails == null || userDetails.UserId <= 0) // Check if userDetails is null
                 {
                     return RedirectToAction("Index");
                 }
@@ -73,7 +73,7 @@ namespace WebAdmin.Controllers
                 model.IsActive = userDetails.IsActive ?? false;
             }
             var userPermissions = await _manageService.GetUserPermission(id ?? 0);
-            model.ModulePermissions = userPermissions.Data ?? new List<ModulePermissionModel>();
+            model.ModulePermissions = userPermissions?.Data ?? new List<ModulePermissionModel>(); // Add null-conditional operator
 
             return View(model);
         }
@@ -86,9 +86,13 @@ namespace WebAdmin.Controllers
             await Task.Factory.StartNew(async () =>
             {
                 if (res.Data && requestModel.Id > 0)
-                { // set permission after updated
+                {
+                    // Set permission after updated
                     var permisison = await _manageService.GetUserPermission(requestModel.Id);
-                    _adminPermissionService.SetUserPermissions(permisison.Data, requestModel.Id);
+                    if (permisison?.Data != null) // Ensure modulePermissions is not null
+                    {
+                        _adminPermissionService.SetUserPermissions(permisison.Data, requestModel.Id);
+                    }
                 }
             });
 
@@ -168,9 +172,9 @@ namespace WebAdmin.Controllers
 
         public async Task<IActionResult> LoginHistory(int? id)
         {
-            var adminUsers = await _manageService.AdminUserList(new UsersRequestModel {  Start = 0, Length = int.MaxValue });
+            var adminUsers = await _manageService.AdminUserList(new UsersRequestModel { Start = 0, Length = int.MaxValue });
             ViewBag.AdminUserSelectList = adminUsers.Data?.Select(x => new SelectListItem() { Text = $"{x.Name} ({x.Role})", Value = x.Id.ToString() }).ToList();
-            return View(new LoginHistoryRequestModel { UserId = id ?? 0});
+            return View(new LoginHistoryRequestModel { UserId = id ?? 0 });
         }
 
         [HttpPost]

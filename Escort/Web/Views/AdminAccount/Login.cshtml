@@ -45,7 +45,7 @@
                   <div class="outer-box-header">
                     <h1> Sign in</h1>
                   </div>
-                        <form asp-controller="Account" asp-action="Login" asp-area="" asp-ReturnUrl="@ViewBag.ReturnUrl" method="post" asp-antiforgery="true" class="form-horizontal" role="form" id="loginFrm">
+                        <form asp-controller="AdminAccount" asp-action="Login" asp-area="" asp-ReturnUrl="@ViewBag.ReturnUrl" method="post" asp-antiforgery="true" class="form-horizontal" role="form" id="loginFrm">
                             @Html.AntiForgeryToken()
                             <input type="hidden" asp-for="ReturnUrl" />
                             <div class="row g-2">

@@ -34,7 +34,7 @@ let users = {
                 case "name":
                     column = {
                         data: null, name: propName, class: 'fw-semibold', mRender: function (data, type, full) {
-                            return `<a href="/UserTokenTransaction/GetListByName?userId=` + data.id + `"  style="text-decoration: underline;">${data.name}</a>`;
+                            return `<a href="/AdminUserTokenTransaction/GetListByName?userId=` + data.id + `"  style="text-decoration: underline;">${data.name}</a>`;
                         }
                     };
                     break;
@@ -47,13 +47,13 @@ let users = {
         });
 
         let orderColumns = [0];
-        tbl.BindTable(userstable, `/UserTokenTransaction/Index`, {}, columns, orderColumns);
+        tbl.BindTable(userstable, `/AdminUserTokenTransaction/Index`, {}, columns, orderColumns);
     }
 }
 
 function openUserTokenTransaction(UserId) {
     $.ajax({
-        url: '/UserTokenTransaction/GetListByName',
+        url: '/AdminUserTokenTransaction/GetListByName',
         data:
         {
             currentId: UserId,

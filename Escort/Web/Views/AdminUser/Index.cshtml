@@ -1,6 +1,9 @@
 ﻿@using Shared.Resources;
 @using System.ComponentModel.DataAnnotations
 @{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+@{
     var pageSize = ViewBag.PageSize;
     var pageIndex = ViewBag.PageIndex;
     ViewData["Title"] = "Admin Users";

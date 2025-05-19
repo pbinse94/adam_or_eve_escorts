@@ -66,7 +66,7 @@ let subscriptionTransactions = {
             FromDate: $("#txtFromDate").val(),
             ToDate: $("#txtToDate").val(),
         }
-        tbl.BindTable(table, `/SubscriptionTransactions/GetSubscriptionTransactions`, request, columns, orderColumns);
+        tbl.BindTable(table, `/AdminSubscriptionTransactions/GetSubscriptionTransactions`, request, columns, orderColumns);
     },
     filterRecord: function () {
         subscriptionTransactions.List();
@@ -137,7 +137,7 @@ $('#exportTransactionListButton').click(function () {
 
 
     // Create a hidden form
-    var form = $('<form action="/SubscriptionTransactions/ExportSubscriptionTransactionsReport" method="GET"></form>');
+    var form = $('<form action="/AdminSubscriptionTransactions/ExportSubscriptionTransactionsReport" method="GET"></form>');
 
     // Add a hidden input field for passing the data
 

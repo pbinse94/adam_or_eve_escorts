@@ -36,7 +36,7 @@ let users = {
                 case "name":
                     column = {
                         data: null, name: propName, width: "15%", class: 'fw-semibold', mRender: function (data, row) {
-                            return `<a href="/User/ProfileDetail?id=${data.id}"  >${data.name}</a>`; //  return `${data.name}`;
+                            return `<a href="/AdminMainUser/ProfileDetail?id=${data.id}"  >${data.name}</a>`; //  return `${data.name}`;
                         }
                     };
                     break;
@@ -78,7 +78,7 @@ let users = {
             Gender:  $("#ddlGender").val() 
         };
 
-        tbl.BindTable(table, `/User/Index`, data, columns, orderColumns);
+        tbl.BindTable(table, `/AdminMainUser/Index`, data, columns, orderColumns);
     },
     UpdateUser: function (_this) {
         if (!$("#frmUpdateUser").valid()) {
@@ -87,12 +87,12 @@ let users = {
 
         EnableDisableButton($(_this), true);
 
-        ajax.Post(`/User/Detail`, $('#frmUpdateUser').serialize(),
+        ajax.Post(`/AdminMainUser/Detail`, $('#frmUpdateUser').serialize(),
             function (response) {
                 EnableDisableButton(this, false);
                 toastr.success(response.message);
                 setTimeout(function () {
-                    location.href = '/User/Index'
+                    location.href = '/AdminMainUser/Index'
                 }, setTimeoutIntervalEnum.onRedirection);
             },
             function (error) {
@@ -148,7 +148,7 @@ function ChangeUserStatus(userId, activeStatus, deleteStatus, isActivateStatusCh
     }).then(function (result) {
         if (result) {
             $.ajax({
-                url: '/User/ChangeUserStatus',
+                url: '/AdminMainUser/ChangeUserStatus',
                 data:
                 {
                     UserId: userId,

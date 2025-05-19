@@ -37,7 +37,7 @@ let Escorts = {
                         data: null, name: propName, width: "15%", class: 'fw-semibold', mRender: function (data, row) {
                             // return `${data.name}`;
                             //return `<a href="${frontSiteUrl}profile/fullProfile?id=${data.id}" target="_blank">${data.name}</a>`;
-                            return `<a href="profile?id=${data.id}">${data.name}</a>`;
+                            return `<a href="AdminEscort/profile?id=${data.id}">${data.name}</a>`;
                         }
                     };
                     break;
@@ -45,7 +45,7 @@ let Escorts = {
                     column = {
                         data: null, name: propName, width: "15%", class: 'fw-semibold', mRender: function (data, row) {
                             // return `${data.name}`;
-                            return `<a href="profile?id=${data.id}" >${data.displayName}</a>`;
+                            return `<a href="AdminEscort/profile?id=${data.id}" >${data.displayName}</a>`;
                         }
                     };
                     break;
@@ -156,7 +156,7 @@ let Escorts = {
             Country: $("#Country").val(),
             Gender: $("#ddlGender").val()
         };
-        tbl.BindTable(Escorttable, `/Escort/EscortList`, data, columns, orderColumns);
+        tbl.BindTable(Escorttable, `/AdminEscort/EscortList`, data, columns, orderColumns);
     },
     filterRecord: function () { 
         Escorts.List();
@@ -183,7 +183,7 @@ function approveProfile(userId, isApprove, element)
             $('.Loading').show();
             $.ajax({
                 type: 'POST',
-                url: "/Escort/ApproveAccount",
+                url: "/AdminEscort/ApproveAccount",
                 data: { userId: userId, isApprove: isApprove },
                 success: function (response)
                 {
@@ -257,7 +257,7 @@ function ChangeEscortStatus(userId, activeStatus, deleteStatus, isActivateStatus
     }).then( (result) => {
         if (result) {
             $.ajax({
-                url: '/Escort/ChangeEscortStatus',
+                url: '/AdminEscort/ChangeEscortStatus',
                 data:
                 {
                     UserId: userId,

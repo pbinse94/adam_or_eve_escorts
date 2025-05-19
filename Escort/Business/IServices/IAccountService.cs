@@ -4,6 +4,7 @@ using Shared.Model.Base;
 using Shared.Model.DTO;
 using Shared.Model.Entities;
 using Shared.Model.Request.Account;
+using Shared.Model.Request.Profile;
 using Shared.Model.Request.WebUser;
 
 namespace Business.IServices
@@ -39,12 +40,14 @@ namespace Business.IServices
         Task<ApiResponse<bool>> LogoutUser(int id, string accessToken);
         Task<ApiResponse<bool>> LogoutAllUser(string accessToken);
         Task<UserDetailsDto> FindByEmailAndUpdateAsync(string email, string accessToken);
-      
+
         Task<List<EscortSearchDto>> GetPopularEscorts(PopularEscortRequest searchRequest);
         Task<ApiResponse<bool>> PauseEscort(int userId, bool isPause);
         Task<ApiResponse<bool>> ApproveEscort(int userId, bool isApprove, int loginUserId);
         Task<UserDetail> GetAdminDetailById(int userId, string accessToken);
         Task<ApiResponse<UserDetailsDto>> SaveFreeSubscription(string userEmail);
 
+        Task<ApiResponse<bool>> UpdateEmailUserAsync(UserDetailsDto user);
+      
     }
 }

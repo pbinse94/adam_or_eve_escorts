@@ -30,7 +30,7 @@ let payment = {
                 case "escortname":
                     column = {
                         data: null, name: propName, class: 'fw-semibold', mRender: function (data, type, full) {
-                            return `<a href="/UserTokenTransaction/EscortPaymentReport?escortId=` + data.escortId + "&isPaid=" + false + "&adminPercentage=" + 25 + "&escortName=" + data.escortName + `"  style="text-decoration: underline;">${data.escortName}</a>`;
+                            return `<a href="/AdminUserTokenTransaction/EscortPaymentReport?escortId=` + data.escortId + "&isPaid=" + false + "&adminPercentage=" + 25 + "&escortName=" + data.escortName + `"  style="text-decoration: underline;">${data.escortName}</a>`;
                         }
                     };
                     break;
@@ -95,7 +95,7 @@ let payment = {
             PaidFilter: $("#paidFilter").val()
         };
 
-        tbl.BindTable(paymenttable, `/UserTokenTransaction/PaymentReport`, request, columns, orderColumns);
+        tbl.BindTable(paymenttable, `/AdminUserTokenTransaction/PaymentReport`, request, columns, orderColumns);
 
         $('#selectAll').on('change', function () {
             let isChecked = $(this).is(':checked');
@@ -305,7 +305,7 @@ function MarkPaymentDone() {
             EnableDisableButton($('#markPayment'), true);
             let userids = $("#hiddenFieldId").val();
             $.ajax({
-                url: '/UserTokenTransaction/MarkPaymentDone',
+                url: '/AdminUserTokenTransaction/MarkPaymentDone',
                 type: 'POST',
                 data: { userIds: userids },
                 success: function (data) {

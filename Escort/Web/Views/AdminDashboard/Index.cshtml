@@ -1,6 +1,9 @@
 ﻿@using Shared.Model.DTO
 @model Tuple<AdminDashboardStatisticsDto,bool,bool,bool,bool>
 @{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+@{
     ViewData["Title"] = "Dashboard";
     bool canViewEscorts = Model.Item3;
     bool canViewClients = Model.Item4;
@@ -16,7 +19,7 @@
         <div class="row dashboardBlog">
             <div class="col mb-4">
                 <div class="card-body p-0">
-                    <a href="@Url.Action("Index","Escort")" class="text-center" style="cursor:@(canViewEscorts ? "pointer":"default")">
+                    <a href="@Url.Action("Index","AdminEscort")" class="text-center" style="cursor:@(canViewEscorts ? "pointer":"default")">
                         <div class="text-center">
                             <i class="IconBody">
                                 <img src="~/admin/assets/images/ico01.svg" alt="" />
@@ -33,7 +36,7 @@
 
             <div class="col mb-4">
                 <div class="card-body p-0">
-                    <a href="@Url.Action("Index","User")" class="text-center" style="cursor:@(canViewClients ? "pointer":"default")">
+                    <a href="@Url.Action("Index","AdminMainUser")" class="text-center" style="cursor:@(canViewClients ? "pointer":"default")">
                         <div class="text-center">
                             <i class="IconBody">
                                 <img src="~/admin/assets/images/total_clients.svg" alt="" />
@@ -49,7 +52,7 @@
 
             <div class="col mb-4">
                 <div class="card-body p-0">
-                    <a href="@Url.Action("Index","Establishment")" class="text-center" style="cursor:@(canViewEstablishment ? "pointer":"default")">
+                    <a href="@Url.Action("Index","AdminEstablishment")" class="text-center" style="cursor:@(canViewEstablishment ? "pointer":"default")">
                         <div class="text-center">
                             <i class="IconBody">
                                 <img src="~/admin/assets/images/ico04.svg" alt="" />
@@ -66,7 +69,7 @@
             {
                 <div class="col mb-4">
                     <div class="card-body p-0">
-                        <a href="@Url.Action("PaymentReport","UserTokenTransaction")" class="text-center">
+                        <a href="@Url.Action("PaymentReport","AdminUserTokenTransaction")" class="text-center">
                             <div class="text-center">
                                 <i class="IconBody">
                                     <img src="~/admin/assets/images/ico03.svg" alt="" />

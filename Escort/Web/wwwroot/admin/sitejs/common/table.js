@@ -72,7 +72,7 @@ var tbl = {
                     }
                 }).then(() => {
                     // Optionally, redirect the user to the login page
-                    window.location.href = '/Account/Login';  // Redirect to login page
+                    window.location.href = '/AdminAccount/Login';  // Redirect to login page
                 });
             }
            
@@ -98,7 +98,7 @@ var tbl = {
                     }
                 }).then(() => {
                     // Optionally, redirect the user to the login page
-                    window.location.href = '/Account/Login';  // Redirect to login page
+                    window.location.href = '/AdminAccount/Login';  // Redirect to login page
                 });
 
 
@@ -168,7 +168,7 @@ var tbl = {
 
 function isSessionActive() {
     return $.ajax({
-        url: '/Home/IsSessionActive',  // Replace with your controller action
+        url: '/AdminHome/IsSessionActive',  // Replace with your controller action
         method: 'GET',
         async: false  // Synchronous check (returns true or false)
     }).responseText === "true";

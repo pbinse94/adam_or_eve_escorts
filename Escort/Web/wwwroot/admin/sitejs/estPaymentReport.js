@@ -62,7 +62,7 @@ let payment = {
             IsPaid: 0
         };
 
-        tbl.BindTable(paymenttable, `/UserTokenTransaction/EscortPaymentReport`, request, columns, orderColumns);
+        tbl.BindTable(paymenttable, `/AdminUserTokenTransaction/EscortPaymentReport`, request, columns, orderColumns);
                 
 
     },

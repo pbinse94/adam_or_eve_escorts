@@ -2,6 +2,9 @@
 @using Shared.Common.Enums;
 @model Shared.Model.DTO.EscortDetailDto
 @{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+@{
     ViewData["Title"] = "Full Profile";
     var defaultImageUrl = SiteKeys.SiteUrl + Constants.DefaultUserImage;
 }

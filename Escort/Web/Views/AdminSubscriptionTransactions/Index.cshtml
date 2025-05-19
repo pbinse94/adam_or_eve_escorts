@@ -1,12 +1,14 @@
 ﻿@using Shared.Resources;
 @using System.ComponentModel.DataAnnotations
-@model Shared.Model.Request.AdminUser.LoginHistoryRequestModel
+@{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
 @{
     var pageSize = ViewBag.PageSize;
     var pageIndex = ViewBag.PageIndex;
-    ViewData["Title"] = "Login History";
-    int UserId = @Model.UserId;
+    ViewData["Title"] = "Transaction Report";
 }
+
 <style>
     tfoot b {
         font-weight: bold;
@@ -39,16 +41,12 @@
 </style>
 @Html.HiddenFor(x => pageSize)
 @Html.HiddenFor(x => pageIndex)
-@Html.HiddenFor(x => ResourceString.ActivateUser, new { @id = "activateUserMsg" })
-@Html.HiddenFor(x => ResourceString.DeactivateUser, new { @id = "deactivateUserMsg" })
-@Html.HiddenFor(x => ResourceString.DeleteUser, new { @id = "deleteUserMsg" })
-@Html.HiddenFor(x => ResourceString.RecoverUser, new { @id = "recoverUserMsg" })
-
 
 <div class="row flex-fill g-4">
     <div class="col-md-12">
         <div class="box-header mt-3 border-0 mb-3" style="display:flex; align-items:center">
-            <h1>Subordinates Login History</h1>
+            <h1>Transaction Report</h1>
+            
         </div>
         <div class="white-box">
 
@@ -69,30 +67,29 @@
                 </div>
 
                 <div class="col-6 col-sm-auto mb-2 mt-0">
-                    <select class="form-control form-select" asp-for="UserId" onchange="loginHistory.filterRecord()" asp-items="@ViewBag.AdminUserSelectList" placeholder="select County" style="width:280px">
-                        <option value="0">Select Admin User</option>
-                    </select>
+                    <input type="text" id="searchinput" maxlength="20" autocomplete="off" class="form-control icon-holder" placeholder="Search here">
+                    
                 </div>
 
                 <div class="col-auto">
-                    <a href="javascript:void(0)" onclick="Reset();" class="btn outline-btn mb-2">Reset All</a>
-                    <a href="javascript:void(0)" onclick="LoadTable();" class="btn login-btn mb-2">Search</a>
+                    <a href="javascript:void(0)" onclick="ResetSubscriptionTransactionsTable();" class="btn outline-btn">Reset All</a>
+                    <a href="javascript:void(0)" onclick="LoadSubscriptionTransactionsTable();" class="btn login-btn ">Search</a>
                 </div>
 
-                @* <div class="col">
-                    <div class="col-6 col-sm-auto mb-2 mt-0" style="float:right">
-                        <div class="Searchbar">
-                            <input id="seachinput" type="text" class="form-control seachinput search-input" placeholder="Search here">
-                        </div>
-                    </div>
-
-                </div> *@
+                <div class="col text-end">
+                    <a  id="exportTransactionListButton" class="btn login-btn">Export Excel</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-auto">
+                    <p class="text-danger">Note : The next billing date may vary as it dependent on PayPal.</p>
+                </div>
             </div>
             <div class="table-responsive">
-                <table class="table table-sm table-default align-middle nowrap" id="data-table_loginHistory" style="width:100% !important">
+                <table class="table table-sm table-default align-middle nowrap" id="data-table_subscriptionTransaction" style="width:100% !important">
                     <thead>
                         <tr>
-                            @foreach (var p in new Shared.Model.DTO.LoginHistoryDto().GetType().GetProperties().Where(p => !new List<string>() { "LoginTime", "LogOutTime", "TotalRecord" }.Contains(p.Name)))
+                            @foreach (var p in new Shared.Model.DTO.SubscriptionTransactionsDto().GetType().GetProperties().Where(p => !new List<string>() { "TransactionDate", "TotalRecord", "NextBillingTime" }.Contains(p.Name)))
                             {
                                 if (p.GetCustomAttribute<DisplayAttribute>()?.Name == "Display Name")
                                 {
@@ -103,7 +100,7 @@
                                 {
                                     <th data-name="@p.Name">@(p.GetCustomAttribute<DisplayAttribute>()?.Name ?? p.Name)</th>
 
-                                }
+                                } 
                             }
                         </tr>
                     </thead>
@@ -117,20 +114,20 @@
 
 
 @section scripts {
-    <script>
-        var userId = '@UserId';
-    </script>
     <environment include="Development">
         <script src="~/admin/sitejs/common/table.js" asp-append-version="true"></script>
-        <script src="~/admin/sitejs/loginHistory.js" asp-append-version="true"></script>
+        <script src="~/sitejs/subscriptionTransaction.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/admin/js/table.min.js" asp-append-version="true"></script>
-        <script src="~/admin/js/loginHistory.min.js" asp-append-version="true"></script>
+        <script src="~/admin/js/subscriptionTransaction.min.js" asp-append-version="true"></script>
     </environment>
     <script>
         $(document).ready(function () {
-            $("#LoginHistoryReport").addClass('active');
+            
+            $("#SubscriptionTransactionReport").addClass('active');
+
+            
         });
     </script>
 }

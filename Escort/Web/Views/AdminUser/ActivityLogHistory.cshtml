@@ -2,6 +2,9 @@
 @using System.ComponentModel.DataAnnotations
 @model Shared.Model.Request.AdminUser.ActivityLogHistoryRequestModel
 @{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+@{
     var pageSize = ViewBag.PageSize;
     var pageIndex = ViewBag.PageIndex;
     ViewData["Title"] = "Activity Logs";

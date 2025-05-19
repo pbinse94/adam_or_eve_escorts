@@ -63,6 +63,6 @@ let clientbalance = {
         data = {
             ClientId: clientId, 
         };
-        tbl.BindTable(clientbalancetable, `/User/ClientBalanceList`, data, columns, orderColumns);
+        tbl.BindTable(clientbalancetable, `/AdminMainUser/ClientBalanceList`, data, columns, orderColumns);
     }
 }

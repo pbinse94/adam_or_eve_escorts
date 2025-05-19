@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Admin\Escort\Profile.cshtml" />
+    <Content Remove="Views\AdminEscort\Profile.cshtml" />
     <Content Remove="wwwroot\bundle.js" />
   </ItemGroup>
 
@@ -212,7 +212,7 @@
     <None Include="node_modules\uuid\LICENSE.md" />
     <None Include="node_modules\uuid\README.md" />
     <None Include="node_modules\uuid\wrapper.mjs" />
-    <None Include="Views\Admin\Escort\Profile.cshtml" />
+    <None Include="Views\AdminEscort\Profile.cshtml" />
     <None Include="Views\Home\AboutUs.cshtml" />
     <None Include="wwwroot\bundle.js" />
     <None Include="wwwroot\dist\bundle.js" />

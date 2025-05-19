@@ -20,7 +20,7 @@ function getCountryWiseEscorts()
     $.ajax({
 
         type: "GET",
-        url: '/Dashboard/GetCountryWiseEscorts',
+        url: '/AdminDashboard/GetCountryWiseEscorts',
         dataType: 'html',
         success: function (responseHtml)
         {
@@ -38,7 +38,7 @@ function giftTokensChart()
     $.ajax({
 
         type: "GET",
-        url: '/Dashboard/GetGiftsChart',
+        url: '/AdminDashboard/GetGiftsChart',
         async: true,
         success: function (data)
         {
@@ -118,7 +118,7 @@ function getRevenueReportChart()
     $.ajax({
 
         type: "GET",
-        url: '/Dashboard/GetRevenueChart',
+        url: '/AdminDashboard/GetRevenueChart',
         async: true,
         success: function (data)
         {
@@ -196,7 +196,7 @@ function getSubscriptionReportChart()
     $.ajax({
 
         type: "GET",
-        url: '/Dashboard/GetSubscriptionChart',
+        url: '/AdminDashboard/GetSubscriptionChart',
         async: true,
         success: function (data)
         {

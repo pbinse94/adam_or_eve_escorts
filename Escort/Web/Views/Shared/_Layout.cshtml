@@ -26,17 +26,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="index, follow">
+    <meta name="description" content="Discover and indulge in passionate moments of intimacy. Unveil your deepest desires in a private, immersive experience.">
+
+    <!-- Open Graph (for Facebook, etc.) -->
     <meta property="og:title" content="AdamOrEveEscorts">
     <meta property="og:description" content="Discover and indulge in passionate moments of intimacy. Unveil your deepest desires in a private, immersive experience.">
     <meta property="og:image" content="https://adamoreveescorts.com/assets/images/whiteLogo.png">
-    <meta property="og:url" content="https://adamoreveescorts.com/">
+    <meta property="og:url" content="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path">
     <meta property="og:type" content="website">
 
-    <meta name="description" content="Discover and indulge in passionate moments of intimacy. Unveil your deepest desires in a private, immersive experience.">
-    <link rel="canonical" href="https://adamoreveescorts.com/">
+    <!-- Canonical URL (dynamic and always correct) -->
+    <link rel="canonical" href="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path" />
 
     @await Html.PartialAsync("_CSSPartial")
-    <title>@ViewData["Title"] - Adam or Eve</title>
+    <title>Adam or Eve - @ViewData["Title"]</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <script>
         var mapsApiKey = '@SiteKeys.GeoLocationApiKey';
@@ -49,7 +52,7 @@
 <body class="inner @escortBodyClass">
 
     <div class="Loading" style="display:none">
-        <img src="@Url.Content("~/assets/images/loader.gif")">
+        <img src="@Url.Content("~/assets/images/loader.gif")" alt="loader">
     </div>
 
         <header class="">

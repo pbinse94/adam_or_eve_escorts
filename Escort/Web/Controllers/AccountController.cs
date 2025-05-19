@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using Newtonsoft.Json; 
 using Shared.Common;
 using Shared.Common.Enums;
@@ -164,73 +165,73 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Registration(RegistrationRequest request)
         {
-            if (!request.TermsAndCondtion)
-            {
-                return StatusCode((int)HttpStatusCode.UnprocessableContent, new ApiResponse<int> { Message = ResourceString.AcceptTermAndConditons });
-            }
-            var userData = await _userVerificationCodeService.GetByEmail(request.Email);
-            if (userData is null || userData.Email != request.Email || !userData.IsVerify)
-            {
-                return BadRequest(new ApiResponse<ProfileDto> { Message = ResourceString.EmailNotVerified });
-            }
-            request.IsEmailVerified = true;
-
-            //var subscriptionPlan = await _subscriptionPlanService.GetSubscriptionPlanById(request.Plan);
-            //if (subscriptionPlan == null)
+            //if (!request.TermsAndCondtion)
             //{
-            //    return BadRequest(new ApiResponse<int> { Message = ResourceString.SomethingWrong });
+            //    return StatusCode((int)HttpStatusCode.UnprocessableContent, new ApiResponse<int> { Message = ResourceString.AcceptTermAndConditons });
             //}
+            ////var userData = await _userVerificationCodeService.GetByEmail(request.Email);
+            ////if (userData is null || userData.Email != request.Email || !userData.IsVerify)
+            ////{
+            ////    return BadRequest(new ApiResponse<ProfileDto> { Message = ResourceString.EmailNotVerified });
+            ////}
+            ////request.IsEmailVerified = true;
 
-            var userAgent = HttpContext?.Request?.Headers["User-Agent"].FirstOrDefault() ?? "Unknown Device";
-            var ipAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "Unknown IP";
-            var uaParser = UAParser.Parser.GetDefault();
-            var clientInfo = uaParser.Parse(userAgent);
-            string browserName = clientInfo.UA.Family; // e.g., Chrome, Firefox, Safari
-            string browserVersion = clientInfo.UA.Major; // e.g., 130 for Chrome 130.x
-            string osName = clientInfo.OS.Family; // e.g., Windows, Mac OS, Linux
-            string deviceName = clientInfo.Device.Family; // e.g., Desktop, iPhone, etc.
-            var deviceDetails = string.Empty;
-            if (deviceName.ToLower() != "other")
-            {
-                deviceDetails = $"{ipAddress}, {deviceName} - {osName} server, {browserName} version {browserVersion}";
-            }
-            else
-            {
-                deviceDetails = $"{ipAddress}, {osName} server, {browserName} version {browserVersion}";
-            }
-            string deviceLocation = CommonFunctions.GetLocationFromIp(ipAddress);
+            ////var subscriptionPlan = await _subscriptionPlanService.GetSubscriptionPlanById(request.Plan);
+            ////if (subscriptionPlan == null)
+            ////{
+            ////    return BadRequest(new ApiResponse<int> { Message = ResourceString.SomethingWrong });
+            ////}
 
-            request.DeviceToken = HttpContext?.Session.Id ?? "Unknown session";
-            request.DeviceInfo = deviceDetails.ToString();
-            request.DeviceLocation = deviceLocation;
-           
-            var registrationResponse = await _accountService.SignUp(request);
-            if (registrationResponse.Data is null || registrationResponse.Data.UserId == 0)
-            {
-                return BadRequest(registrationResponse);
-            }
-            //Login  user if registration successfully 
-            LoginSessionModel sessionobj = new LoginSessionModel()
-            {
-                UserId = registrationResponse.Data.UserId,
-                FirstName = registrationResponse.Data.FirstName,
-                LastName = registrationResponse.Data.LastName,
-                DisplayName = registrationResponse.Data.DisplayName,
-                UserTypeId = registrationResponse.Data.UserType,
-                EmailId = registrationResponse.Data.Email,
-                ProfileImage = registrationResponse.Data.ProfileImage,
-                AccessToken = registrationResponse.Data.AccessToken,
-                SubscriptionPlanDurationType = (SubscriptionPlanDurationType)registrationResponse.Data.PlanDuration,
-                SubscriptionPlanType = (SubscriptionPlanType)registrationResponse.Data.PlanType,
-                SubscriptionPlanId = registrationResponse.Data.SubscriptionPlanId,
+            //var userAgent = HttpContext?.Request?.Headers["User-Agent"].FirstOrDefault() ?? "Unknown Device";
+            //var ipAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "Unknown IP";
+            //var uaParser = UAParser.Parser.GetDefault();
+            //var clientInfo = uaParser.Parse(userAgent);
+            //string browserName = clientInfo.UA.Family; // e.g., Chrome, Firefox, Safari
+            //string browserVersion = clientInfo.UA.Major; // e.g., 130 for Chrome 130.x
+            //string osName = clientInfo.OS.Family; // e.g., Windows, Mac OS, Linux
+            //string deviceName = clientInfo.Device.Family; // e.g., Desktop, iPhone, etc.
+            //var deviceDetails = string.Empty;
+            //if (deviceName.ToLower() != "other")
+            //{
+            //    deviceDetails = $"{ipAddress}, {deviceName} - {osName} server, {browserName} version {browserVersion}";
+            //}
+            //else
+            //{
+            //    deviceDetails = $"{ipAddress}, {osName} server, {browserName} version {browserVersion}";
+            //}
+            //string deviceLocation = CommonFunctions.GetLocationFromIp(ipAddress);
 
-                SubscriptionPlanExpireDateTime = registrationResponse.Data.SubscriptionPlanExpireDateTime,
-                SubscriptionPlanExpireOn = registrationResponse.Data.SubscriptionPlanExpireDateTime.ToLocal(_httpContextAccessor),
-                SubscriptionPaypalId = registrationResponse.Data.SubscriptionPaypalId,
-                SubscriptionPlanPaypalId = registrationResponse.Data.SubscriptionPlanPaypalId
-            };
-            LoginMemberSession.UserDetailSession = sessionobj;
-            return Ok(registrationResponse);
+            //request.DeviceToken = HttpContext?.Session.Id ?? "Unknown session";
+            //request.DeviceInfo = deviceDetails.ToString();
+            //request.DeviceLocation = deviceLocation;
+
+            //var registrationResponse = await _accountService.SignUp(request);
+            //if (registrationResponse.Data is null || registrationResponse.Data.UserId == 0)
+            //{
+            //    return BadRequest(registrationResponse);
+            //}
+            ////Login  user if registration successfully 
+            //LoginSessionModel sessionobj = new LoginSessionModel()
+            //{
+            //    UserId = registrationResponse.Data.UserId,
+            //    FirstName = registrationResponse.Data.FirstName,
+            //    LastName = registrationResponse.Data.LastName,
+            //    DisplayName = registrationResponse.Data.DisplayName,
+            //    UserTypeId = registrationResponse.Data.UserType,
+            //    EmailId = registrationResponse.Data.Email,
+            //    ProfileImage = registrationResponse.Data.ProfileImage,
+            //    AccessToken = registrationResponse.Data.AccessToken,
+            //    SubscriptionPlanDurationType = (SubscriptionPlanDurationType)registrationResponse.Data.PlanDuration,
+            //    SubscriptionPlanType = (SubscriptionPlanType)registrationResponse.Data.PlanType,
+            //    SubscriptionPlanId = registrationResponse.Data.SubscriptionPlanId,
+
+            //    SubscriptionPlanExpireDateTime = registrationResponse.Data.SubscriptionPlanExpireDateTime,
+            //    SubscriptionPlanExpireOn = registrationResponse.Data.SubscriptionPlanExpireDateTime.ToLocal(_httpContextAccessor),
+            //    SubscriptionPaypalId = registrationResponse.Data.SubscriptionPaypalId,
+            //    SubscriptionPlanPaypalId = registrationResponse.Data.SubscriptionPlanPaypalId
+            //};
+            //LoginMemberSession.UserDetailSession = sessionobj;
+            //return Ok(registrationResponse);
 
             //if (subscriptionPlan.PlanType == (short)SubscriptionPlanType.Free)
             //{
@@ -249,10 +250,80 @@ namespace Web.Controllers
 
             //    return Ok(stripeSession);
             //}
+            if (!request.TermsAndCondtion)
+            {
+                return StatusCode((int)HttpStatusCode.UnprocessableContent, new ApiResponse<int> { Message = ResourceString.AcceptTermAndConditons });
+            }
+
+            var existingUser = await _accountService.FindByEmailAsync(request.Email);
+            if (existingUser != null)
+            {
+                return BadRequest(new ApiResponse<bool> { Data = false, Message = ResourceString.EmailExists });
+            }
+
+            // Device info
+            var userAgent = HttpContext?.Request?.Headers["User-Agent"].FirstOrDefault() ?? "Unknown Device";
+            var ipAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString() ?? "Unknown IP";
+            var uaParser = UAParser.Parser.GetDefault();
+            var clientInfo = uaParser.Parse(userAgent);
+            string browserName = clientInfo.UA.Family;
+            string browserVersion = clientInfo.UA.Major;
+            string osName = clientInfo.OS.Family;
+            string deviceName = clientInfo.Device.Family;
+            string deviceDetails = deviceName.ToLower() != "other"
+                ? $"{ipAddress}, {deviceName} - {osName} server, {browserName} version {browserVersion}"
+                : $"{ipAddress}, {osName} server, {browserName} version {browserVersion}";
+
+            string deviceLocation = CommonFunctions.GetLocationFromIp(ipAddress);
+
+            request.DeviceToken = HttpContext?.Session.Id ?? "Unknown session";
+            request.DeviceInfo = deviceDetails;
+            request.DeviceLocation = deviceLocation;
+            request.IsEmailVerified = false;
+
+            // Save user to DB
+            var registrationResponse = await _accountService.SignUp(request);
+            if (registrationResponse.Data is null || registrationResponse.Data.UserId == 0)
+            {
+                return BadRequest(registrationResponse);
+            }
+
+            // Generate verification code
+            string code = new Random().Next(100000, 999999).ToString();
+
+            // Save verification code
+            await _userVerificationCodeService.AddUpdate(new UserVerificationCode
+            {
+                Email = request.Email,
+                Code = code,
+                IsVerify = false
+            });
+
+            // Generate verification link
+            string? verifyUrl = Url.Action("VerifyEmailLink", "Account", new { email = request.Email, code = code }, Request.Scheme);
+
+            if (string.IsNullOrEmpty(verifyUrl))
+            {
+                // Handle this appropriately — you can log it or throw a custom error
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string> { Message = "Failed to generate verification link." });
+            }
+
+            // Compose email body
+            string emailBody = $@"
+                <p>Hello {request.FirstName},</p>
+                <p>Welcome to Adam or Eve Escorts!</p>
+                <p>To verify your email, click the link below:</p>
+                <p><a href='{verifyUrl}'>{verifyUrl}</a></p>
+               
+                <p>Thanks,<br/>Adam or Eve Escorts</p>";
+
+            // Send email
+            await _notificationService.EmailVerificationCode(request.Email, emailBody, "",ResourceString.VerifyEmailSubject, 0);
+
+            return Ok(registrationResponse);
 
         }
-
-
+        
 
 
         public async Task<IActionResult> EmailVerification(string token, int type = 0)
@@ -408,24 +479,79 @@ namespace Web.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> VerifyEmailCode(VerifyEmailCodeRequestModel model)
+        public async Task<ActionResult> VerifyEmailCode(string email, string code)
         {
+            //VerifyEmailCodeRequestModel model
+            //var data = await _userVerificationCodeService.GetByEmail(model.Email);
+            //if (data != null)
+            //{
+            //    if (!string.Equals(data.Code, model.Code))
+            //    {
+            //        return BadRequest(new ApiResponse<int> { Message = ResourceString.InvalidVerificationCode });
+            //    }
+            //    data.IsVerify = true;
+            //    await _userVerificationCodeService.AddUpdate(data);
+            //    return Ok(new ApiResponse<int> { Message = ResourceString.EmailCodeVerified });
+            //}
+            //else
+            //{
+            //    return BadRequest(new ApiResponse<int> { Message = ResourceString.InvalidVerificationCode });
+            //}
 
-            var data = await _userVerificationCodeService.GetByEmail(model.Email);
-            if (data != null)
+            var record = await _userVerificationCodeService.GetByEmail(email);
+            if (record == null || record.Code != code)
             {
-                if (!string.Equals(data.Code, model.Code))
-                {
-                    return BadRequest(new ApiResponse<int> { Message = ResourceString.InvalidVerificationCode });
-                }
-                data.IsVerify = true;
-                await _userVerificationCodeService.AddUpdate(data);
-                return Ok(new ApiResponse<int> { Message = ResourceString.EmailCodeVerified });
+                return BadRequest(new ApiResponse<string> { Message = ResourceString.InvalidVerificationCode });
             }
-            else
+
+            // Mark as verified in verification code table
+            record.IsVerify = true;
+            await _userVerificationCodeService.AddUpdate(record);
+
+            // Now update the main user record
+            var user = await _accountService.FindByEmailAsync(email);
+            if (user == null)
             {
-                return BadRequest(new ApiResponse<int> { Message = ResourceString.InvalidVerificationCode });
+                return BadRequest(new ApiResponse<string> { Message = "User not found." });
             }
+
+            user.IsEmailVerified = true;
+            await _accountService.UpdateEmailUserAsync(user); // you should have this update method
+
+            return RedirectToAction("Verified"); // or return a success page/view
+        }
+
+        [HttpGet("VerifyEmailLink")]
+        public async Task<IActionResult> VerifyEmailLink(string email, string code)
+        {
+            var data = await _userVerificationCodeService.GetByEmail(email);
+            if (data == null || data.Code != code)
+            {
+                return RedirectToAction("VerificationFailed", "Account");
+            }
+
+            // Mark verified
+            data.IsVerify = true;
+            await _userVerificationCodeService.AddUpdate(data);
+
+            // Update user entity's IsEmailVerified
+            await _accountService.UpdateEmailUserAsync(new UserDetailsDto
+            {
+                Email = data.Email, // Make sure you save Email when creating UserVerificationCode
+                IsEmailVerified = true
+            });
+
+            return RedirectToAction("Verified", "Account");
+        }
+
+        public IActionResult Verified()
+        {
+            return View(); // or return Ok() if it's an API
+        }
+
+        public IActionResult VerificationFailed()
+        {
+            return View(); // or return Ok() if it's an API
         }
     }
 }

@@ -106,7 +106,7 @@ const common = {
     getFile: function (pathToImage, element, container)
     {
         $.ajax({
-            url: '/Home/GetDocumentUrl',
+            url: '/AdminHome/GetDocumentUrl',
             type: 'GET',
             data: { pathToImage: pathToImage, mediaType: container },
             success: function (imageUrl)
@@ -140,7 +140,7 @@ const common = {
     },
     getCountries: function () {
         $.ajax({
-            url: '/Home/GetHeaderCountries',
+            url: '/AdminHome/GetHeaderCountries',
             type: 'GET',
             data: {},
             success: function (response) {
@@ -172,7 +172,7 @@ $(document).ajaxError(function (event, jqxhr, settings, exception) {
     if (jqxhr.status == 401) {
         toastr.error("Session Timeout");
         setTimeout(function () {
-            location.href = "/Account/Login";
+            location.href = "/AdminAccount/Login";
         }, 2000)
     }
 });
@@ -208,7 +208,7 @@ function showDeactivePopup() {
         allowEscapeKey: false
     }).then(function (result) {
         if (result) {
-            location.href='/Account/Login'
+            location.href='/AdminAccount/Login'
         }
     })
 }

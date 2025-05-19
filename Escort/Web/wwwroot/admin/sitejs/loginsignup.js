@@ -66,7 +66,7 @@ function sendForgotPasswordEmail(_this)
     if ($("#forgotPasswordFrm").valid()) {
         $.ajax({
             type: 'Post',
-            url: "/Account/ForgetPassword",
+            url: "/AdminAccount/ForgetPassword",
             data: $("#forgotPasswordFrm").serialize(),
             dataType:'json',
             success: function (data)
@@ -106,7 +106,7 @@ function resetPassword(_this) {
     if ($("#ResetPasswordFrm").valid() && password != "") {
         $.ajax({
             type: 'Post',
-            url: "/Account/ResetPassword",
+            url: "/AdminAccount/ResetPassword",
             data: $("#ResetPasswordFrm").serialize(),
             success: function (response) {
                 toastr.success(response.message);
@@ -139,7 +139,7 @@ function sendVerifyEmailLink(_this)
     if ($("#VerifyEmailFrm").valid()) {
         $.ajax({
             type: 'Post',
-            url: "/Account/VerifyEmail",
+            url: "/AdminAccount/VerifyEmail",
             data: $("#VerifyEmailFrm").serialize(),
             success: function (data)
             {
@@ -180,7 +180,7 @@ function login(_this)
         $('.Loading').show();
         $.ajax({
             type: 'Post',
-            url: "/Account/Login",
+            url: "/AdminAccount/Login",
             data: $("#loginFrm").serialize(),
             success: function (response)
             {
@@ -228,7 +228,7 @@ function ShowVerifyEmailPopup()
 {
     $.ajax({
         type: "Get",
-        url: '/Account/VerifyEmail',
+        url: '/AdminAccount/VerifyEmail',
         success: function (data)
         {
             $.when($('#loginmodelbody').html(data)).then(function ()

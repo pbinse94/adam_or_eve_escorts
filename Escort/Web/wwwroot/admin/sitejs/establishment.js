@@ -34,7 +34,7 @@ let Establishments = {
                 case "name":
                     column = {
                         data: null, name: propName, class: 'fw-semibold',width:"15%", mRender: function (data, row) {
-                            return `<a href="/Establishment/ProfileDetail?id=${data.id}"  >${data.name}</a>`; // return `${data.name}`;
+                            return `<a href="/AdminEstablishment/ProfileDetail?id=${data.id}"  >${data.name}</a>`; // return `${data.name}`;
                         }
                     };
                     break; 
@@ -43,7 +43,7 @@ let Establishments = {
                     column = {
                         data: null, name: propName, width: "15%", class: 'fw-semibold', mRender: function (data, row) {
                             // return `${data.name}`;
-                            return `<a href="/Establishment/ProfileDetail?id=${data.id}"  >${data.displayName}</a>`;
+                            return `<a href="/AdminEstablishment/ProfileDetail?id=${data.id}"  >${data.displayName}</a>`;
                         }
                     };
                     break;
@@ -87,7 +87,7 @@ let Establishments = {
         data = {
             Country: $("#Country").val()  
         };
-        tbl.BindTable(Establishmenttable, `/Establishment/EstablishmentList`, data, columns, orderColumns);
+        tbl.BindTable(Establishmenttable, `/AdminEstablishment/EstablishmentList`, data, columns, orderColumns);
     },
     filterRecord: function () {
         Establishments.List();
@@ -128,7 +128,7 @@ function ChangeEstablishmentStatus(userId, activeStatus, isActivateStatusChange,
     }).then( (result) => {
         if (result) {
             $.ajax({
-                url: '/Establishment/ChangeEstablishmentStatus',
+                url: '/AdminEstablishment/ChangeEstablishmentStatus',
                 data:
                 {
                     UserId: userId,

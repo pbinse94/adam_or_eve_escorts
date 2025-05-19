@@ -22,7 +22,7 @@
     {
         <meta name="robots" content="noindex">
     }
-    @await Html.PartialAsync("~/Views/Admin/Shared/_CSSPartial")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_CSSPartial.cshtml")
     <title>@ViewData["Title"] - Admin</title>
 </head>
 <body class="inner">
@@ -37,7 +37,7 @@
                 <div class="me-2">
                     @userRoleName
                 </div>
-                <a href="@Url.Action("Logout","Account")" class="btn login-btn">Logout <img class="ms-1" src="~/admin/assets/images/logout.svg"></a>
+                <a href="@Url.Action("Logout","AdminAccount")" class="btn login-btn">Logout <img class="ms-1" src="~/admin/assets/images/logout.svg"></a>
             </div>
 
         </div>
@@ -50,19 +50,19 @@
             <a href="javascript:void(0);" class="logo"><img class="img-fluid" src="~/admin/assets/images/whiteLogo.svg" alt="logo" /></a>
         </div>
         <ul>
-            <li id="Dashboard"><a href="@Url.Action("Index","Dashboard")"><img src="~/admin/assets/images/dashboardicon.svg" alt="dashboard" /> Dashboard</a></li>
+            <li id="Dashboard"><a href="@Url.Action("Index","AdminDashboard")"><img src="~/admin/assets/images/dashboardicon.svg" alt="dashboard" /> Dashboard</a></li>
 
             @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.Clients, permissionsCache))
             {
-                <li id="User"><a href="@Url.Action("Index","User")"><img src="~/admin/assets/images/total_clients.svg" alt="clients" />Clients</a></li>
+                <li id="User"><a href="@Url.Action("Index","AdminMainUser")"><img src="~/admin/assets/images/total_clients.svg" alt="clients" />Clients</a></li>
             }
             @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.Escorts, permissionsCache))
             {
-                <li id="Escort"><a href="@Url.Action("Index","Escort")"><img src="~/admin/assets/images/escorts-list.svg" alt="escorts" />Escorts</a></li>
+                <li id="Escort"><a href="@Url.Action("Index","AdminEscort")"><img src="~/admin/assets/images/escorts-list.svg" alt="escorts" />Escorts</a></li>
             }
             @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.Establishments, permissionsCache))
             {
-                <li id="Establishment"><a href="@Url.Action("Index","Establishment")"><img src="~/admin/assets/images/clients-list.svg" alt="establishments" />Establishments</a></li>
+                <li id="Establishment"><a href="@Url.Action("Index","AdminEstablishment")"><img src="~/admin/assets/images/clients-list.svg" alt="establishments" />Establishments</a></li>
             }
             @if (userRoleId == (short)UserTypes.SuperAdmin)
             {
@@ -70,7 +70,7 @@
             }
 
 
-            <li id="ChangePassword"><a href="@Url.Action("ChangePassword","User")"><img src="~/admin/assets/images/change-password.svg" alt="change password" />Change Password</a></li>
+            <li id="ChangePassword"><a href="@Url.Action("ChangePassword","AdminMainUser")"><img src="~/admin/assets/images/change-password.svg" alt="change password" />Change Password</a></li>
             @if (userRoleId == (short)UserTypes.SuperAdmin || memoryCache.CanView(Constants.RevenueReport, permissionsCache))
             {
                 <li class="nav-item dropdown" id="revenuereport">
@@ -80,7 +80,7 @@
                         <li id="PaymentReport"><a class="dropdown-item" href="@Url.Action("PaymentReport","UserTokenTransaction")">Payment Report</a></li> *@
                         @if (userRoleId == (short)UserTypes.SuperAdmin || userRoleId == (short)UserTypes.Admin)
                         {
-                            <li id="SubscriptionTransactionReport"><a class="dropdown-item" href="@Url.Action("Index","SubscriptionTransactions")">Transaction Report</a></li>
+                            <li id="SubscriptionTransactionReport"><a class="dropdown-item" href="@Url.Action("Index","AdminSubscriptionTransactions")">Transaction Report</a></li>
                         }
                         
                         @if (userRoleId == (short)UserTypes.SuperAdmin)
@@ -109,10 +109,10 @@
         © Copyright @DateTime.Now.Year.ToString() Adam or Eve. | All Rights Reserved.
     </div>
 
-    @await Html.PartialAsync("~/Views/Admin/Shared/_JsScriptsPartial")
-    @await Html.PartialAsync("~/Views/Admin/Shared/_ValidationScriptsPartial")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_JsScriptsPartial.cshtml")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_ValidationScriptsPartial.cshtml")
     <script src="~/admin/sitejs/common/ajax.js" asp-append-version="true"></script>
-    @await Html.PartialAsync("~/Views/Admin/Shared/_CommonScriptsPartial")
+    @await Html.PartialAsync("~/Views/Admin/Shared/_CommonScriptsPartial.cshtml")
 
     @RenderSection("scripts", required: false)
 

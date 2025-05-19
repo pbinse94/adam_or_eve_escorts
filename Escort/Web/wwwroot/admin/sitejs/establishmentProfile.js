@@ -66,7 +66,7 @@ let esc = {
           
         };
         
-        tbl.BindTable(Escorttable, `/Establishment/EscortList`, data, columns, orderColumns);
+        tbl.BindTable(Escorttable, `/AdminEstablishment/EscortList`, data, columns, orderColumns);
     },
     filterRecord: function () {
         esc.List();

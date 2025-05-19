@@ -3,6 +3,8 @@ using Business.IServices;
 using Data.IRepository;
 using Data.Repository;
 using DeviceId;
+using DocumentFormat.OpenXml.Spreadsheet;
+using Google.Apis.Auth.OAuth2.Requests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared.Common;
@@ -709,5 +711,29 @@ namespace Business.Services
         }
 
         #endregion ActivityLog
+
+
+
+        public async Task<ApiResponse<bool>> UpdateEmailUserAsync(UserDetailsDto user)
+        {
+            if (string.IsNullOrWhiteSpace(user.Email))
+            {
+                return new ApiResponse<bool>(false, message: "Invalid user ID.");
+            }
+
+            int updated = await _accountRepository.AddUpdateAsync(new UserDetail
+            {
+                Email = user.Email,
+                IsEmailVerified = user.IsEmailVerified
+            });
+
+            if (updated <= 0)
+            {
+                return new ApiResponse<bool>(false, message: "Failed to update email verification.");
+            }
+
+            return new ApiResponse<bool>(true, message: ResourceString.EmailCodeVerified);
+        }
+
     }
 }

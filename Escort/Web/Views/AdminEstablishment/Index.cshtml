@@ -2,6 +2,9 @@
 @using System.ComponentModel.DataAnnotations
 @model Shared.Model.Establishment.EstablishmentModel
 @{
+    Layout = "~/Views/Admin/Shared/_Layout.cshtml";
+}
+@{
     var pageSize = ViewBag.PageSize;
     var pageIndex = ViewBag.PageIndex;
     ViewData["Title"] = "Establishments";

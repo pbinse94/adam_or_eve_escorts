@@ -121,7 +121,7 @@ let clientSpendingReport = {
             FilterBy: filterBy
         };
 
-        tbl.BindTable(userstable, `/UserTokenTransaction/GetListByName`, request, columns, orderColumns);
+        tbl.BindTable(userstable, `/AdminUserTokenTransaction/GetListByName`, request, columns, orderColumns);
 
         setTimeout(function () {
             clientSpendingReport.SumOfPoints(filterBy)
