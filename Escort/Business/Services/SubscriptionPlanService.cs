@@ -216,6 +216,9 @@ namespace Business.Services
                     profileDto.PlanDuration = activeSubscription.PlanDuration;
                     profileDto.SubscriptionPlanId = activeSubscription.SubscriptionId;
                     profileDto.SubscriptionPlanExpireDateTime = activeSubscription.ExpiryDateUTC;
+                    profileDto.PaymentSubscriptionId = activeSubscription.PaymentSubscriptionId;
+
+
                 }
 
                 return new ApiResponse<ProfileDto>(data: profileDto);

@@ -22,33 +22,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Basic Meta Tags -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="index, follow">
-    <meta name="description" content="Discover and indulge in passionate moments of intimacy. Unveil your deepest desires in a private, immersive experience.">
+    <meta name="description" content="Adam Or Eve Escorts. Discover and indulge in passionate moments of intimacy. Unveil your deepest desires in a private, immersive experience.">
 
-    <!-- Open Graph (for Facebook, etc.) -->
-    <meta property="og:title" content="AdamOrEveEscorts">
-    <meta property="og:description" content="Discover and indulge in passionate moments of intimacy. Unveil your deepest desires in a private, immersive experience.">
-    <meta property="og:image" content="https://adamoreveescorts.com/assets/images/whiteLogo.png">
-    <meta property="og:url" content="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path">
+    <!-- SEO & Social Sharing -->
+    <meta property="og:title" content="Adam Or Eve Escorts">
+    <meta property="og:description" content="Adam Or Eve Escorts. Discover and indulge in passionate moments of intimacy. Unveil your deepest desires in a private, immersive experience.">
+    <meta property="og:image" content="https://www.adamoreveescorts.com/icons/icon-512x512.png">
+    <meta property="og:url" content="https://www.adamoreveescorts.com/">
     <meta property="og:type" content="website">
 
-    <!-- Canonical URL (dynamic and always correct) -->
-    <link rel="canonical" href="@Context.Request.Scheme://@Context.Request.Host@Context.Request.Path" />
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Adam Or Eve Escorts">
+    <meta name="twitter:description" content="Adam Or Eve Escorts. Discover and indulge in passionate moments of intimacy. Unveil your deepest desires in a private, immersive experience.">
+    <meta name="twitter:image" content="https://www.adamoreveescorts.com/icons/icon-512x512.png">
 
-    @await Html.PartialAsync("_CSSPartial")
-    <title>Adam or Eve - @ViewData["Title"]</title>
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.adamoreveescorts.com/" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://www.adamoreveescorts.com/icons/icon-512x512.png" type="image/x-icon">
+
+    <!-- Performance: Preconnect to fonts (if used) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.webmanifest">
+
+    <!-- CSS Partial -->
+    @await Html.PartialAsync("_CSSPartial")
+
+    <!-- Page Title -->
+    <title>Adam Or Eve Escorts - @ViewData["Title"]</title>
+
+    <!-- Script: API Key -->
     <script>
         var mapsApiKey = '@SiteKeys.GeoLocationApiKey';
     </script>
-    @if (!SiteKeys.IsLive)
-    {
-        <meta name="robots" content="noindex">
-    }
+
+    <!-- Structured Data (Schema.org) -->
+    <script type="application/ld+json">
+        @Html.Raw(@"{
+            ""@context"": ""https://schema.org"",
+            ""@type"": ""Organization"",
+            ""name"": ""Adam Or Eve Escorts"",
+            ""url"": ""https://www.adamoreveescorts.com"",
+            ""logo"": ""https://www.adamoreveescorts.com/icons/icon-512x512.png"",
+            ""description"": ""Discover and indulge in passionate moments of intimacy. Unveil your deepest desires in a private, immersive experience.""
+        }")
+    </script>
 </head>
+
 <body class="inner @escortBodyClass">
 
     <div class="Loading" style="display:none">
@@ -62,8 +92,8 @@
 
 
 
-                        <a class="navbar-brand hLogo webTopLogo" href="@Url.Action("Index","Home")"><img class="sitelogo" src="~/assets/images/whiteLogo.svg"></a>
-                    <a class="navbar-brand hLogo mobileTopLogo" href="@Url.Action("Index","Home")"><img class="sitelogo" src="~/assets/images/mobile_logo.png"></a>
+                        <a class="navbar-brand hLogo webTopLogo" href="@Url.Action("Index","Home")"><img class="sitelogo" src="~/assets/images/whiteLogo.svg" alt="svg"></a>
+                    <a class="navbar-brand hLogo mobileTopLogo" href="@Url.Action("Index","Home")"><img class="sitelogo" src="~/assets/images/mobile_logo.png" alt="svg"></a>
 
 
                         <div class="collapse navbar-collapse" id="navbarNav">
@@ -87,19 +117,19 @@
 
                             <ul class="navbar-nav @(ViewBag.CountryItems != null && ViewBag.CountryItems.Count > 0 ? "" : "ms-auto")">
                                 <li class="nav-item homeIconMobile">
-                                    <a class="nav-link home-link" href="@Url.Action("Index","Home")"> <img src="~/assets/images/home_icon.svg" title="Home"> </a>
+                                <a class="nav-link home-link" href="@Url.Action("Index","Home")"> <img src="~/assets/images/home_icon.svg" title="Home" alt="svg"> </a>
                                 </li>
                                 @if (LoginMemberSession.UserDetailSession == null)
                                 {
                                     <li class="nav-item signupBtnMobile">
                                         <a href="@Url.Action("Registration","Account")" class="nav-link livecam-link registerTop">
-                                            <span class="loginMobile"><img src="~/assets/images/register-icon.svg" title="Register"></span>
+                                        <span class="loginMobile"><img src="~/assets/images/register-icon.svg" title="Register" alt="svg"></span>
                                             <span class="loginWeb">Register </span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link livecam-link" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#login">
-                                            <span class="loginMobile"><img src="~/assets/images/login_icon.svg" title="Login"></span>
+                                        <span class="loginMobile"><img src="~/assets/images/login_icon.svg" title="Login" alt="svg"></span>
                                             <span class="loginWeb">Login </span>
                                         </a>
                                     </li>
@@ -111,7 +141,7 @@
                                 {
                                     <li class="nav-item" style="display:none">
                                         <a class="nav-link livecam-link" href="@Url.Action("LiveCams","Streaming")">
-                                            <span class="liveCamsMobile"><img src="~/assets/images/livecams.svg" title="Live Cams"></span>
+                                        <span class="liveCamsMobile"><img src="~/assets/images/livecams.svg" title="Live Cams" alt="svg"></span>
                                             <span class="liveCamsWeb">Live Cams</span>
                                         </a>
                                     </li>
@@ -120,7 +150,7 @@
                                 {
                                     <li class="nav-item" style="display:none">
                                         <a class="nav-link livecam-link" href="@Url.Action("StartVideo", "Streaming")" onclick="this.classList.add('disabled');">
-                                            <span class="liveCamsMobile"><img src="~/assets/images/livecams.svg" title="Live Cams"></span>
+                                        <span class="liveCamsMobile"><img src="~/assets/images/livecams.svg" title="Live Cams" alt="svg"></span>
                                             <span class="liveCamsWeb">Start Live Cam</span>
                                         </a>
                                     </li>
@@ -138,7 +168,7 @@
                         @if (LoginMemberSession.UserDetailSession != null)
                         {
                             <div class="dropdown user-tp-info">
-                                <a href="javascript:void(0)" data-bs-toggle="dropdown" aria-expanded="false"> <img id="ProfilePic" src="@Url.Content("~/assets/images/home-profile-avatar.svg")" data-src="@LoginMemberSession.UserDetailSession?.ProfileImage" onerror="this.onerror=null;this.src='@Url.Content("~/assets/images/home-profile-avatar.svg")'"></a>
+                            <a href="javascript:void(0)" data-bs-toggle="dropdown" aria-expanded="false"> <img id="ProfilePic" src="@Url.Content("~/assets/images/home-profile-avatar.svg")" data-src="@LoginMemberSession.UserDetailSession?.ProfileImage" onerror="this.onerror=null;this.src='@Url.Content("~/assets/images/home-profile-avatar.svg")'" alt="svg"></a>
                                 <ul class="dropdown-menu">
                                     <li>
                                         <span class="profileBlog">
@@ -148,44 +178,44 @@
                                     </li>
                                     @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.IndependentEscort)
                                     {
-                                        <li><a class="dropdown-item" href="@Url.Action("Index","Escort")"><img src="@Url.Content("~/assets/images/dashboard-1.svg")"> My  Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Index","Escort")"><img src="@Url.Content("~/assets/images/dashboard-1.svg")" alt="svg"> My  Dashboard</a></li>
                                     }
 
                                     @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Client)
                                     {
-                                        <li><a class="dropdown-item" href="@Url.Action("Profile","User")"><img src="@Url.Content("~/assets/images/profile-icon.svg")"> My  Profile</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Profile","User")"><img src="@Url.Content("~/assets/images/profile-icon.svg")" alt="svg"> My  Profile</a></li>
                                     }
                                     else if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.EstablishmentEscort)
                                     {
-                                        <li><a class="dropdown-item" href="@Url.Action("FullProfile","Profile")"><img src="@Url.Content("~/assets/images/profile-icon.svg")"> My  Profile</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("FullProfile","Profile")"><img src="@Url.Content("~/assets/images/profile-icon.svg")" alt="svg"> My  Profile</a></li>
                                     }
                                     else
                                     {
-                                        <li><a class="dropdown-item" href="@Url.Action("ProfileDetails","Profile")"><img src="@Url.Content("~/assets/images/profile-icon.svg")"> My  Profile</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("ProfileDetails","Profile")"><img src="@Url.Content("~/assets/images/profile-icon.svg")" alt="svg"> My  Profile</a></li>
                                     }
 
                                     @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Establishment)
                                     {
-                                        <li><a class="dropdown-item" href="@Url.Action("index","establishment")"><img src="@Url.Content("~/assets/images/user_menu_icon.svg")"> My Escorts </a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("index","establishment")"><img src="@Url.Content("~/assets/images/user_menu_icon.svg")" alt="svg"> My Escorts </a></li>
                                     }
 
                                     @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.IndependentEscort)
                                     {
-                                        <li><a class="dropdown-item" href="@Url.Action("index","subscription")"><img src="@Url.Content("~/assets/images/subscription-icon.svg")"> My Subscription </a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("index","subscription")"><img src="@Url.Content("~/assets/images/subscription-icon.svg")" alt="svg"> My Subscription </a></li>
                                     }
                                     else if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Establishment)
                                     {
-                                        <li><a class="dropdown-item" href="@Url.Action("index","subscription")"><img src="@Url.Content("~/assets/images/subscription-icon.svg")"> Establishment Subscription </a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("index","subscription")"><img src="@Url.Content("~/assets/images/subscription-icon.svg")" alt="svg"> Establishment Subscription </a></li>
                                     }
 
                                     @if (LoginMemberSession.UserDetailSession?.UserTypeId == (int)UserTypes.Client)
                                     {
-                                        <li style="display:none"><a class="dropdown-item" href="@Url.Action("index","Credit")"><img src="@Url.Content("~/assets/images/subscription-icon.svg")"> My Credit </a></li>
+                                    <li style="display:none"><a class="dropdown-item" href="@Url.Action("index","Credit")"><img src="@Url.Content("~/assets/images/subscription-icon.svg")" alt="svg"> My Credit </a></li>
                                     }
 
-                                    <li><a class="dropdown-item" href="@Url.Action("MyFavorite","Home")"><img src="@Url.Content("~/assets/images/user_menu_icon.svg")"> My Favorite  </a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("ChangePassword","Profile")"><img src="@Url.Content("~/assets/images/change-password.svg")">   Change Password</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("Logout","Account")"><img src="@Url.Content("~/assets/images/logout.svg")">  Logout</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("MyFavorite","Home")"><img src="@Url.Content("~/assets/images/user_menu_icon.svg")" alt="svg"> My Favorite  </a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("ChangePassword","Profile")"><img src="@Url.Content("~/assets/images/change-password.svg")" alt="svg">   Change Password</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Logout","Account")"><img src="@Url.Content("~/assets/images/logout.svg")" alt="svg">  Logout</a></li>
                                 </ul>
                             </div>
                         }
@@ -239,7 +269,7 @@
                         <div class="col-md-12 text-center">
                             <div class="mb-3">
 
-                                <img src="~/assets/images/whiteLogo.svg" class="img-fluid mb-5">
+                                    <img src="~/assets/images/whiteLogo.svg" class="img-fluid mb-5" alt="svg">
 
                                 <h6>WARNING: This Website Contains Adult Content</h6>
                                 <p>You Must Be 18 Years of Age or Older to Access.</p>
@@ -274,7 +304,7 @@
                         <div class="col-md-12 text-center">
                             <div class="mb-3">
 
-                                <img src="~/assets/images/whiteLogo.svg" class="img-fluid mb-5">
+                                    <img src="~/assets/images/whiteLogo.svg" class="img-fluid mb-5" alt="svg">
 
                                 <h6>WARNING: This Website Contains Adult Content</h6>
                                 <p>You Must Be 18 Years of Age or Older to Access.</p>
@@ -415,7 +445,7 @@
             var $option = $(
                 `<span>
                             <img src='/assets/images/flags/${abbreviation.toLowerCase()}.svg'
-                                 style='width:20px; height:15px; margin-right:5px;' />
+                                 style='width:20px; height:15px; margin-right:5px;' alt='svg'/>
                             ${countryName}
                          </span>`
             );

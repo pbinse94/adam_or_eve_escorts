@@ -19,6 +19,7 @@
         public string SubscriptionPaypalId { get; set; } = string.Empty;
         public string SubscriptionPlanPaypalId { get; set; } = string.Empty;
         public int CreditBalance { get; set; }
-        public string? IpAddress { get; set; } 
+        public string? IpAddress { get; set; }
+        public string PaymentSubscriptionId { get; set; } = string.Empty;
     }
 }

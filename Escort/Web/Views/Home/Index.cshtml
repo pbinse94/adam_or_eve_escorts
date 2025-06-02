@@ -2,7 +2,7 @@
 @using Shared.Common.Enums;
 @using Shared.Model.Escort;
 @{
-    ViewData["Title"] = "Home";
+    
     Layout = "_Layout";
     var liveCams = (List<LiveStreamInfo>)ViewBag.combinedDetails;
 
@@ -58,17 +58,18 @@
                 </a>
             </div>
             <div class="filter-cont">
-                 <div class="row">
-                <div class="col-lg-12">
-                    <div class="searcFilterBar mb-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="searcFilterBar mb-3">
                        
-                        <input type="text" class="searchBox form-control me-3 search-input-home" id="searchText" placeholder="Enter name or location">
-                        <a href="javascript:void(0)" class="clear_icons" style="display:none">
-                            <i><img src="~/assets/images/clear_icon.svg" width="20"/></i>
-                        </a>
+                            <input type="text" class="searchBox form-control me-3 search-input-home" id="searchText" placeholder="Enter name or location">
+                            <a href="javascript:void(0)" class="clear_icons" style="display:none">
+                                <i><img src="~/assets/images/clear_icon.svg" width="20"/></i>
+                            </a>
 
-                        <a href="javascript:void(0)" onclick="pageNo=1;getFilteredEscort(1)" class="btn btn-primary searchByName">Search</a>
+                            <a href="javascript:void(0)" onclick="pageNo=1;getFilteredEscort(1)" class="btn btn-primary searchByName">Search</a>
                        
+                        </div>
                     </div>
                 </div>
             </div>
@@ -150,7 +151,7 @@
                 </div>
                
             </div>
-            </div>
+        </div>
            
 
            
